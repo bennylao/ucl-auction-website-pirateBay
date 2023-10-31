@@ -51,7 +51,9 @@ if (mysqli_query($conn, $sql)) {
 $sql = "INSERT INTO Users (username, password, email, first_name, last_name, address, create_date)
 VALUES ('admin', 'admin123','email','fn','ln','addr','2017-06-05'), 
        ('user1', 'user123','email1','fn1','ln1','addr1','2017-06-05'),
-       ('user2', 'user234','email2','fn2','ln2','addr2','2017-06-05')";
+       ('user2', 'user234','email2','fn2','ln2','addr2','2017-06-05')
+       ('victor', 'victorpw','victor2263@gmail.com','victor','chan','123 Oxford Street','2023-10-31');";
+
 if (mysqli_query($conn, $sql)) {
     echo "New record created successfully";
 } else {

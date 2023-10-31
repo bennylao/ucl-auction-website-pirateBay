@@ -2,7 +2,7 @@
 $db_host = 'localhost';
 $db_user = 'root';
 $db_password = 'root';
-$db_name = 'testingDB';
+$db_name = 'auctionDataBase';
 
 // Create connection
 $conn = mysqli_connect($db_host, $db_user, $db_password);
@@ -12,7 +12,7 @@ if (!$conn) {
 }
 
 // Drop the database if it exists
-$sql = "DROP DATABASE IF EXISTS testingDB";
+$sql = "DROP DATABASE IF EXISTS auctionDataBase";
 mysqli_query($conn, $sql);
 
 // Create database
@@ -48,7 +48,10 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Create records
-$sql = "INSERT INTO Users (username, password) VALUES ('admin', 'admin123'), ('user1', 'user123')";
+$sql = "INSERT INTO Users (username, password, email, first_name, last_name, address, create_date)
+VALUES ('admin', 'admin123','email','fn','ln','addr','2017-06-05'), 
+       ('user1', 'user123','email1','fn1','ln1','addr1','2017-06-05'),
+       ('user2', 'user234','email2','fn2','ln2','addr2','2017-06-05')";
 if (mysqli_query($conn, $sql)) {
     echo "New record created successfully";
 } else {

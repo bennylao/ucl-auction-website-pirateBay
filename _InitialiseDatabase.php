@@ -18,7 +18,7 @@ mysqli_query($conn, $sql);
 // Create database
 $sql = "CREATE DATABASE auctionDataBase";
 if (mysqli_query($conn, $sql)) {
-    echo "Database created successfully";
+    echo "Database created successfully. ";
 } else {
     echo "Error creating database: ". mysqli_error($conn);
 }
@@ -43,7 +43,7 @@ address VARCHAR(255),
 create_date date)";
 
 if (mysqli_query($conn, $sql)) {
-    echo "Table User created successfully";
+    echo "Table User created successfully. ";
 } else {
     echo "Error creating table User: ". mysqli_error($conn);
 }
@@ -56,7 +56,7 @@ VALUES ('admin', 'admin123','email','fn','ln','addr','2017-06-05'),
        ('victor', 'victorpw','victor2263@gmail.com','victor','chan','123 Oxford Street','2023-10-31')";
 
 if (mysqli_query($conn, $sql)) {
-    echo "New User records created successfully";
+    echo "New User records created successfully. ";
 } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
@@ -76,7 +76,7 @@ end_time time,
 delivery_status VARCHAR(255))";
 
 if (mysqli_query($conn, $sql)) {
-    echo "Table Item created successfully";
+    echo "Table Item created successfully. ";
 } else {
     echo "Error creating table Item: ". mysqli_error($conn);
 }
@@ -89,7 +89,7 @@ $sql = "INSERT INTO Items (id, name, category, description, starting_price,
                ('3', 'sdf', 'home', 'used', '1', '10', '10', '634', '2023-10-31', '23:00:00', 'dispatched')";
 
 if (mysqli_query($conn, $sql)) {
-    echo "New Item records created successfully";
+    echo "New Item records created successfully. ";
 } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }

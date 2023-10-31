@@ -31,6 +31,7 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
+// Create the first table Users
 $sql = "CREATE TABLE Users (
 id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 username VARCHAR(255) NOT NULL,
@@ -42,20 +43,53 @@ address VARCHAR(255),
 create_date date)";
 
 if (mysqli_query($conn, $sql)) {
-    echo "Table created successfully";
+    echo "Table User created successfully";
 } else {
-    echo "Error creating table: ". mysqli_error($conn);
+    echo "Error creating table User: ". mysqli_error($conn);
 }
 
-// Create records
+// Create records for users
 $sql = "INSERT INTO Users (username, password, email, first_name, last_name, address, create_date)
 VALUES ('admin', 'admin123','email','fn','ln','addr','2017-06-05'), 
        ('user1', 'user123','email1','fn1','ln1','addr1','2017-06-05'),
-       ('user2', 'user234','email2','fn2','ln2','addr2','2017-06-05')
-       ('victor', 'victorpw','victor2263@gmail.com','victor','chan','123 Oxford Street','2023-10-31');";
+       ('user2', 'user234','email2','fn2','ln2','addr2','2017-06-05'),
+       ('victor', 'victorpw','victor2263@gmail.com','victor','chan','123 Oxford Street','2023-10-31')";
 
 if (mysqli_query($conn, $sql)) {
-    echo "New record created successfully";
+    echo "New User records created successfully";
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
+// Create the second table Items
+$sql = "CREATE TABLE Items (
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+category VARCHAR(255) NOT NULL,
+description VARCHAR(255) NOT NULL,
+starting_price DECIMAL NOT NULL,
+reserve_price DECIMAL,
+current_price DECIMAL NOT NULL,
+seller_id INT NOT NULL,
+end_date date,
+end_time time,
+delivery_status VARCHAR(255))";
+
+if (mysqli_query($conn, $sql)) {
+    echo "Table Item created successfully";
+} else {
+    echo "Error creating table Item: ". mysqli_error($conn);
+}
+
+// Create records for users
+$sql = "INSERT INTO Items (id, name, category, description, starting_price,
+                   reserve_price, current_price, seller_id, end_date, end_time, delivery_status)
+        VALUES ('1', 'abc', 'books', 'new', '10', '200', '10', '54', '2023-10-31', '23:59:59', 'unsold'),
+               ('2', 'cbd', 'car', 'new', '20000', '40000', '24000', '23', '2023-10-31', '23:00:00', 'sold'),
+               ('3', 'sdf', 'home', 'used', '1', '10', '10', '634', '2023-10-31', '23:00:00', 'dispatched')";
+
+if (mysqli_query($conn, $sql)) {
+    echo "New Item records created successfully";
 } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }

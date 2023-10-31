@@ -31,6 +31,28 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
+// Create the admin table
+$sql = "CREATE TABLE admin (
+adminID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+Password VARCHAR(255) NOT NULL)";
+
+if (mysqli_query($conn, $sql)) {
+    echo "Admin Table created successfully. ";
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
+// Create admin records
+$sql = "INSERT INTO admin (adminID, Password)
+        VALUES ('1', '1111'),
+               ('2', '1111')";
+
+if (mysqli_query($conn, $sql)) {
+    echo "Admin records created successfully. \n";
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
 // Create the first table Users
 $sql = "CREATE TABLE Users (
 id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -90,6 +112,36 @@ $sql = "INSERT INTO Items (id, name, category, description, starting_price,
 
 if (mysqli_query($conn, $sql)) {
     echo "New Item records created successfully. ";
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
+// Create the category table
+$sql = "CREATE TABLE Category (
+cateID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+Category VARCHAR(255) NOT NULL)";
+
+if (mysqli_query($conn, $sql)) {
+    echo "Category Table created successfully. ";
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
+// Create category options for users
+$sql = "INSERT INTO Category (cateID, Category)
+        VALUES ('1', 'Art and Collectibles'),
+               ('2', 'Antiques'),
+               ('3', 'Automobiles and Vehicles'),
+               ('4', 'Jewelry and Watches'),
+               ('5', 'Electronics and Technology'),
+               ('6', 'Fashion and Apparel'),
+               ('7', 'Sports and Memorabilia'),
+               ('8', 'Wine and Spirits'),
+               ('9', 'Furniture and Home Decor'),
+               ('10', 'Real Estate')";
+
+if (mysqli_query($conn, $sql)) {
+    echo "Category options created successfully. ";
 } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }

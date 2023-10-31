@@ -16,7 +16,7 @@ $sql = "DROP DATABASE IF EXISTS auctionDataBase";
 mysqli_query($conn, $sql);
 
 // Create database
-$sql = "CREATE DATABASE testingDB";
+$sql = "CREATE DATABASE auctionDataBase";
 if (mysqli_query($conn, $sql)) {
     echo "Database created successfully";
 } else {

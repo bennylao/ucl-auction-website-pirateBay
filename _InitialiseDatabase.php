@@ -146,5 +146,57 @@ if (mysqli_query($conn, $sql)) {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
 
+// Create the bid history table
+$sql = "CREATE TABLE bid_history (
+itemID INT NOT NULL PRIMARY KEY,
+starting_price DECIMAL NOT NULL,
+current_price DECIMAL NOT NULL,
+end_date date,
+end_time time
+)";
+
+if (mysqli_query($conn, $sql)) {
+    echo "Bid history Table created successfully. ";
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
+// Create records for bid_history
+$sql = "INSERT INTO bid_history(itemID, starting_price, current_price, end_date, end_time)
+VALUES ('232', '100', '120', '2023-11-01', '12:00:00'),
+       ('123', '400', '500', '2023-11-03', '12:00:00')";
+
+if (mysqli_query($conn, $sql)) {
+    echo "New bid_history records created successfully. ";
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
+// Create the wishlist table
+$sql = "CREATE TABLE wishlist (
+    listID INT NOT NULL,
+    itemID INT NOT NULL,
+    userID INT NOT NULL
+)";
+
+if (mysqli_query($conn, $sql)){
+    echo "Table wishlist created successfully. ";
+}else{
+    echo "Error: ".$sql."<br>".mysqli_error($conn);
+}
+
+// Create the records for the wishlist table
+$sql = "INSERT INTO wishlist(listID, itemID, userID)
+VALUES ('234', '422', '323'),
+       ('49439', '2314', '86754')";
+
+if (mysqli_query($conn, $sql)){
+    echo "New wishlist records created successfully. ";
+}else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
+
+
 mysqli_close($conn);
 ?>

@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if ($errors) {
             $_SESSION["errors_signup"] = $errors;
-            header("Location: ../sign_up_system.php");
+            header("Location: ../register.php");
             die();
         }
         create_user($conn, $accountType, $username, $password, $firstname, $lastname, $email, $address);

@@ -56,6 +56,7 @@ if (mysqli_query($conn, $sql)) {
 // Create the first table Users
 $sql = "CREATE TABLE Users (
 id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+accountType VARCHAR(7) NOT NULL,
 username VARCHAR(255) NOT NULL,
 password VARCHAR(255) NOT NULL,
 email VARCHAR(255) NOT NULL,
@@ -197,6 +198,6 @@ if (mysqli_query($conn, $sql)){
 
 // Create the table for
 
-mysqli_close($conn);
+#mysqli_close($conn);
 ?>
 

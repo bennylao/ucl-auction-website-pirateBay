@@ -1,9 +1,8 @@
 <?php
 $db_host = 'localhost';
 $db_user = 'root';
-$db_password = '';
+$db_password = 'root';
 $db_name = 'auctionDataBase';
-
 
 // Create connection
 $conn = mysqli_connect($db_host, $db_user, $db_password);
@@ -57,7 +56,6 @@ if (mysqli_query($conn, $sql)) {
 // Create the first table Users
 $sql = "CREATE TABLE Users (
 id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-accountType VARCHAR(7) NOT NULL,
 username VARCHAR(255) NOT NULL,
 password VARCHAR(255) NOT NULL,
 email VARCHAR(255) NOT NULL,
@@ -91,13 +89,12 @@ id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 name VARCHAR(255) NOT NULL,
 category VARCHAR(255) NOT NULL,
 description VARCHAR(255) NOT NULL,
-starting_price DECIMAL NOT NULL,
-reserve_price DECIMAL,
-current_price DECIMAL NOT NULL,
 seller_id INT NOT NULL,
-end_date date,
-end_time time,
-delivery_status VARCHAR(255))";
+current_winner INT,
+starting_price DECIMAL NOT NULL,
+current_price DECIMAL NOT NULL,
+end_datetime TIMESTAMP NOT NULL,
+brand VARCHAR(255) NOT NULL)";
 
 if (mysqli_query($conn, $sql)) {
     echo "Table Item created successfully. ";
@@ -106,11 +103,10 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Create records for users
-$sql = "INSERT INTO Items (id, name, category, description, starting_price,
-                   reserve_price, current_price, seller_id, end_date, end_time, delivery_status)
-        VALUES ('1', 'abc', 'books', 'new', '10', '200', '10', '54', '2023-10-31', '23:59:59', 'unsold'),
-               ('2', 'cbd', 'car', 'new', '20000', '40000', '24000', '23', '2023-10-31', '23:00:00', 'sold'),
-               ('3', 'sdf', 'home', 'used', '1', '10', '10', '634', '2023-10-31', '23:00:00', 'dispatched')";
+$sql = "INSERT INTO Items (id, name, category, description, seller_id, current_winner, starting_price, current_price,
+                   end_datetime, brand)
+        VALUES ('1', 'sdf', 'Antiques', 'new', '1312', '422', '200', '210', '2020-10-11', 'aaa'),
+               ('2', 'cbd', 'Wine and Spirits', 'new', '1113', '422', '20000', '40000', '2023-10-31 23:00:00', 'sold')";
 
 if (mysqli_query($conn, $sql)) {
     echo "New Item records created successfully. ";
@@ -146,18 +142,15 @@ if (mysqli_query($conn, $sql)) {
     echo "Category options created successfully. ";
 } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-};
-/*
-<<<<<< HEAD
-# mysqli_close($conn);
-=======
+}
+
 // Create the bid history table
 $sql = "CREATE TABLE bid_history (
-itemID INT NOT NULL PRIMARY KEY,
-starting_price DECIMAL NOT NULL,
-current_price DECIMAL NOT NULL,
-end_date date,
-end_time time
+bid_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+item_id VARCHAR(255) NOT NULL,
+user_id INT NOT NULL,
+bid_price INT NOT NULL ,
+bid_datetime TIMESTAMP
 )";
 
 if (mysqli_query($conn, $sql)) {
@@ -167,9 +160,9 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Create records for bid_history
-$sql = "INSERT INTO bid_history(itemID, starting_price, current_price, end_date, end_time)
-VALUES ('232', '100', '120', '2023-11-01', '12:00:00'),
-       ('123', '400', '500', '2023-11-03', '12:00:00')";
+$sql = "INSERT INTO bid_history(bid_id, item_id, user_id, bid_price, bid_datetime)
+VALUES ('1', '121', '5203', '100', '2020-10-10'),
+       ('2', '524', '1231', '420', '2022-12-12')";
 
 if (mysqli_query($conn, $sql)) {
     echo "New bid_history records created successfully. ";
@@ -202,7 +195,8 @@ if (mysqli_query($conn, $sql)){
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
 
+// Create the table for
+
 mysqli_close($conn);
->>>>>>> 52ed5a4a490b8691b9a29ffcf37e6632bfee7c91
 ?>
-*/
+

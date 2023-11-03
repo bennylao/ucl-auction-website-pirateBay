@@ -16,9 +16,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     try {
-        require_once 'C:\wamp64\www\_InitialiseDatabase.php';
-        require_once 'C:\wamp64\www\includes\signup_model.inc.php';
-        require_once 'C:\wamp64\www\includes\signup_contr.inc.php';
+        require_once '..\_InitialiseDatabase.php';
+        require_once '..\includes\signup_model.inc.php';
+        require_once '..\includes\signup_contr.inc.php';
 
         // ERROR HANDLERS
         $errors = [];

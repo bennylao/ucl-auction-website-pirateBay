@@ -1,12 +1,10 @@
 <?php
-$db_host = 'localhost';
-$db_user = 'root';
-$db_password = 'root';
-$db_name = 'auctionDataBase';
-
+require_once "config_database.php";
 // TODO: Extract $_POST variables, check they're OK, and attempt to create
 // an account. Notify user of success/failure and redirect/give navigation 
 // options.
+
+
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
@@ -20,9 +18,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     try {
-        $conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
-        require_once getcwd()."\includes\signup_model.inc.php";
-        require_once getcwd()."\includes\signup_contr.inc.php";
+        $conn = connect_to_db();
+        require_once getcwd()."/includes/signup_model.inc.php";
+        require_once getcwd()."/includes/signup_contr.inc.php";
 
         // ERROR HANDLERS
         $errors = [];
@@ -50,7 +48,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         create_user($conn, $accountType, $username, $password, $firstname, $lastname, $email, $address);
         header("Location: ../index.php?signup=success");
         mysqli_close($conn);
-        $stmt = null;
 
 
     } catch (PDOException $e) {

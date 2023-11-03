@@ -16,9 +16,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     try {
-        require_once '..\_InitialiseDatabase.php';
-        require_once '..\includes\signup_model.inc.php';
-        require_once '..\includes\signup_contr.inc.php';
+        require_once getcwd()."\_InitialiseDatabase.php";
+        require_once getcwd()."\includes\signup_model.inc.php";
+        require_once getcwd()."\includes\signup_contr.inc.php";
 
         // ERROR HANDLERS
         $errors = [];

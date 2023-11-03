@@ -198,6 +198,6 @@ if (mysqli_query($conn, $sql)){
 
 // Create the table for
 
-#mysqli_close($conn);
+mysqli_close($conn);
 ?>
 

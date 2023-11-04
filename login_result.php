@@ -51,15 +51,18 @@ if ($stmt = $conn->prepare('SELECT password FROM Users WHERE email = ?')){
     //Check if the email is within the Users table
     if ($stmt->num_rows <= 0){
         echo 'Email or password Incorrect!';
+        header("refresh:5;url=index.php");
     } else {
         $stmt->bind_result($password);
         $stmt->fetch();
         if (password_verify($_POST['password'],$password)){
             session_regenerate_id();
-            $_SESSION['loggedin'] = true;
-            echo 'Login successfully';
+            $_SESSION['logged_in'] = true;
+            echo('<div class="text-center">You are now logged in! You will be redirected shortly.</div>');
+            header("refresh:5;url=index.php");
         } else {
             echo 'Email or password incorrect!';
+            header("refresh:5;url=index.php");
         }
     }
 

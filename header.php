@@ -72,16 +72,19 @@ function regenerate_session_id(){
       <a class="nav-link" href="browse.php">Browse</a>
     </li>
 <?php
-  if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'buyer') {
+  if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'buyer') {   //this is buyer type account
   echo('
 	<li class="nav-item mx-1">
       <a class="nav-link" href="mybids.php">My Bids</a>
     </li>
 	<li class="nav-item mx-1">
       <a class="nav-link" href="recommendations.php">Recommended</a>
+    </li>
+    <li class="nav-item mx-1">
+      <a class="nav-link" href="wishlist.php">Wishlist</a>
     </li>');
   }
-  if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller') {
+  if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller') {  //this is seller type account
   echo('
 	<li class="nav-item mx-1">
       <a class="nav-link" href="mylistings.php">My Listings</a>

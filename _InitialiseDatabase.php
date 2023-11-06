@@ -198,6 +198,30 @@ if (mysqli_query($conn, $sql)){
 }
 
 // Create the table for
+$sql = "CREATE TABLE conditions (
+    conditionID INT NOT NULL ,
+    condDescript VARCHAR(255) NOT NULL 
+)";
+
+if (mysqli_query($conn, $sql)){
+    echo "Table conditions created successfully. ";
+} else {
+    echo "Error: ".$sql."<br>".mysqli_error($conn);
+}
+
+// Create records for the conditions table
+$sql = "INSERT INTO conditions (conditionID, condDescript)
+VALUES ('1', 'Brand new'),
+       ('2', 'Like new'),
+       ('3', 'Very good'),
+       ('4', 'Good'),
+       ('5', 'Acceptable')";
+
+if (mysqli_query($conn, $sql)){
+    echo  "New conditions records created successfully";
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
 
 // Create the wishlist table
 $sql = "CREATE TABLE Wishlist (

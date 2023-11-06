@@ -1,4 +1,6 @@
-<?php include_once("header.php")?>
+<?php
+$title = "item";
+include_once("header.php")?>
 <?php require("utilities.php")?>
 
 <?php

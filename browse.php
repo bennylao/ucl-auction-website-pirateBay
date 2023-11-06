@@ -117,13 +117,13 @@ include_once ("header.php")?>
 $connection = connect_to_database();
 
 // SQL to fetch data
-    $query = "SELECT id, name, category, description, current_price, num_bids, end_datetime FROM Items";
+    $query = "SELECT itemID, name, category, description, current_price, num_bids, end_datetime FROM Items";
     $result = mysqli_query($connection,$query);
 
 if ($result->num_rows > 0) {
     // Output data of each row
     while($row = $result->fetch_assoc()) {
-        $item_id = $row["id"];
+        $item_id = $row["itemID"];
         $title = $row["name"];
         $category = $row["category"];
         $description = $row["description"];

@@ -1,12 +1,13 @@
 <?php
 $title = "Auction Browse";
-include_once ("header.php")?>
-<?php require ("utilities.php")?>
-<?php require_once ("config_database.php")?>
-
+include_once ("header.php");
+require ("utilities.php");
+require_once ("config_database.php")
+?>
 
 
 <div class="container">
+
 
 <h2 class="my-3">Browse listings</h2>
 
@@ -16,9 +17,9 @@ include_once ("header.php")?>
      (GET method of passing data to a page). -->
 <form method="get" action="browse.php">
   <div class="row">
-    <div class="col-md-5 pr-0">
+    <div class="col-md-4 pr-0">
       <div class="form-group">
-        <label for="keyword" class="sr-only">Search keyword:</label>
+        <label for="search_keyword" class="sr-only">Search keyword:</label>
 	    <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text bg-transparent pr-0 text-muted">
@@ -26,14 +27,14 @@ include_once ("header.php")?>
             </span>
           </div>
             <!-- search engine-->
-          <input type="text" class="form-control border-left-0" id="keyword" placeholder="Search for anything">
+          <input type="text" class="form-control border-left-0" id="search_keyword" placeholder="Search for anything">
         </div>
       </div>
     </div>
     <div class="col-md-3 pr-0">
       <div class="form-group">
-        <label for="cat" class="sr-only">Search within:</label>
-        <select class="form-control" id="cat">
+        <label for="category" class="sr-only">Search within:</label>
+        <select class="form-control" id="category">
           <option selected value="all">All categories</option>
           <option value="fill">Fill me in</option>
           <option value="with">with options</option>
@@ -41,17 +42,29 @@ include_once ("header.php")?>
         </select>
       </div>
     </div>
-    <div class="col-md-3 pr-0">
-      <div class="form-inline">
-        <label class="mx-2" for="order_by">Sort by:</label>
-        <select class="form-control" id="order_by">
-          <option selected value="pricelow">Price (low to high)</option>
-          <option value="pricehigh">Price (high to low)</option>
-          <option value="date">Soonest expiry</option>
+    <div class="col-md-2 pr-0">
+      <div class="form-group">
+        <label class="sr-only" for="sort_by">Sort by:</label>
+        <select class="form-control" id="sort_by">
+          <option selected value="price_low">Price (low to high)</option>
+          <option value="price_high">Price (high to low)</option>
+          <option value="end_soon">Ending soonest</option>
+            <option value="list_new">Newly listed</option>
         </select>
       </div>
     </div>
-    <div class="col-md-1 px-0">
+    <div class="col-md-2 pr-0">
+        <div class="form-group">
+            <label class="sr-only" for="items_per_page">Number of items:</label>
+            <select class="form-control" id="items_per_page">
+                <option selected value=5>Number of items: 5</option>
+                <option value=10>Number of items: 10</option>
+                <option value=25>Number of items: 25</option>
+                <option value=50>Number of items: 50</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-1 pr-0">
       <button type="submit" class="btn btn-primary">Search</button>
     </div>
   </div>
@@ -62,44 +75,53 @@ include_once ("header.php")?>
 </div>
 
 <?php
-  // Retrieve these from the URL
-  if (!isset($_GET['keyword'])) {
+// Retrieve these from the URL
+if (!isset($_GET['search_keyword'])) {
     // TODO: Define behavior if a keyword has not been specified.
-  }
-  else {
-    $keyword = $_GET['keyword'];
-  }
+    $keyword = "";
+}
+else {
+    $keyword = $_GET['search_keyword'];
+}
 
-  if (!isset($_GET['cat'])) {
+if (!isset($_GET['category'])) {
     // TODO: Define behavior if a category has not been specified.
-  }
-  else {
-    $category = $_GET['cat'];
-  }
-  
-  if (!isset($_GET['order_by'])) {
-    // TODO: Define behavior if an order_by value has not been specified.
-  }
-  else {
-    $ordering = $_GET['order_by'];
-  }
-  
-  if (!isset($_GET['page'])) {
-    $curr_page = 1;
-  }
-  else {
-    $curr_page = $_GET['page'];
-  }
+    $category = "all";
+}
+else {
+    $category = $_GET['category'];
+}
 
-  /* TODO: Use above values to construct a query. Use this query to 
+if (!isset($_GET['sort_by'])) {
+    // TODO: Define behavior if an order_by value has not been specified.
+}
+else {
+    $ordering = $_GET['sort_by'];
+}
+
+if (!isset($_GET['items_per_page'])) {
+    // TODO: Define behavior if an order_by value has not been specified.
+    $items_per_page = 10;
+}
+else {
+    $items_per_page = $_GET['items_per_page'];
+}
+
+if (!isset($_GET['page'])) {
+$curr_page = 1;
+}
+else {
+$curr_page = $_GET['page'];
+}
+
+/* TODO: Use above values to construct a query. Use this query to
      retrieve data from the database. (If there is no form data entered,
      decide on appropriate default value/default query to make. */
   
-  /* For the purposes of pagination, it would also be helpful to know the
+/* For the purposes of pagination, it would also be helpful to know the
      total number of results that satisfy the above query */
-  $num_results = 96; // TODO: Calculate me for real
-  $results_per_page = 10;
-  $max_page = ceil($num_results / $results_per_page);
+$num_results = 96; // TODO: Calculate me for real
+$max_page = ceil($num_results / $items_per_page);
 ?>
 
 <div class="container mt-5">

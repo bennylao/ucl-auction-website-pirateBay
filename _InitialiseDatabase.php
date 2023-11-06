@@ -91,7 +91,7 @@ if (mysqli_query($conn, $sql)) {
 // Create the second table items
 $sql = "CREATE TABLE items (
 itemId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-name VARCHAR(255) NOT NULL,
+title VARCHAR(255) NOT NULL,
 category VARCHAR(255) NOT NULL,
 description VARCHAR(255) NOT NULL,
 sellerId INT NOT NULL,
@@ -111,7 +111,7 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Create records for items
-$sql = "INSERT INTO items (itemId, name, category, description, sellerId, numBids, currentWinner, startingPrice, currentPrice,
+$sql = "INSERT INTO items (itemId, title, category, description, sellerId, numBids, currentWinner, startingPrice, currentPrice,
                    endDateTime, brand)
         VALUES (1, 'sdf', 'Antiques', 'new', 2, 3, 422, 200, 210, '2023-10-11', 'aaa'),
                (2, 'cbd', 'Wine and Spirits', 'new', 3, 4, 422, 20000, 40000, '2023-10-31 23:00:00', 'sold'),

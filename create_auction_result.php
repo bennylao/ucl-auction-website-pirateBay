@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $auctionBrand = $_POST['auctionBrand'];
     $auctionDetails = $_POST['auctionDetails'];
     $auctionCategory = $_POST['auctionCategory'];
-    $condition = $_POST['condition'];
+    $conditions = $_POST['conditions'];
     $auctionStartPrice = $_POST['auctionStartPrice'];
     $auctionReservePrice = $_POST['auctionReservePrice'];
     $auctionEndDate = $_POST['auctionEndDate'];
@@ -22,12 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn = connect_to_database();
         require_once getcwd()."/includes/create_auction_model.inc.php";
         require_once getcwd()."/includes/create_auction_contr.inc.php";
-        require_once getcwd()."/login_result.php";
+        //require_once getcwd()."/login_result.php";
 
         // ERROR HANDLERS
         $errors = [];
 
-        if (is_create_auction_input_empty($auctionTitle, $auctionBrand, $auctionCategory, $auctionStartPrice, $auctionReservePrice, $auctionEndDate, $condition)) {
+        if (is_create_auction_input_empty($auctionTitle, $auctionBrand, $auctionCategory, $auctionStartPrice, $auctionReservePrice, $auctionEndDate, $conditions)) {
             $errors["empty_input"] = "Fill in all fields";
         }
 
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $userid = $_SESSION['id'];
 
-        create_auction($conn, $userid, $auctionTitle, $auctionBrand, $auctionDetails, $auctionCategory, $condition,
+        create_auction($conn, $userid, $auctionTitle, $auctionBrand, $auctionDetails, $auctionCategory, $conditions,
                         $auctionStartPrice, $auctionReservePrice, $auctionEndDate);
         header("Location: ../index.php?signup=success");
         mysqli_close($conn);

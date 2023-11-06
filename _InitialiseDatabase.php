@@ -93,6 +93,7 @@ $sql = "CREATE TABLE items (
 itemId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 itemTitle VARCHAR(255) NOT NULL,
 category VARCHAR(255) NOT NULL,
+conditions VARCHAR(255) NOT NULL,
 description VARCHAR(255) NOT NULL,
 sellerId INT NOT NULL,
 numBids INT NOT NULL,
@@ -111,11 +112,11 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Create records for items
-$sql = "INSERT INTO items (itemId, itemTitle, category, description, sellerId, numBids, currentWinner, startingPrice, currentPrice,
-                   endDateTime, brand)
-        VALUES (1, 'sdf', 'Antiques', 'new', 2, 3, 422, 200, 210, '2023-10-11', 'aaa'),
-               (2, 'cbd', 'Wine and Spirits', 'new', 3, 4, 422, 20000, 40000, '2023-10-31 23:00:00', 'sold'),
-               (3, 'MacBook Pro M3 with M3 Max', 'Electronics and Technology', 'new', 4, 3, 2, 20000, 35975, '2023-12-31 23:00:00', 'apple')";
+$sql = "INSERT INTO items (itemId, itemTitle, category, conditions, description, sellerId, numBids, currentWinner, 
+                   startingPrice, currentPrice, endDateTime, brand)
+        VALUES (1, 'sdf', 'Antiques', 'new', 'new', 2, 3, 422, 200, 210, '2023-10-11', 'aaa'),
+               (2, 'cbd', 'Wine and Spirits', 'new', 'new', 3, 4, 422, 20000, 40000, '2023-10-31 23:00:00', 'sold'),
+               (3, 'MacBook Pro M3 with M3 Max', 'Electronics and Technology', 'new', 'new', 4, 3, 2, 20000, 35975, '2023-12-31 23:00:00', 'apple')";
 
 if (mysqli_query($conn, $sql)) {
     echo "New Item records created successfully. ";

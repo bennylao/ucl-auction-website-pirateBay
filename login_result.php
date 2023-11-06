@@ -1,20 +1,16 @@
 <?php
+require_once "config_database.php";
 /*
 // TODO: Extract $_POST variables, check they're OK, and attempt to login.
 */
 session_start();
-$db_host = 'localhost';
-$db_user = 'root';
-$db_password = 'root';
-$db_name = 'auctionDataBase';
 
-global $conn;
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = isset($_POST["email"]) ? $_POST["email"] : null;
     $password = isset($_POST["password"]) ? $_POST["password"] : null;
 }
 
-$conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
+$conn = connect_to_database();
 if (mysqli_connect_errno()){
     exit('Failed to connect to MySQL: ' . mysqli_connect_error());
 }

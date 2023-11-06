@@ -18,6 +18,6 @@ function is_create_auction_input_empty(string $auctionTitle, string $auctionBran
 function create_auction(object $conn, int $userid, string $auctionTitle, string $auctionBrand, string $auctionDetails, string $auctionCategory, string $condition,
                         float $auctionStartPrice, float $auctionReservePrice, string $auctionEndDate)
 {
-    set_auction($conn, $userid, $auctionTitle, $auctionBrand, $auctionDetails, $auctionCategory, $condition, $auctionStartPrice,
-        $auctionReservePrice, $auctionEndDate);
+    set_auction($conn, $userid, $auctionTitle, $auctionBrand, $auctionDetails, $auctionCategory, $auctionStartPrice,
+        $auctionReservePrice, $auctionEndDate, $condition);
 }

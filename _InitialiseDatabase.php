@@ -33,7 +33,7 @@ if (mysqli_query($conn, $sql)) {
 }
 mysqli_close($conn);
 
-$conn = connect_to_db();
+$conn = connect_to_database();
 
 // Create the admin table
 $sql = "CREATE TABLE admin (
@@ -234,4 +234,3 @@ itemID INT NOT NULL)";
 
 mysqli_close($conn);
 ?>
-

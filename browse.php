@@ -1,6 +1,10 @@
-<?php global $conn;
-include_once("header.php")?>
-<?php require("utilities.php")?>
+<?php
+$title = "Auction Browse";
+include_once ("header.php")?>
+<?php require ("utilities.php")?>
+<?php require_once ("config_database.php")?>
+
+
 
 <div class="container">
 
@@ -109,16 +113,8 @@ include_once("header.php")?>
 
 <?php
 
-// Database configuration
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "auctionDataBase";
-
 // Create database connection
-$connection =
-    mysqli_connect($servername, $username, $password, $dbname)
-    or die('Error connecting to MySQL server.' . mysqli_error());
+$connection = connect_to_database();
 
 // SQL to fetch data
     $query = "SELECT id, name, category, description, current_price, num_bids, end_datetime FROM Items";

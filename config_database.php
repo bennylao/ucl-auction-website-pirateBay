@@ -1,6 +1,6 @@
 <?php
 
-function connect_to_db(){
+function connect_to_database(){
 // Database configuration
     $servername = "localhost";
     $username = "root";

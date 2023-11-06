@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     try {
-        $conn = connect_to_db();
+        $conn = connect_to_database();
         require_once getcwd()."/includes/signup_model.inc.php";
         require_once getcwd()."/includes/signup_contr.inc.php";
 

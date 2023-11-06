@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // ERROR HANDLERS
         $errors = [];
 
-        if (is_input_empty($auctionTitle, $auctionDetails, $auctionCategory, $auctionStartPrice, $auctionReservePrice, $auctionEndDate)) {
+        if (is_create_auction_input_empty($auctionTitle, $auctionCategory, $auctionStartPrice, $auctionReservePrice, $auctionEndDate)) {
             $errors["empty_input"] = "Fill in all fields";
         }
 

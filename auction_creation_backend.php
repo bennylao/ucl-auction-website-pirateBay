@@ -11,6 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $auctionTitle = isset($_POST["auctionTitle"]) ? $_POST["auctionTitle"] : null;
     $auctionDetails = isset($_POST["auctionDetails"]) ? $_POST["auctionDetails"] : null;
     $auctionCategory = isset($_POST["auctionCategory"]) ? $_POST["auctionCategory"] : null;
+    $condition = isset($_POST["condition"]) ? $_POST["condition"] : null;
     $auctionStartPrice = isset($_POST["auctionStartPrice"]) ? $_POST["auctionStartPrice"] : null;
     $auctionReservePrice = isset($_POST["auctionReservePrice"]) ? $_POST["auctionReservePrice"] : null;
     $auctionEndDate = isset($_POST["auctionEndDate"]) ? $_POST["auctionEndDate"] : null;
@@ -25,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // ERROR HANDLERS
         $errors = [];
 
-        if (is_create_auction_input_empty($auctionTitle, $auctionCategory, $auctionStartPrice, $auctionReservePrice, $auctionEndDate)) {
+        if (is_create_auction_input_empty($auctionTitle, $auctionCategory, $condition, $auctionStartPrice, $auctionReservePrice, $auctionEndDate)) {
             $errors["empty_input"] = "Fill in all fields";
         }
 
@@ -36,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             header("Location: ../create_auction.php");
             die();
         }
-        create_auction($conn, $auctionTitle, $auctionDetails, $auctionCategory, $auctionStartPrice, $auctionReservePrice, $auctionEndDate);
+        create_auction($conn, $auctionTitle, $userid, $auctionDetails, $auctionCategory, $condition, $auctionStartPrice, $auctionReservePrice, $auctionEndDate);
     #    header("Location: ../index.php?signup=success"); - will need to alter this to a 'create_auction_success option
         mysqli_close($conn);
 

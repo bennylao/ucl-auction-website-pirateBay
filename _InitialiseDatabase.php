@@ -1,6 +1,6 @@
 <?php
 // This is the script that initialise the database
-// For internally development and use only
+// For internal development and use only
 
 require_once("config_database.php");
 

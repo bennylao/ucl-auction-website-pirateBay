@@ -4,7 +4,7 @@ require_once "config_database.php";
 // TODO: Extract $_POST variables, check they're OK, and attempt to create
 // an account. Notify user of success/failure and redirect/give navigation
 // options.
-//session_start();
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $auctionBrand = $_POST['auctionBrand'];
     $auctionDetails = $_POST['auctionDetails'];
     $auctionCategory = $_POST['auctionCategory'];
+    $condition = $_POST['condition'];
     $auctionStartPrice = $_POST['auctionStartPrice'];
     $auctionReservePrice = $_POST['auctionReservePrice'];
     $auctionEndDate = $_POST['auctionEndDate'];
@@ -21,11 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn = connect_to_database();
         require_once getcwd()."/includes/create_auction_model.inc.php";
         require_once getcwd()."/includes/create_auction_contr.inc.php";
+        require_once getcwd()."/login_result.php";
 
         // ERROR HANDLERS
         $errors = [];
 
-        if (is_create_auction_input_empty($auctionTitle, $auctionBrand, $auctionCategory, $auctionStartPrice, $auctionReservePrice, $auctionEndDate)) {
+        if (is_create_auction_input_empty($auctionTitle, $auctionBrand, $auctionCategory, $auctionStartPrice, $auctionReservePrice, $auctionEndDate, $condition)) {
             $errors["empty_input"] = "Fill in all fields";
         }
 
@@ -39,8 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $userid = $_SESSION['id'];
 
-        create_auction($conn, $userid, $auctionTitle, $auctionBrand, $auctionDetails, $auctionCategory, $auctionStartPrice,
-            $auctionReservePrice, $auctionEndDate);
+        create_auction($conn, $userid, $auctionTitle, $auctionBrand, $auctionDetails, $auctionCategory, $condition,
+                        $auctionStartPrice, $auctionReservePrice, $auctionEndDate);
         header("Location: ../index.php?signup=success");
         mysqli_close($conn);
 

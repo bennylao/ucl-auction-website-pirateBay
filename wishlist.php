@@ -113,33 +113,33 @@ include_once ("header.php")?>
 
 <?php
 // Retrieve data (userid from the session)
-$currentUserid = $_SESSION['id'];
+$currentUserId = $_SESSION['id'];
 
 // Create database connection
 $connection = connect_to_database()
-or die('Error connecting to MySQL server.' . mysqli_error());;
+or die('Error connecting to MySQL server.' . mysqli_error());
 
 
 // SQL to fetch data
-    $query = "SELECT i.itemID, i.name, i.category, i.description, i.current_price,
-       i.num_bids, i.end_datetime 
-    FROM Items i, wishlist w 
-    WHERE i.itemID = w.itemID
-    AND w.userID = '$currentUserid'";
+    $query = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.currentPrice,
+       i.numBids, i.endDateTime 
+    FROM items i, wishList w 
+    WHERE w.itemId = i.itemId
+    AND w.userId = '$currentUserId'";
     $result = mysqli_query($connection,$query);
 
 if ($result->num_rows > 0) {
     // Output data of each row
     while($row = $result->fetch_assoc()) {
-        $item_id = $row["itemID"];
-        $title = $row["name"];
+        $itemId = $row["itemId"];
+        $itemTitle = $row["itemTitle"];
         $category = $row["category"];
         $description = $row["description"];
-        $current_price = $row["current_price"];
-        $num_bids = $row["num_bids"];
-        $end_datetime = new DateTime($row["end_datetime"]);
+        $currentPrice = $row["currentPrice"];
+        $numBids = $row["numBids"];
+        $endDateTime = new DateTime($row["endDateTime"]);
         // This uses a function defined in utilities.php
-        print_listing_li($item_id, $title, $category, $description, $current_price, $num_bids, $end_datetime);
+        print_listing_li($itemId, $itemTitle, $category, $description, $currentPrice, $numBids, $endDateTime);
     }
 } else {
     echo "No results found.";

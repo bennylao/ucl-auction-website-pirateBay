@@ -121,7 +121,8 @@ or die('Error connecting to MySQL server.' . mysqli_error());;
 
 
 // SQL to fetch data
-    $query = "SELECT i.itemID, i.name, i.category, i.description, i.current_price, i.num_bids, i.end_datetime 
+    $query = "SELECT i.itemID, i.name, i.category, i.description, i.current_price,
+       i.num_bids, i.end_datetime 
     FROM Items i, wishlist w 
     WHERE i.itemID = w.itemID
     AND w.userID = '$currentUserid'";

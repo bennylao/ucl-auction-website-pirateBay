@@ -90,7 +90,7 @@ if (mysqli_query($conn, $sql)) {
 
 // Create the second table Items
 $sql = "CREATE TABLE Items (
-id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+itemID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 name VARCHAR(255) NOT NULL,
 category VARCHAR(255) NOT NULL,
 description VARCHAR(255) NOT NULL,
@@ -108,8 +108,8 @@ if (mysqli_query($conn, $sql)) {
     echo "Error creating table Item: ". mysqli_error($conn);
 }
 
-// Create records for users
-$sql = "INSERT INTO Items (id, name, category, description, seller_id, num_bids, current_winner, starting_price, current_price,
+// Create records for items
+$sql = "INSERT INTO Items (itemID, name, category, description, seller_id, num_bids, current_winner, starting_price, current_price,
                    end_datetime, brand)
         VALUES (1, 'sdf', 'Antiques', 'new', 1312, 3, 422, 200, 210, '2023-10-11', 'aaa'),
                (2, 'cbd', 'Wine and Spirits', 'new', 1113, 4, 422, 20000, 40000, '2023-10-31 23:00:00', 'sold'),
@@ -181,7 +181,9 @@ if (mysqli_query($conn, $sql)) {
 $sql = "CREATE TABLE wishlist (
     listID INT NOT NULL PRIMARY KEY ,
     itemID INT NOT NULL,
-    userID INT NOT NULL
+    userID INT NOT NULL,
+    FOREIGN KEY (itemID) REFERENCES Items(itemID),
+    FOREIGN KEY (userID) REFERENCES Users(id)
 )";
 
 if (mysqli_query($conn, $sql)){
@@ -192,9 +194,9 @@ if (mysqli_query($conn, $sql)){
 
 // Create the records for the wishlist table
 $sql = "INSERT INTO wishlist (listID, itemID, userID)
-VALUES (234, 422, 323),
-       (49439, 2314, 86754),
-       (123123, 12421, 1242)";
+VALUES (234, 422, 1),
+       (49439, 2314, 2),
+       (123123, 12421, 3)";
 
 if (mysqli_query($conn, $sql)){
     echo "New wishlist records created successfully. ";
@@ -221,17 +223,6 @@ VALUES (1, 'Brand new'),
        (3, 'Very good'),
        (4, 'Good'),
        (5, 'Acceptable')";
-
-if (mysqli_query($conn, $sql)){
-    echo  "New conditions records created successfully";
-} else {
-    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-}
-
-// Create the wishlist table
-$sql = "CREATE TABLE Wishlist (
-userID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-itemID INT NOT NULL)";
 
 mysqli_close($conn);
 ?>

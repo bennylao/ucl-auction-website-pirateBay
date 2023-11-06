@@ -21,26 +21,33 @@ if (!isset($_SESSION["last_regeneration"])) {
     }
 }
 
+
 function regenerate_session_id(){
     session_regenerate_id();
     $_SESSION["last_regeneration"] = time();
 }
+
+
 ?>
 
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
-  <!-- Bootstrap and FontAwesome CSS -->
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap and FontAwesome CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-  <!-- Custom CSS file -->
-  <link rel="stylesheet" href="css/custom.css">
-
-  <title>[My Auction Site] <!--CHANGEME!--></title>
+    <!-- Custom CSS file -->
+    <link rel="stylesheet" href="css/custom.css">
+    <title>
+    <?php
+    if (isset($title)) {echo $title;}
+    else {echo "Auction";}
+    ?>
+    </title>
 </head>
 
 

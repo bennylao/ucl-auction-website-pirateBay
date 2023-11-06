@@ -114,7 +114,8 @@ include_once ("header.php")?>
 <?php
 
 // Create database connection
-$connection = connect_to_database();
+$connection = connect_to_database()
+or die('Error connecting to MySQL server.' . mysqli_error());;
 
 // SQL to fetch data
     $query = "SELECT itemID, name, category, description, current_price, num_bids, end_datetime FROM Items";

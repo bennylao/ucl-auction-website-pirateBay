@@ -112,12 +112,19 @@ include_once ("header.php")?>
      retrieved from the query -->
 
 <?php
+// Retrieve data (userid from the session)
+$currentUserid = $_SESSION['id'];
 
 // Create database connection
-$connection = connect_to_database();
+$connection = connect_to_database()
+or die('Error connecting to MySQL server.' . mysqli_error());;
+
 
 // SQL to fetch data
-    $query = "SELECT itemID, name, category, description, current_price, num_bids, end_datetime FROM Items";
+    $query = "SELECT i.itemID, i.name, i.category, i.description, i.current_price, i.num_bids, i.end_datetime 
+    FROM Items i, wishlist w 
+    WHERE i.itemID = w.itemID
+    AND w.userID = '$currentUserid'";
     $result = mysqli_query($connection,$query);
 
 if ($result->num_rows > 0) {

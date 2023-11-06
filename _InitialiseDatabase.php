@@ -91,6 +91,7 @@ name VARCHAR(255) NOT NULL,
 category VARCHAR(255) NOT NULL,
 description VARCHAR(255) NOT NULL,
 seller_id INT NOT NULL,
+num_bids INT NOT NULL,
 current_winner INT,
 starting_price DECIMAL NOT NULL,
 current_price DECIMAL NOT NULL,
@@ -104,10 +105,10 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Create records for users
-$sql = "INSERT INTO Items (id, name, category, description, seller_id, current_winner, starting_price, current_price,
+$sql = "INSERT INTO Items (id, name, category, description, seller_id, num_bids, current_winner, starting_price, current_price,
                    end_datetime, brand)
-        VALUES ('1', 'sdf', 'Antiques', 'new', '1312', '422', '200', '210', '2020-10-11', 'aaa'),
-               ('2', 'cbd', 'Wine and Spirits', 'new', '1113', '422', '20000', '40000', '2023-10-31 23:00:00', 'sold')";
+        VALUES ('1', 'sdf', 'Antiques', 'new', '1312', '3', '422', '200', '210', '2020-10-11', 'aaa'),
+               ('2', 'cbd', 'Wine and Spirits', 'new', '1113', '4', '422', '20000', '40000', '2023-10-31 23:00:00', 'sold')";
 
 if (mysqli_query($conn, $sql)) {
     echo "New Item records created successfully. ";
@@ -197,6 +198,11 @@ if (mysqli_query($conn, $sql)){
 }
 
 // Create the table for
+
+// Create the wishlist table
+$sql = "CREATE TABLE Wishlist (
+userID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+itemID INT NOT NULL)";
 
 mysqli_close($conn);
 ?>

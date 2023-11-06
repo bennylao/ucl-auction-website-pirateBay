@@ -27,6 +27,13 @@ require_once 'includes/create_auction_view.inc.php';
           </div>
         </div>
         <div class="form-group row">
+            <label for="auctionBrand" class="col-sm-2 col-form-label text-right">Brand of auction</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="auctionBrand" name="auctionBrand" placeholder="e.g. Apple">
+                <small id="titlhelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
+            </div>
+        </div>
+        <div class="form-group row">
           <label for="auctionDetails" class="col-sm-2 col-form-label text-right">Details</label>
           <div class="col-sm-10">
             <textarea class="form-control" id="auctionDetails" name="auctionDetails" rows="4"></textarea>

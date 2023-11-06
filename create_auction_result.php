@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Retrieve the values from the form
     $auctionTitle = $_POST['auctionTitle'];
+    $auctionBrand = $_POST['auctionBrand'];
     $auctionDetails = $_POST['auctionDetails'];
     $auctionCategory = $_POST['auctionCategory'];
     $auctionStartPrice = $_POST['auctionStartPrice'];
@@ -24,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // ERROR HANDLERS
         $errors = [];
 
-        if (is_create_auction_input_empty($auctionTitle, $auctionCategory, $auctionStartPrice, $auctionReservePrice, $auctionEndDate)) {
+        if (is_create_auction_input_empty($auctionTitle, $auctionBrand, $auctionCategory, $auctionStartPrice, $auctionReservePrice, $auctionEndDate)) {
             $errors["empty_input"] = "Fill in all fields";
         }
 
@@ -38,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $userid = $_SESSION['id'];
 
-        create_auction($conn, $userid, $auctionTitle, $auctionDetails, $auctionCategory, $auctionStartPrice,
+        create_auction($conn, $userid, $auctionTitle, $auctionBrand, $auctionDetails, $auctionCategory, $auctionStartPrice,
             $auctionReservePrice, $auctionEndDate);
         header("Location: ../index.php?signup=success");
         mysqli_close($conn);

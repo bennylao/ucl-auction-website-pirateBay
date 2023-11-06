@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
 }
 
 // Start the authenticating process of the inputted email and password
-if ($stmt = $conn->prepare('SELECT password, accounttype, id FROM Users WHERE email = ?')) {
+if ($stmt = $conn->prepare('SELECT password, accountType, userId FROM Users WHERE email = ?')) {
     $stmt->bind_param('s', $email);
     $stmt->execute();
     $stmt->store_result();

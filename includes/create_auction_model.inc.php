@@ -19,8 +19,8 @@ declare(strict_types=1);
 #Inserts the new item into the Items table within the AuctionDatabase, though it does not create a date as of yet.
 function set_auction(mysqli $conn, int $userid, string $auctionTitle, string $auctionDetails, string $auctionCategory,
                      float $auctionStartingPrice, float $auctionReservePrice, string $auctionEndDate){
-    $query = "INSERT INTO auctionDatabase.Items(name, category, description, seller_id, num_bids, current_winner,
-                                  starting_price, current_price, end_datetime) 
+    $query = "INSERT INTO auctionDatabase.Items(itemTitle, category, description, sellerId, numBids, currentWinner,
+                                  startingPrice, currentPrice, endDateTime) 
 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $conn->prepare($query);
     if (!$stmt) {

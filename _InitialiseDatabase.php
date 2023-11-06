@@ -100,7 +100,7 @@ currentWinner INT,
 startingPrice DECIMAL NOT NULL,
 currentPrice DECIMAL NOT NULL,
 endDateTime TIMESTAMP NOT NULL,
-brand VARCHAR(255) NOT NULL,
+brand VARCHAR(255),
 FOREIGN KEY (sellerId) REFERENCES users(userId)
 )";
 

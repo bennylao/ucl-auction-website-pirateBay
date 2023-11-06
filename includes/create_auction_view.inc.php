@@ -4,10 +4,10 @@
 declare(strict_types=1);
 
 #Checks signup errors by looking at the $errors array and seeing if there are any values returned. If there are not, then it will return success if the index.php file === success.
-function check_signup_errors()
+function check_ca_errors()
 {
-    if (isset($_SESSION['errors_signup'])) {
-        $errors = $_SESSION('errors_signup');
+    if (isset($_SESSION['errors_create_auction'])) {
+        $errors = $_SESSION('errors_create_auction');
 
         echo "<br>";
 
@@ -16,10 +16,9 @@ function check_signup_errors()
 
         }
 
-        unset($_SESSION['errors_signup']);
-    } else if (isset($_GET["signup"]) && $_GET["signup"] === "success") {
+        unset($_SESSION['errors_create_auction']);
+    } else if (isset($_GET["create_auction"]) && $_GET["create_auction"] === "success") {
         echo '<br>';
         echo "<p class='form-success'> Signup success! </p>";
     }
-
 }

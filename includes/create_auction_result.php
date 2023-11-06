@@ -1,4 +1,5 @@
-<?php include_once("header.php")?>
+<?php
+/*include_once("header.php")?>
 
 <div class="container my-5">
 
@@ -22,7 +23,7 @@
             
 
 // If all is successful, let user know.
-echo('<div class="text-center">Auction successfully created! <a href="FIXME">View your new listing.</a></div>');
+/*echo('<div class="text-center">Auction successfully created! <a href="FIXME">View your new listing.</a></div>');
 
 
 ?>

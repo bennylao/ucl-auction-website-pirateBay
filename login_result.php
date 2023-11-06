@@ -50,7 +50,7 @@ if ($stmt = $conn->prepare('SELECT password, accounttype, id FROM Users WHERE em
             header("refresh:5;url=index.php");
         } else {
             echo 'Email or password incorrect!';
-            header("refresh:5;url=index.php");
+            header("refresh:3;url=index.php");
         }
     }
     $stmt->close();

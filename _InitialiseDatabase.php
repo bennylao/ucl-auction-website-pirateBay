@@ -93,14 +93,14 @@ $sql = "CREATE TABLE Items (
 itemID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 name VARCHAR(255) NOT NULL,
 category VARCHAR(255) NOT NULL,
-description VARCHAR(255) NOT NULL,
+description VARCHAR(1000) NOT NULL,
 seller_id INT NOT NULL,
 num_bids INT NOT NULL,
 current_winner INT,
 starting_price DECIMAL NOT NULL,
 current_price DECIMAL NOT NULL,
 end_datetime TIMESTAMP NOT NULL,
-brand VARCHAR(255) NOT NULL,
+brand VARCHAR(255),
 FOREIGN KEY (seller_id) REFERENCES Users(id)
 )";
 

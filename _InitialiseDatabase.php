@@ -1,16 +1,25 @@
 <?php
-$db_host = 'localhost';
-$db_user = 'root';
-$db_password = 'root';
-$db_name = 'auctionDataBase';
+// This is the script that initialise the database
+// For internally development and use only
+
+require_once("config_database.php");
+
+$servername = "localhost";
+$username = "root";
+$password = "root";
+$dbname = "auctionDataBase";
 
 // Create connection
-$conn = mysqli_connect($db_host, $db_user, $db_password);
+$conn = mysqli_connect($servername, $username, $password);
 // Check connection
 if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+    $password = '';
+    $conn = mysqli_connect($servername, $username, $password);
+    // if connection fails again, alert the user to check if the server is running
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
 }
-
 // Drop the database if it exists
 $sql = "DROP DATABASE IF EXISTS auctionDataBase";
 mysqli_query($conn, $sql);
@@ -24,12 +33,7 @@ if (mysqli_query($conn, $sql)) {
 }
 mysqli_close($conn);
 
-// Create the table
-$conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
-
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+$conn = connect_to_db();
 
 // Create the admin table
 $sql = "CREATE TABLE admin (

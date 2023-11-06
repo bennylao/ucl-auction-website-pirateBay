@@ -100,7 +100,10 @@ current_winner INT,
 starting_price DECIMAL NOT NULL,
 current_price DECIMAL NOT NULL,
 end_datetime TIMESTAMP NOT NULL,
-brand VARCHAR(255) NOT NULL)";
+brand VARCHAR(255) NOT NULL,
+FOREIGN KEY (seller_id) REFERENCES Users(id)
+                   
+                   )";
 
 if (mysqli_query($conn, $sql)) {
     echo "Table Item created successfully. ";
@@ -111,9 +114,9 @@ if (mysqli_query($conn, $sql)) {
 // Create records for items
 $sql = "INSERT INTO Items (itemID, name, category, description, seller_id, num_bids, current_winner, starting_price, current_price,
                    end_datetime, brand)
-        VALUES (1, 'sdf', 'Antiques', 'new', 1312, 3, 422, 200, 210, '2023-10-11', 'aaa'),
-               (2, 'cbd', 'Wine and Spirits', 'new', 1113, 4, 422, 20000, 40000, '2023-10-31 23:00:00', 'sold'),
-               (3, 'MacBook Pro M3 with M3 Max', 'Electronics and Technology', 'new', 1, 3, 2, 20000, 35975, '2023-12-31 23:00:00', 'apple')";
+        VALUES (1, 'sdf', 'Antiques', 'new', 2, 3, 422, 200, 210, '2023-10-11', 'aaa'),
+               (2, 'cbd', 'Wine and Spirits', 'new', 3, 4, 422, 20000, 40000, '2023-10-31 23:00:00', 'sold'),
+               (3, 'MacBook Pro M3 with M3 Max', 'Electronics and Technology', 'new', 4, 3, 2, 20000, 35975, '2023-12-31 23:00:00', 'apple')";
 
 if (mysqli_query($conn, $sql)) {
     echo "New Item records created successfully. ";
@@ -194,9 +197,9 @@ if (mysqli_query($conn, $sql)){
 
 // Create the records for the wishlist table
 $sql = "INSERT INTO wishlist (listID, itemID, userID)
-VALUES (234, 422, 1),
-       (49439, 2314, 2),
-       (123123, 12421, 3)";
+VALUES (1, 1, 1),
+       (2, 1, 2),
+       (3, 1, 3)";
 
 if (mysqli_query($conn, $sql)){
     echo "New wishlist records created successfully. ";

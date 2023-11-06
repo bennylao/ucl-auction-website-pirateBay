@@ -102,8 +102,7 @@ current_price DECIMAL NOT NULL,
 end_datetime TIMESTAMP NOT NULL,
 brand VARCHAR(255) NOT NULL,
 FOREIGN KEY (seller_id) REFERENCES Users(id)
-                   
-                   )";
+)";
 
 if (mysqli_query($conn, $sql)) {
     echo "Table Item created successfully. ";

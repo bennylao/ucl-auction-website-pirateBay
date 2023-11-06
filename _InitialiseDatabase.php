@@ -37,8 +37,8 @@ $conn = connect_to_database();
 
 // Create the admin table
 $sql = "CREATE TABLE admin (
-adminID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Password VARCHAR(255) NOT NULL)";
+adminId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+password VARCHAR(255) NOT NULL)";
 
 if (mysqli_query($conn, $sql)) {
     echo "Admin Table created successfully. ";
@@ -47,7 +47,7 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Create admin records
-$sql = "INSERT INTO admin (adminID, Password)
+$sql = "INSERT INTO admin (adminId, password)
         VALUES (1, '1111'),
                (2, '1111')";
 
@@ -57,17 +57,17 @@ if (mysqli_query($conn, $sql)) {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
 
-// Create the first table Users
-$sql = "CREATE TABLE Users (
-id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+// Create the first table users
+$sql = "CREATE TABLE users (
+userId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 accountType VARCHAR(255) NOT NULL,
-username VARCHAR(255) NOT NULL,
+userName VARCHAR(255) NOT NULL,
 password VARCHAR(255) NOT NULL,
 email VARCHAR(255) NOT NULL,
-first_name VARCHAR(255) NOT NULL,
-last_name VARCHAR(255) NOT NULL,
+firstName VARCHAR(255) NOT NULL,
+lastName VARCHAR(255) NOT NULL,
 address VARCHAR(255),
-create_date date)";
+createDate date)";
 
 if (mysqli_query($conn, $sql)) {
     echo "Table User created successfully. ";
@@ -76,7 +76,7 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Create records for users
-$sql = "INSERT INTO Users (accountType, username, password, email, first_name, last_name, address, create_date)
+$sql = "INSERT INTO users (accountType, userName, password, email, firstName, lastName, address, createDate)
 VALUES ('buyer', 'admin', '$2y$10$4e6ITty1JFx53RnOPaVXH.orr9GSNL6nsg1h2z0CAHxzclN9rFhtG','email','fn','ln','addr','2017-06-05'), 
        ('seller', 'user1', '$2y$10\$Cej7YR5.IYEpd93WwBWQyO/tgFqn.QDC6La5oiwq.LAkX9R78RHMe','email1','fn1','ln1','addr1','2017-06-05'),
        ('buyerseller', 'user2', '$2y$10\$xkBU7pYHLKP6ETnXp9R/eOsrHsEmORfTYvq5bqtzkx1RpO4ghDe5y','email2','fn2','ln2','addr2','2017-06-05'),
@@ -88,20 +88,20 @@ if (mysqli_query($conn, $sql)) {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
 
-// Create the second table Items
-$sql = "CREATE TABLE Items (
-itemID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-name VARCHAR(255) NOT NULL,
+// Create the second table items
+$sql = "CREATE TABLE items (
+itemId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+itemTitle VARCHAR(255) NOT NULL,
 category VARCHAR(255) NOT NULL,
-description VARCHAR(1000) NOT NULL,
-seller_id INT NOT NULL,
-num_bids INT NOT NULL,
-current_winner INT,
-starting_price DECIMAL NOT NULL,
-current_price DECIMAL NOT NULL,
-end_datetime TIMESTAMP NOT NULL,
-brand VARCHAR(255),
-FOREIGN KEY (seller_id) REFERENCES Users(id)
+description VARCHAR(255) NOT NULL,
+sellerId INT NOT NULL,
+numBids INT NOT NULL,
+currentWinner INT,
+startingPrice DECIMAL NOT NULL,
+currentPrice DECIMAL NOT NULL,
+endDateTime TIMESTAMP NOT NULL,
+brand VARCHAR(255) NOT NULL,
+FOREIGN KEY (sellerId) REFERENCES users(userId)
 )";
 
 if (mysqli_query($conn, $sql)) {
@@ -111,8 +111,8 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Create records for items
-$sql = "INSERT INTO Items (itemID, name, category, description, seller_id, num_bids, current_winner, starting_price, current_price,
-                   end_datetime, brand)
+$sql = "INSERT INTO items (itemId, itemTitle, category, description, sellerId, numBids, currentWinner, startingPrice, currentPrice,
+                   endDateTime, brand)
         VALUES (1, 'sdf', 'Antiques', 'new', 2, 3, 422, 200, 210, '2023-10-11', 'aaa'),
                (2, 'cbd', 'Wine and Spirits', 'new', 3, 4, 422, 20000, 40000, '2023-10-31 23:00:00', 'sold'),
                (3, 'MacBook Pro M3 with M3 Max', 'Electronics and Technology', 'new', 4, 3, 2, 20000, 35975, '2023-12-31 23:00:00', 'apple')";
@@ -124,9 +124,9 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Create the category table
-$sql = "CREATE TABLE Category (
-cateID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-Category VARCHAR(255) NOT NULL)";
+$sql = "CREATE TABLE category (
+cateId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+category VARCHAR(255) NOT NULL)";
 
 if (mysqli_query($conn, $sql)) {
     echo "Category Table created successfully. ";
@@ -135,7 +135,7 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Create category options for users
-$sql = "INSERT INTO Category (cateID, Category)
+$sql = "INSERT INTO category (cateId, category)
         VALUES (1, 'Art and Collectibles'),
                (2, 'Antiques'),
                (3, 'Automobiles and Vehicles'),
@@ -154,38 +154,38 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Create the bid history table
-$sql = "CREATE TABLE bid_history (
-bid_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-item_id VARCHAR(255) NOT NULL,
-user_id INT NOT NULL,
-bid_price INT NOT NULL ,
-bid_datetime TIMESTAMP
+$sql = "CREATE TABLE bidHistory (
+bidId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+itemId VARCHAR(255) NOT NULL,
+userId INT NOT NULL,
+bidPrice INT NOT NULL ,
+bidDateTime TIMESTAMP
 )";
 
 if (mysqli_query($conn, $sql)) {
-    echo "Bid history Table created successfully. ";
+    echo "Bid history table created successfully. ";
 } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
 
-// Create records for bid_history
-$sql = "INSERT INTO bid_history(bid_id, item_id, user_id, bid_price, bid_datetime)
+// Create records for bidHistory
+$sql = "INSERT INTO bidHistory(bidId, itemId, userId, bidPrice, bidDateTime)
 VALUES (1, 121, 5203, 100, '2020-10-10'),
        (2, 524, 1231, 420, '2022-12-12')";
 
 if (mysqli_query($conn, $sql)) {
-    echo "New bid_history records created successfully. ";
+    echo "New bid history records created successfully. ";
 } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
 
-// Create the wishlist table
-$sql = "CREATE TABLE wishlist (
-    listID INT NOT NULL PRIMARY KEY ,
-    itemID INT NOT NULL,
-    userID INT NOT NULL,
-    FOREIGN KEY (itemID) REFERENCES Items(itemID),
-    FOREIGN KEY (userID) REFERENCES Users(id)
+// Create the wishList table
+$sql = "CREATE TABLE wishList (
+    listId INT NOT NULL PRIMARY KEY ,
+    itemId INT NOT NULL,
+    userId INT NOT NULL,
+    FOREIGN KEY (itemId) REFERENCES items(itemId),
+    FOREIGN KEY (userId) REFERENCES users(userId)
 )";
 
 if (mysqli_query($conn, $sql)){
@@ -194,8 +194,8 @@ if (mysqli_query($conn, $sql)){
     echo "Error: ".$sql."<br>".mysqli_error($conn);
 }
 
-// Create the records for the wishlist table
-$sql = "INSERT INTO wishlist (listID, itemID, userID)
+// Create the records for the wishList table
+$sql = "INSERT INTO wishList (listId, itemId, userId)
 VALUES (1, 1, 1),
        (2, 1, 2),
        (3, 1, 3)";
@@ -208,7 +208,7 @@ if (mysqli_query($conn, $sql)){
 
 // Create the table for
 $sql = "CREATE TABLE conditions (
-    conditionID INT NOT NULL ,
+    conditionId INT NOT NULL ,
     condDescript VARCHAR(255) NOT NULL 
 )";
 
@@ -219,7 +219,7 @@ if (mysqli_query($conn, $sql)){
 }
 
 // Create records for the conditions table
-$sql = "INSERT INTO conditions (conditionID, condDescript)
+$sql = "INSERT INTO conditions (conditionId, condDescript)
 VALUES (1, 'Brand new'),
        (2, 'Like new'),
        (3, 'Very good'),

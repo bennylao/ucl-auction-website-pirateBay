@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
 }
 
 // Start the authenticating process of the inputted email and password
-if ($stmt = $conn->prepare('SELECT password, accounttype FROM Users WHERE email = ?')) {
+if ($stmt = $conn->prepare('SELECT password, accountType, userId FROM Users WHERE email = ?')) {
     $stmt->bind_param('s', $email);
     $stmt->execute();
     $stmt->store_result();
@@ -32,20 +32,21 @@ if ($stmt = $conn->prepare('SELECT password, accounttype FROM Users WHERE email 
         echo 'Email or password Incorrect!';
         header("refresh:5;url=index.php");
     } else {
-        $stmt->bind_result($password, $accounttype);
+        $stmt->bind_result($password, $accounttype, $userid);
         $stmt->fetch();
 
         if (password_verify($_POST['password'], $password)) {
             session_regenerate_id();
             $_SESSION['logged_in'] = true;
             $_SESSION['account_type'] = $accounttype;
+            $_SESSION['id'] = $userid;
             // Access the accounttype
             echo 'You are now logged in with account type: ' . $accounttype;
             echo('<div class="text-center">You will be redirected shortly.</div>');
             header("refresh:5;url=index.php");
         } else {
             echo 'Email or password incorrect!';
-            header("refresh:5;url=index.php");
+            header("refresh:3;url=index.php");
         }
     }
     $stmt->close();

@@ -1,33 +1,58 @@
-<?php include_once("header.php")?>
-
-<div class="container my-5">
-
 <?php
-
-// This function takes the form data and adds the new auction to the database.
-
-/* TODO #1: Connect to MySQL database (perhaps by requiring a file that
-            already does this). */
-
-
-/* TODO #2: Extract form data into variables. Because the form was a 'post'
-            form, its data can be accessed via $POST['auctionTitle'], 
-            $POST['auctionDetails'], etc. Perform checking on the data to
-            make sure it can be inserted into the database. If there is an
-            issue, give some semi-helpful feedback to user. */
+require_once "config_database.php";
+//include_once "login_result.php";
+// TODO: Extract $_POST variables, check they're OK, and attempt to create
+// an account. Notify user of success/failure and redirect/give navigation
+// options.
 
 
-/* TODO #3: If everything looks good, make the appropriate call to insert
-            data into the database. */
-            
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-// If all is successful, let user know.
-echo('<div class="text-center">Auction successfully created! <a href="FIXME">View your new listing.</a></div>');
+    // Retrieve the values from the form
+    $auctionTitle = $_POST['auctionTitle'];
+    $auctionBrand = $_POST['auctionBrand'];
+    $auctionDetails = $_POST['auctionDetails'];
+    $auctionCategory = $_POST['auctionCategory'];
+    $conditions = $_POST['conditions'];
+    $auctionStartPrice = $_POST['auctionStartPrice'];
+    $auctionReservePrice = $_POST['auctionReservePrice'];
+    $auctionEndDate = $_POST['auctionEndDate'];
+
+    try {
+        $conn = connect_to_database();
+        require_once getcwd()."/includes/create_auction_model.inc.php";
+        require_once getcwd()."/includes/create_auction_contr.inc.php";
+        //require_once getcwd()."/login_result.php";
+
+        // ERROR HANDLERS
+        $errors = [];
+
+        if (is_create_auction_input_empty($auctionTitle, $auctionBrand, $auctionCategory, $auctionStartPrice, $auctionReservePrice, $auctionEndDate, $conditions)) {
+            $errors["empty_input"] = "Fill in all fields";
+        }
+
+        require_once 'header.php';
+
+        if ($errors) {
+            $_SESSION["errors_create_auction"] = $errors;
+            header("Location: ../create_auction.php");
+            die();
+        }
+
+        $userid = $_SESSION['id'];
+
+        create_auction($conn, $userid, $auctionTitle, $auctionBrand, $auctionDetails, $auctionCategory, $conditions,
+                        $auctionStartPrice, $auctionReservePrice, $auctionEndDate);
+        header("Location: ../index.php?signup=success");
+        mysqli_close($conn);
 
 
+    } catch (PDOException $e) {
+        die("Query failed: " . $e->getMessage());
+    }
+} else {
+    header("Location: ../register.php");
+    die();
+}
 ?>
 
-</div>
-
-
-<?php include_once("footer.php")?>

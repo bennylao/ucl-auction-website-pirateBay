@@ -136,24 +136,25 @@ $max_page = ceil($num_results / $items_per_page);
 <?php
 
 // Create database connection
-$connection = connect_to_database();
+$connection = connect_to_database()
+or die('Error connecting to MySQL server.' . mysqli_error());;
 
 // SQL to fetch data
-    $query = "SELECT id, name, category, description, current_price, num_bids, end_datetime FROM Items";
+    $query = "SELECT itemId, itemTitle, category, description, currentPrice, numBids, endDateTime FROM items";
     $result = mysqli_query($connection,$query);
 
 if ($result->num_rows > 0) {
     // Output data of each row
     while($row = $result->fetch_assoc()) {
-        $item_id = $row["id"];
-        $title = $row["name"];
+        $itemId = $row["itemId"];
+        $itemTitle = $row["itemTitle"];
         $category = $row["category"];
         $description = $row["description"];
-        $current_price = $row["current_price"];
-        $num_bids = $row["num_bids"];
-        $end_datetime = new DateTime($row["end_datetime"]);
+        $currentPrice = $row["currentPrice"];
+        $numBids = $row["numBids"];
+        $endDateTime = new DateTime($row["endDateTime"]);
         // This uses a function defined in utilities.php
-        print_listing_li($item_id, $title, $category, $description, $current_price, $num_bids, $end_datetime);
+        print_listing_li($itemId, $itemTitle, $category, $description, $currentPrice, $numBids, $endDateTime);
     }
 } else {
     echo "No results found.";

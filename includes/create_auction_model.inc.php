@@ -20,8 +20,8 @@ declare(strict_types=1);
 function set_auction(mysqli $conn, int $userid, string $auctionTitle, string $auctionBrand, string $auctionDetails, string $auctionCategory,
                      float $auctionStartingPrice, float $auctionReservePrice, string $auctionEndDate, string $condition){
     $query = "INSERT INTO auctionDatabase.Items(itemTitle, category, conditions, description, sellerId, numBids, currentWinner,
-                                  startingPrice, currentPrice, startDateTime, endDateTime, brand) 
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                  startingPrice, reservedPrice, startDateTime, endDateTime, brand, currentPrice) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
     if (!$stmt) {
         die("Prepare failed: " . $conn->error);
@@ -33,7 +33,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $numBids = 0;
     $currentWinner = null;
     $auctionStartDate = date("Y-m-d H:i:s");
-    $stmt->bind_param("ssssiiiddsss", $auctionTitle, $auctionCategory, $condition, $auctionDetails, $userid, $numBids,
-       $currentWinner, $auctionStartingPrice, $auctionReservePrice, $auctionStartDate, $auctionEndDate, $auctionBrand);
+    $stmt->bind_param("ssssiiiddsssd", $auctionTitle, $auctionCategory, $condition, $auctionDetails, $userid, $numBids,
+       $currentWinner, $auctionStartingPrice, $auctionReservePrice, $auctionStartDate, $auctionEndDate, $auctionBrand, $auctionStartingPrice);
     $stmt->execute();
 }

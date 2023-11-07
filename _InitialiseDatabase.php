@@ -104,6 +104,7 @@ currentPrice DECIMAL NOT NULL,
 startDateTime DATETIME NOT NULL,
 endDateTime DATETIME NOT NULL,
 brand VARCHAR(255),
+reservedPrice DECIMAL,
 FOREIGN KEY (sellerId) REFERENCES users(userId)
 )";
 

@@ -126,7 +126,9 @@ $sql = "INSERT INTO items (itemId, itemTitle, category, conditions, description,
                 (8, 'My Brain', 'Others', 'new', 'new', 4, 11, 2, 1000, 1100, '2023-10-05 22:30:00', '2024-03-01 00:00:00', 'Me'),
                 (9, 'iMac', 'Electronics and Technology', 'new', 'new', 2, 10, 2, 5000, 7800, '2023-10-06 00:30:00', '2024-02-01 00:00:00', 'Apple'),
                 (10, 'Apple Vision Pro', 'Electronics and Technology', 'new', 'new', 2, 3, 2, 800, 1050, '2023-10-06 12:30:00', '2024-01-03 00:00:00', 'Apple'),
-                (11, 'UCL Premium Study Space', 'Others', 'new', 'new', 2, 1000, 1, 10, 200, '2023-10-07 12:30:00', '2024-02-04 00:00:00', 'UCL')";
+                (11, 'UCL Premium Study Space', 'Others', 'new', 'new', 2, 1000, 1, 10, 200, '2023-10-07 12:30:00', '2024-02-04 00:00:00', 'UCL'),
+                (12, 'iPad Pro 12.9', 'Electronics and Technology', 'new', 'new', 2, 15, 2, 400, 780, '2023-10-07 21:30:00', '2024-01-30 00:00:00', 'Apple'),
+                (13, 'AirPods', 'Electronics and Technology', 'new', 'new', 2, 4, 2, 50, 80, '2023-10-08 00:30:00', '2024-02-10 00:00:00', 'Apple')";
 
 if (mysqli_query($conn, $sql)) {
     echo "New Item records created successfully. ";

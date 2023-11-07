@@ -1,105 +1,140 @@
 <?php
 $title = "Auction Browse";
-include_once ("header.php")?>
-<?php require ("utilities.php")?>
-<?php require_once ("config_database.php")?>
-
+include_once ("header.php");
+require ("utilities.php");
+require_once ("config_database.php")
+?>
 
 
 <div class="container">
 
-<h2 class="my-3">Browse listings</h2>
+    <h2 class="my-3">Browse listings</h2>
 
-<div id="searchSpecs">
-<!-- When this form is submitted, this PHP page is what processes it.
-     Search/sort specs are passed to this page through parameters in the URL
-     (GET method of passing data to a page). -->
-<form method="get" action="browse.php">
-  <div class="row">
-    <div class="col-md-5 pr-0">
-      <div class="form-group">
-        <label for="keyword" class="sr-only">Search keyword:</label>
-	    <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text bg-transparent pr-0 text-muted">
-              <i class="fa fa-search"></i>
-            </span>
-          </div>
-            <!-- search engine-->
-          <input type="text" class="form-control border-left-0" id="keyword" placeholder="Search for anything">
+    <form action="browse.php" method="GET">
+        <div class = "row">
+            <div class = "col-md-4 pr-0">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="search_keyword"><i class="fa fa-search"></i></label>
+                        </div>
+                        <input type="text" id="search_keyword" name="search_keyword" class="form-control border-left-0" placeholder="Search for anything">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-3 pr-0">
+                <div class="form-group">
+                    <label for="category" class="sr-only">Search within:</label>
+                    <select class="form-control" id="category" name="category">
+                        <option selected value="all">All categories</option>
+                        <option value="Art And Collectibles"> Art and Collectibles </option>
+                        <option value="Antiques"> Antiques </option>
+                        <option value="Automobiles And Vehicles"> Automobiles and Vehicles </option>
+                        <option value="Jewelry And Watches"> Jewelry and Watches </option>
+                        <option value="Electronics And Technology"> Electronics and Technology </option>
+                        <option value="Fashion And Apparel"> Fashion and Apparel </option>
+                        <option value="Sports And Memorabilia"> Sports and Memorabilia </option>
+                        <option value="Wine And Spirits"> Wine and Spirits </option>
+                        <option value="Furniture And HomeDecor"> Furniture and Home Decor </option>
+                        <option value="Real Estate"> Real Estate </option>
+                        <option value="Others"> Others </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-2 pr-0">
+                <div class="form-group">
+                    <label class="sr-only" for="sort_by">Sort by:</label>
+                    <select class="form-control" id="sort_by" name="sort_by">
+                        <option Selected value="numBids DESC"> Popularity </option>
+                        <option value="currentPrice">Price (low to high)</option>
+                        <option value="currentPrice DESC">Price (high to low)</option>
+                        <option value="endDateTime">Ending soonest</option>
+                        <option value="endDateTime DESC">Newly listed</option>
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-2 pr-0">
+                <div class="form-group">
+                    <label class="sr-only" for="items_per_page">Number of items:</label>
+                    <select class="form-control" id="items_per_page" name="items_per_page">
+                        <option selected value=5>Number of items: 5</option>
+                        <option value=10>Number of items: 10</option>
+                        <option value=25>Number of items: 25</option>
+                        <option value=50>Number of items: 50</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-1">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+
         </div>
-      </div>
-    </div>
-    <div class="col-md-3 pr-0">
-      <div class="form-group">
-        <label for="cat" class="sr-only">Search within:</label>
-        <select class="form-control" id="cat">
-          <option selected value="all">All categories</option>
-          <option value="fill">Fill me in</option>
-          <option value="with">with options</option>
-          <option value="populated">populated from a database?</option>
-        </select>
-      </div>
-    </div>
-    <div class="col-md-3 pr-0">
-      <div class="form-inline">
-        <label class="mx-2" for="order_by">Sort by:</label>
-        <select class="form-control" id="order_by">
-          <option selected value="pricelow">Price (low to high)</option>
-          <option value="pricehigh">Price (high to low)</option>
-          <option value="date">Soonest expiry</option>
-        </select>
-      </div>
-    </div>
-    <div class="col-md-1 px-0">
-      <button type="submit" class="btn btn-primary">Search</button>
-    </div>
-  </div>
-</form>
-</div> <!-- end search specs bar -->
-
-
+    </form>
 </div>
+<!-- end search specs bar -->
+
 
 <?php
-  // Retrieve these from the URL
-  if (!isset($_GET['keyword'])) {
+
+$query = "SELECT itemId, itemTitle, category, description, currentPrice, numBids, endDateTime FROM items
+                WHERE items.endDateTime > NOW()";
+
+// Retrieve these from the URL
+if (!isset($_GET['search_keyword'])) {
     // TODO: Define behavior if a keyword has not been specified.
-  }
-  else {
-    $keyword = $_GET['keyword'];
-  }
+}
+else {
+    $keyword = $_GET['search_keyword'];
+}
 
-  if (!isset($_GET['cat'])) {
-    // TODO: Define behavior if a category has not been specified.
-  }
-  else {
-    $category = $_GET['cat'];
-  }
-  
-  if (!isset($_GET['order_by'])) {
+// Only do filtering if category is selected
+// Otherwise do nothing
+if (isset($_GET['search_keyword'])) {
+    // Only do filtering if category is not all
+    if ($_GET['category'] != 'all') {
+        // TODO: Define behavior if a category has not been specified.
+        $category = $_GET['category'];
+        $query .= " AND items.category = '$category'";
+    }
+}
+
+
+if (!isset($_GET['sort_by'])) {
     // TODO: Define behavior if an order_by value has not been specified.
-  }
-  else {
-    $ordering = $_GET['order_by'];
-  }
-  
-  if (!isset($_GET['page'])) {
-    $curr_page = 1;
-  }
-  else {
-    $curr_page = $_GET['page'];
-  }
+    $query .= " ORDER BY numBids DESC, itemTitle";
+} else {
+    $ordering = $_GET['sort_by'];
+    $query .= " ORDER BY $ordering, itemTitle";
+}
 
-  /* TODO: Use above values to construct a query. Use this query to 
+if (!isset($_GET['items_per_page'])) {
+    // TODO: Define behavior if an order_by value has not been specified.
+    $items_per_page = 5;
+}
+else {
+    $items_per_page = $_GET['items_per_page'];
+}
+
+if (!isset($_GET['page'])) {
+$curr_page = 1;
+}
+else {
+$curr_page = $_GET['page'];
+}
+
+/* TODO: Use above values to construct a query. Use this query to
      retrieve data from the database. (If there is no form data entered,
      decide on appropriate default value/default query to make. */
   
-  /* For the purposes of pagination, it would also be helpful to know the
+/* For the purposes of pagination, it would also be helpful to know the
      total number of results that satisfy the above query */
-  $num_results = 96; // TODO: Calculate me for real
-  $results_per_page = 10;
-  $max_page = ceil($num_results / $results_per_page);
+
 ?>
 
 <div class="container mt-5">
@@ -115,11 +150,17 @@ include_once ("header.php")?>
 
 // Create database connection
 $connection = connect_to_database()
-or die('Error connecting to MySQL server.' . mysqli_error());;
+or die('Error connecting to MySQL server.' . mysqli_connect_error());
+
+
 
 // SQL to fetch data
-    $query = "SELECT itemId, itemTitle, category, description, currentPrice, numBids, endDateTime FROM items";
-    $result = mysqli_query($connection,$query);
+
+$result = mysqli_query($connection,$query);
+
+$num_results = mysqli_num_rows($result); // TODO: Calculate me for real
+
+$max_page = ceil($num_results / $items_per_page);
 
 if ($result->num_rows > 0) {
     // Output data of each row

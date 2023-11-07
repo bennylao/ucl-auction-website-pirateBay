@@ -1,5 +1,5 @@
 <?php
-require_once "config_database.php";
+require_once ("config_database.php");
 /*
 // TODO: Extract $_POST variables, check they're OK, and attempt to login.
 */

@@ -156,7 +156,6 @@ or die('Error connecting to MySQL server.' . mysqli_connect_error());
 
 // SQL to fetch data
 
-
 $result = mysqli_query($connection,$query);
 
 $num_results = mysqli_num_rows($result); // TODO: Calculate me for real

@@ -1,24 +1,47 @@
-<?php include_once("header.php")?>
-<?php require("utilities.php")?>
+<?php
+$title = "My Listings";
+include_once ("header.php")?>
+<?php require ("utilities.php")?>
+<?php require_once ("config_database.php")?>
 
-<div class="container">
+    <div class="container">
 
-<h2 class="my-3">My bids</h2>
+    <h2 class="my-3">My Bids</h2>
 
 <?php
-  // This page is for showing a user the auctions they've bid on.
-  // It will be pretty similar to browse.php, except there is no search bar.
-  // This can be started after browse.php is working with a database.
-  // Feel free to extract out useful functions from browse.php and put them in
-  // the shared "utilities.php" where they can be shared by multiple files.
-  
-  
-  // TODO: Check user's credentials (cookie/session).
-  
-  // TODO: Perform a query to pull up the auctions they've bidded on.
-  
-  // TODO: Loop through results and print them out as list items.
-  
+// Retrieve data (userid from the session)
+$currentUserId = $_SESSION['id'];
+
+// Create database connection
+$connection = connect_to_database()
+or die('Error connecting to MySQL server.' . mysqli_error());
+
+
+// SQL to fetch data
+$query = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.currentPrice,
+       i.numBids, i.endDateTime
+    FROM items i, bidHistory b
+    WHERE i.itemId = b.itemId AND
+          b.userId = $currentUserId";
+$result = mysqli_query($connection,$query);
+
+if ($result->num_rows > 0) {
+    // Output data of each row
+    while($row = $result->fetch_assoc()) {
+        $itemId = $row["itemId"];
+        $itemTitle = $row["itemTitle"];
+        $category = $row["category"];
+        $description = $row["description"];
+        $currentPrice = $row["currentPrice"];
+        $numBids = $row["numBids"];
+        $endDateTime = new DateTime($row["endDateTime"]);
+        // This uses a function defined in utilities.php
+        print_listing_li($itemId, $itemTitle, $category, $description, $currentPrice, $numBids, $endDateTime);
+    }
+} else {
+    echo "No results found.";
+}
+mysqli_close($connection);
 ?>
 
 <?php include_once("footer.php")?>

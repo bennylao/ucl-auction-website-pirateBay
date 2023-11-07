@@ -14,7 +14,7 @@ $currentUserId = $_SESSION['id'];
 
 // Create database connection
 $connection = connect_to_database()
-or die('Error connecting to MySQL server.' . mysqli_error());;
+or die('Error connecting to MySQL server.' . mysqli_error());
 
 
 // SQL to fetch data
@@ -22,6 +22,7 @@ $query = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.currentPric
        i.numBids, i.endDateTime 
     FROM items i
     WHERE i.sellerId = '$currentUserId'";
+
 $result = mysqli_query($connection,$query);
 
 if ($result->num_rows > 0) {

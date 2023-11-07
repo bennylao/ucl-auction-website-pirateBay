@@ -59,7 +59,7 @@ require_once 'includes/create_auction_view.inc.php';
             <small id="categoryHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Select a category for this item.</small>
           </div>
             <div class="form-group row">
-                <label for="auctionConditions" class="col-sm-2 col-form-label text-right">Category</label>
+                <label for="auctionConditions" class="col-sm-2 col-form-label text-right">Condition</label>
                 <div class="col-sm-10">
                     <select class="form-control" id="condition" name="conditions">
                         <option selected>Choose...</option>

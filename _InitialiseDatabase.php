@@ -101,8 +101,8 @@ numBids INT NOT NULL,
 currentWinner INT,
 startingPrice DECIMAL NOT NULL,
 currentPrice DECIMAL NOT NULL,
-startDateTime TIMESTAMP NOT NULL,
-endDateTime TIMESTAMP NULL,
+startDateTime DATETIME NOT NULL,
+endDateTime DATETIME NOT NULL,
 brand VARCHAR(255),
 FOREIGN KEY (sellerId) REFERENCES users(userId)
 )";
@@ -118,7 +118,7 @@ $sql = "INSERT INTO items (itemId, itemTitle, category, conditions, description,
                    startingPrice, currentPrice, startDateTime, endDateTime, brand)
         VALUES  (1, 'Expired Item 1', 'Others', 'new', 'golden apple', 2, 3, 1, 2, 5, '2023-05-20 00:00:00','2023-10-30 00:00:00', 'expiry'),
                 (2, 'Expired Item 2', 'Others', 'new', 'golden apple', 2, 3, 1, 2, 5, '2023-07-30 00:00:00','2023-11-02 00:00:00', 'expiry'),
-                (3, 'An apple', 'Others', 'new', 'golden apple', 2, 3, 1, 2, 5, '2023-09-30 00:00:00', '2024-02-11 11:00:00', 'apple banana'),
+                (3, 'An apple11', 'Others', 'new', 'golden apple', 2, 3, 1, 2, 5, '2023-09-30 00:00:00', '2024-02-11 11:00:00', 'apple banana'),
                 (4, 'Sony A7m3', 'Electronics and Technology', 'new', 'new A7m3', 3, 8, 1, 500, 890, '2023-10-01 05:00:00', '2024-03-31 23:00:00', 'Sony'),
                 (5, 'MacBook Pro M3 with M3 Max', 'Electronics and Technology', 'new', 'new', 4, 20, 2, 20000, 7700, '2023-10-01 18:30:00', '2024-04-22 23:00:00', 'Apple'),
                 (6, 'iPhone 17 Pro', 'Electronics and Technology', 'new', 'new', 4, 4, 2, 1000, 1200, '2023-10-03 15:30:00', '2024-01-20 01:00:00', 'Apple'),
@@ -173,7 +173,7 @@ bidId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 itemId INT NOT NULL,
 userId INT NOT NULL,
 bidPrice INT NOT NULL ,
-bidDateTime TIMESTAMP,
+bidDateTime DATETIME NOT NULL,
 FOREIGN KEY (itemId) REFERENCES items(itemId),
 FOREIGN KEY (userId) REFERENCES users(userId)
 )";

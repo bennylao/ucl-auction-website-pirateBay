@@ -208,9 +208,9 @@ if (mysqli_query($conn, $sql)){
 
 // Create the records for the wishList table
 $sql = "INSERT INTO wishList (listId, itemId, userId)
-VALUES (1, 1, 1),
-       (2, 1, 2),
-       (3, 1, 3)";
+VALUES (1, 8, 1),
+       (2, 8, 2),
+       (3, 8, 3)";
 
 if (mysqli_query($conn, $sql)){
     echo "New wishlist records created successfully. ";

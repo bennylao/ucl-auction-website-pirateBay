@@ -77,11 +77,11 @@ if (mysqli_query($conn, $sql)) {
 
 // Create records for users
 $sql = "INSERT INTO users (accountType, userName, password, email, firstName, lastName, address, createDate)
-VALUES ('buyer', 'admin', '$2y$10$4e6ITty1JFx53RnOPaVXH.orr9GSNL6nsg1h2z0CAHxzclN9rFhtG','email','fn','ln','addr','2017-06-05'), 
-       ('seller', 'user1', '$2y$10\$Cej7YR5.IYEpd93WwBWQyO/tgFqn.QDC6La5oiwq.LAkX9R78RHMe','email1','fn1','ln1','addr1','2017-06-05'),
-       ('buyerseller', 'user2', '$2y$10\$xkBU7pYHLKP6ETnXp9R/eOsrHsEmORfTYvq5bqtzkx1RpO4ghDe5y','email2','fn2','ln2','addr2','2017-06-05'),
-       ('seller', 'victor', '$2y$10\$x/oH2Gy1hdAHcoOoO4YNtOLJrCPW8PE25Mmi1tuTiFJ2MKxBdaYYq','victor2263@gmail.com','victor','chan','123 Oxford Street','2023-10-31'),
-       ('buyer', 'buyer2', 'dd','buyer2','John','Chan','321 Euston Road','2023-11-05')";
+        VALUES ('buyer', 'admin', '$2y$10$4e6ITty1JFx53RnOPaVXH.orr9GSNL6nsg1h2z0CAHxzclN9rFhtG','email','fn','ln','addr','2017-06-05'), 
+               ('seller', 'user1', '$2y$10\$Cej7YR5.IYEpd93WwBWQyO/tgFqn.QDC6La5oiwq.LAkX9R78RHMe','email1','fn1','ln1','addr1','2017-06-05'),
+               ('buyerseller', 'user2', '$2y$10\$xkBU7pYHLKP6ETnXp9R/eOsrHsEmORfTYvq5bqtzkx1RpO4ghDe5y','email2','fn2','ln2','addr2','2017-06-05'),
+               ('seller', 'victor', '$2y$10\$x/oH2Gy1hdAHcoOoO4YNtOLJrCPW8PE25Mmi1tuTiFJ2MKxBdaYYq','victor2263@gmail.com','victor','chan','123 Oxford Street','2023-10-31'),
+               ('buyer', 'buyer2', 'dd','buyer2','John','Chan','321 Euston Road','2023-11-05')";
 
 if (mysqli_query($conn, $sql)) {
     echo "New User records created successfully. ";
@@ -101,8 +101,8 @@ numBids INT NOT NULL,
 currentWinner INT,
 startingPrice DECIMAL NOT NULL,
 currentPrice DECIMAL NOT NULL,
-startDateTime TimeSTAMP NOT NULL,
-endDateTime TIMESTAMP NOT NULL,
+startDateTime TIMESTAMP NOT NULL,
+endDateTime TIMESTAMP NULL,
 brand VARCHAR(255),
 FOREIGN KEY (sellerId) REFERENCES users(userId)
 )";
@@ -114,7 +114,7 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Create records for items
-$sql = "INSERT INTO items (itemId, itemTitle, category, conditions, description, sellerId, numBids, currentWinner, 
+$sql = "INSERT INTO items (itemId, itemTitle, category, conditions, description, sellerId, numBids, currentWinner,
                    startingPrice, currentPrice, startDateTime, endDateTime, brand)
         VALUES  (1, 'Expired Item 1', 'Others', 'new', 'golden apple', 2, 3, 1, 2, 5, '2023-05-20 00:00:00','2023-10-30 00:00:00', 'expiry'),
                 (2, 'Expired Item 2', 'Others', 'new', 'golden apple', 2, 3, 1, 2, 5, '2023-07-30 00:00:00','2023-11-02 00:00:00', 'expiry'),
@@ -170,10 +170,12 @@ if (mysqli_query($conn, $sql)) {
 // Create the bid history table
 $sql = "CREATE TABLE bidHistory (
 bidId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-itemId VARCHAR(255) NOT NULL,
+itemId INT NOT NULL,
 userId INT NOT NULL,
 bidPrice INT NOT NULL ,
-bidDateTime TIMESTAMP
+bidDateTime TIMESTAMP,
+FOREIGN KEY (itemId) REFERENCES items(itemId),
+FOREIGN KEY (userId) REFERENCES users(userId)
 )";
 
 if (mysqli_query($conn, $sql)) {
@@ -184,8 +186,8 @@ if (mysqli_query($conn, $sql)) {
 
 // Create records for bidHistory
 $sql = "INSERT INTO bidHistory(bidId, itemId, userId, bidPrice, bidDateTime)
-VALUES (1, 121, 5203, 100, '2020-10-10'),
-       (2, 524, 1231, 420, '2022-12-12')";
+VALUES (1, 1, 1, 100, '2020-10-10'),
+       (2, 1, 3, 420, '2022-12-12')";
 
 if (mysqli_query($conn, $sql)) {
     echo "New bid history records created successfully. ";
@@ -223,7 +225,7 @@ if (mysqli_query($conn, $sql)){
 // Create the table for
 $sql = "CREATE TABLE conditions (
     conditionId INT NOT NULL ,
-    condDescript VARCHAR(255) NOT NULL 
+    condDescript VARCHAR(255) NOT NULL
 )";
 
 if (mysqli_query($conn, $sql)){

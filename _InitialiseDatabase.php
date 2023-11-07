@@ -80,7 +80,8 @@ $sql = "INSERT INTO users (accountType, userName, password, email, firstName, la
 VALUES ('buyer', 'admin', '$2y$10$4e6ITty1JFx53RnOPaVXH.orr9GSNL6nsg1h2z0CAHxzclN9rFhtG','email','fn','ln','addr','2017-06-05'), 
        ('seller', 'user1', '$2y$10\$Cej7YR5.IYEpd93WwBWQyO/tgFqn.QDC6La5oiwq.LAkX9R78RHMe','email1','fn1','ln1','addr1','2017-06-05'),
        ('buyerseller', 'user2', '$2y$10\$xkBU7pYHLKP6ETnXp9R/eOsrHsEmORfTYvq5bqtzkx1RpO4ghDe5y','email2','fn2','ln2','addr2','2017-06-05'),
-       ('seller', 'victor', '$2y$10\$x/oH2Gy1hdAHcoOoO4YNtOLJrCPW8PE25Mmi1tuTiFJ2MKxBdaYYq','victor2263@gmail.com','victor','chan','123 Oxford Street','2023-10-31')";
+       ('seller', 'victor', '$2y$10\$x/oH2Gy1hdAHcoOoO4YNtOLJrCPW8PE25Mmi1tuTiFJ2MKxBdaYYq','victor2263@gmail.com','victor','chan','123 Oxford Street','2023-10-31'),
+       ('buyer', 'buyer2', 'dd','buyer2','John','Chan','321 Euston Road','2023-11-05')";
 
 if (mysqli_query($conn, $sql)) {
     echo "New User records created successfully. ";
@@ -100,6 +101,7 @@ numBids INT NOT NULL,
 currentWinner INT,
 startingPrice DECIMAL NOT NULL,
 currentPrice DECIMAL NOT NULL,
+startDateTime TimeSTAMP NOT NULL,
 endDateTime TIMESTAMP NOT NULL,
 brand VARCHAR(255),
 FOREIGN KEY (sellerId) REFERENCES users(userId)
@@ -113,10 +115,18 @@ if (mysqli_query($conn, $sql)) {
 
 // Create records for items
 $sql = "INSERT INTO items (itemId, itemTitle, category, conditions, description, sellerId, numBids, currentWinner, 
-                   startingPrice, currentPrice, endDateTime, brand)
-        VALUES (1, 'sdf', 'Antiques', 'new', 'new', 2, 3, 422, 200, 210, '2023-10-11', 'aaa'),
-               (2, 'cbd', 'Wine and Spirits', 'new', 'new', 3, 4, 422, 20000, 40000, '2023-10-31 23:00:00', 'sold'),
-               (3, 'MacBook Pro M3 with M3 Max', 'Electronics and Technology', 'new', 'new', 4, 3, 2, 20000, 35975, '2023-12-31 23:00:00', 'apple')";
+                   startingPrice, currentPrice, startDateTime, endDateTime, brand)
+        VALUES  (1, 'Expired Item 1', 'Others', 'new', 'golden apple', 2, 3, 1, 2, 5, '2023-05-20 00:00:00','2023-10-30 00:00:00', 'expiry'),
+                (2, 'Expired Item 2', 'Others', 'new', 'golden apple', 2, 3, 1, 2, 5, '2023-07-30 00:00:00','2023-11-02 00:00:00', 'expiry'),
+                (3, 'An apple', 'Others', 'new', 'golden apple', 2, 3, 1, 2, 5, '2023-09-30 00:00:00', '2024-02-11 11:00:00', 'apple banana'),
+                (4, 'Sony A7m3', 'Electronics and Technology', 'new', 'new A7m3', 3, 8, 1, 500, 890, '2023-10-01 05:00:00', '2024-03-31 23:00:00', 'Sony'),
+                (5, 'MacBook Pro M3 with M3 Max', 'Electronics and Technology', 'new', 'new', 4, 20, 2, 20000, 7700, '2023-10-01 18:30:00', '2024-04-22 23:00:00', 'Apple'),
+                (6, 'iPhone 17 Pro', 'Electronics and Technology', 'new', 'new', 4, 4, 2, 1000, 1200, '2023-10-03 15:30:00', '2024-01-20 01:00:00', 'Apple'),
+                (7, 'Samsung Galaxy S87 Ultra', 'Electronics and Technology', 'new', 'new', 4, 3, 2, 1000, 1050, '2023-10-05 20:30:00', '2024-01-03 17:30:00', 'Samsung'),
+                (8, 'My Brain', 'Others', 'new', 'new', 4, 11, 2, 1000, 1100, '2023-10-05 22:30:00', '2024-03-01 00:00:00', 'Me'),
+                (9, 'iMac', 'Electronics and Technology', 'new', 'new', 2, 10, 2, 5000, 7800, '2023-10-06 00:30:00', '2024-02-01 00:00:00', 'Apple'),
+                (10, 'Apple Vision Pro', 'Electronics and Technology', 'new', 'new', 2, 3, 2, 800, 1050, '2023-10-06 12:30:00', '2024-01-03 00:00:00', 'Apple'),
+                (11, 'UCL Premium Study Space', 'Others', 'new', 'new', 2, 1000, 1, 10, 200, '2023-10-07 12:30:00', '2024-02-04 00:00:00', 'UCL')";
 
 if (mysqli_query($conn, $sql)) {
     echo "New Item records created successfully. ";
@@ -146,7 +156,8 @@ $sql = "INSERT INTO category (cateId, category)
                (7, 'Sports and Memorabilia'),
                (8, 'Wine and Spirits'),
                (9, 'Furniture and Home Decor'),
-               (10, 'Real Estate')";
+               (10, 'Real Estate'),
+               (11, 'Others')";
 
 if (mysqli_query($conn, $sql)) {
     echo "Category options created successfully. ";

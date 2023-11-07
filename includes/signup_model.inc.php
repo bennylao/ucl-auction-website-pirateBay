@@ -28,7 +28,7 @@ function get_email(mysqli $conn, string $email) {
 #Inserts the new user into the Users table within the AuctionDatabase, though it does not create a date as of yet.
 function set_user(mysqli $conn, string $accountType, string $username, string $password, string $firstname, string $lastname, string $email, string $address)
 {
-    $query = "INSERT INTO auctionDatabase.Users(accountType, first_name, last_name, username, email, password, address) VALUES (?, ?, ?, ?, ?, ?, ?);";
+    $query = "INSERT INTO auctionDatabase.Users(accountType, firstName, lastName, userName, email, password, address, createDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $conn->prepare($query);
     if (!$stmt) {
         die("Prepare failed: " . $conn->error);
@@ -37,7 +37,8 @@ function set_user(mysqli $conn, string $accountType, string $username, string $p
     $options = [
         'cost' => 12
     ];
-    $hashedpassword = password_hash($password, PASSWORD_BCRYPT, $options); #Creates a hashed password and adds a cost to calculating it so to slow down hacking attempts.
-    $stmt->bind_param("sssssss", $accountType, $firstname, $lastname, $username, $email, $hashedpassword, $address);
+    $hashed_password = password_hash($password, PASSWORD_BCRYPT, $options); #Creates a hashed password and adds a cost to calculating it so to slow down hacking attempts.
+    $created_date = date("Y-m-d");
+    $stmt->bind_param("ssssssss", $accountType, $firstname, $lastname, $username, $email, $hashed_password, $address, $created_date);
     $stmt->execute();
 }

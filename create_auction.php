@@ -45,16 +45,17 @@ require_once 'includes/create_auction_view.inc.php';
           <div class="col-sm-10">
             <select class="form-control" id="auctionCategory" name="auctionCategory">
               <option selected>Choose...</option>
-              <option value="ArtAndCollectibles"> Art and Collectibles </option>
+              <option value="Art And Collectibles"> Art and Collectibles </option>
               <option value="Antiques"> Antiques </option>
-              <option value="AutomobilesAndVehicles"> Automobiles and Vehicles </option>
-                <option value="JewelryAndWatches"> Jewelry and Watches </option>
-                <option value="ElectronicsAndTechnology"> Electronics and Technology </option>
-                <option value="FashionAndApparel"> Fashion and Apparel </option>
-                <option value="SportsAndMemorabilia"> Sports and Memorabilia </option>
-                <option value="WineAndSpirits"> Wine and Spirits </option>
-                <option value="Furniture and Home Decor"> Furniture and Home Decor </option>
-                <option value="RealEstate"> Real Estate </option>
+              <option value="Automobiles And Vehicles"> Automobiles and Vehicles </option>
+                <option value="Jewelry And Watches"> Jewelry and Watches </option>
+                <option value="Electronics And Technology"> Electronics and Technology </option>
+                <option value="Fashion And Apparel"> Fashion and Apparel </option>
+                <option value="Sports And Memorabilia"> Sports and Memorabilia </option>
+                <option value="Wine And Spirits"> Wine and Spirits </option>
+                <option value="Furniture And HomeDecor"> Furniture and Home Decor </option>
+                <option value="Real Estate"> Real Estate </option>
+                <option value="Others"> Others </option>
             </select>
             <small id="categoryHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Select a category for this item.</small>
           </div>

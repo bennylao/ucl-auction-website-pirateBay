@@ -68,7 +68,7 @@ require_once 'includes/create_auction_view.inc.php';
                         <option value="slightlyUsed"> Slightly Used </option>
                         <option value="certifiedRefurbished"> Certified Refurbished </option>
                         <option value="used"> Used </option>
-                        <option value="forParts"> For parts or Not Working </option>
+                        <option value="forParts"> For Parts or Not Working </option>
                     </select>
                     <small id="conditionHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Select a condition for this item.</small>
                 </div>

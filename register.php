@@ -102,7 +102,6 @@ require_once 'includes/signup_view.inc.php';
 
 <?php include_once("footer.php"); ?>
 
-<script src="bootstrap/jquery.min.js"></script>
-<script src="bootstrap/bootstrap.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>

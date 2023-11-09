@@ -5,7 +5,6 @@
 // options.
 
 
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $auctionTitle = isset($_POST["auctionTitle"]) ? $_POST["auctionTitle"] : null;
@@ -17,11 +16,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $auctionEndDate = isset($_POST["auctionEndDate"]) ? $_POST["auctionEndDate"] : null;
 
 
-
     try {
         $conn = connect_to_database();
-        require_once getcwd()."/includes/signup_model.inc.php";
-        require_once getcwd()."/includes/signup_contr.inc.php";
+        require_once getcwd() . "/includes/signup_model.inc.php";
+        require_once getcwd() . "/includes/signup_contr.inc.php";
 
         // ERROR HANDLERS
         $errors = [];
@@ -38,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             die();
         }
         create_auction($conn, $auctionTitle, $userid, $auctionDetails, $auctionCategory, $condition, $auctionStartPrice, $auctionReservePrice, $auctionEndDate);
-    #    header("Location: ../index.php?signup=success"); - will need to alter this to a 'create_auction_success option
+        #    header("Location: ../index.php?signup=success"); - will need to alter this to a 'create_auction_success option
         mysqli_close($conn);
 
 
@@ -50,4 +48,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     die();
 }
 ?>
-

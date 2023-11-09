@@ -1,7 +1,7 @@
 <?php
 
 ini_set('session.use_only_cookies', 1);
-ini_set('session.use_only_strict_mode',1);
+ini_set('session.use_only_strict_mode', 1);
 
 session_set_cookie_params([
     'lifetime' => 1800,
@@ -22,7 +22,8 @@ if (!isset($_SESSION["last_regeneration"])) {
 }
 
 
-function regenerate_session_id(){
+function regenerate_session_id()
+{
     session_regenerate_id();
     $_SESSION["last_regeneration"] = time();
 }
@@ -33,21 +34,24 @@ function regenerate_session_id(){
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  
-    <!-- Bootstrap and FontAwesome CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Custom CSS file -->
-    <link rel="stylesheet" href="css/custom.css">
-    <title>
-    <?php
-    if (isset($title)) {echo $title;}
-    else {echo "Auction";}
-    ?>
-    </title>
+  <!-- Bootstrap and FontAwesome CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- Custom CSS file -->
+  <link rel="stylesheet" href="css/custom.css">
+  <title>
+      <?php
+      if (isset($title)) {
+          echo $title;
+      } else {
+          echo "Auction";
+      }
+      ?>
+  </title>
 </head>
 
 
@@ -58,29 +62,28 @@ function regenerate_session_id(){
   <a class="navbar-brand" href="browse.php">Site Name</a>
   <ul class="navbar-nav ml-auto">
     <li class="nav-item">
-    
-<?php
-  // Displays either login or logout on the right, depending on user's
-  // current status (session).
-  if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
-    echo '<a class="nav-link" href="logout.php">Logout</a>';
-  }
-  else {
-    echo '<button type="button" class="btn nav-link" data-toggle="modal" data-target="#loginModal">Login</button>';
-  }
-?>
+
+        <?php
+        // Displays either login or logout on the right, depending on user's
+        // current status (session).
+        if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
+            echo '<a class="nav-link" href="logout.php">Logout</a>';
+        } else {
+            echo '<button type="button" class="btn nav-link" data-toggle="modal" data-target="#loginModal">Login</button>';
+        }
+        ?>
 
     </li>
   </ul>
 </nav>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <ul class="navbar-nav align-middle">
-	<li class="nav-item mx-1">
+    <li class="nav-item mx-1">
       <a class="nav-link" href="browse.php">Browse</a>
     </li>
-<?php
-  if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'buyer') {   //this is buyer type account
-  echo('
+      <?php
+      if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'buyer') {   //this is buyer type account
+          echo('
 	<li class="nav-item mx-1">
       <a class="nav-link" href="mybids.php">My Bids</a>
     </li>
@@ -90,17 +93,17 @@ function regenerate_session_id(){
     <li class="nav-item mx-1">
       <a class="nav-link" href="wishlist.php">Wishlist</a>
     </li>');
-  }
-  if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller') {  //this is seller type account
-      echo('
+      }
+      if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller') {  //this is seller type account
+          echo('
 	<li class="nav-item mx-1">
       <a class="nav-link" href="mylistings.php">My Listings</a>
     </li>
 	<li class="nav-item ml-3">
       <a class="nav-link btn border-light" href="create_auction.php">+ Create auction</a>
     </li>');
-  }
-  if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'buyerseller') {   //this is buyerseller type account
+      }
+      if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'buyerseller') {   //this is buyerseller type account
           echo('
 	<li class="nav-item mx-1">
       <a class="nav-link" href="mybids.php">My Bids</a>
@@ -117,8 +120,8 @@ function regenerate_session_id(){
 	<li class="nav-item ml-3">
       <a class="nav-link btn border-light" href="create_auction.php">+ Create auction</a>
     </li>');
-  }
-?>
+      }
+      ?>
   </ul>
 </nav>
 

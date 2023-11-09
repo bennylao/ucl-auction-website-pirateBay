@@ -20,7 +20,7 @@
 
 /* TODO #3: If everything looks good, make the appropriate call to insert
             data into the database. */
-            
+
 
 // If all is successful, let user know.
 /*echo('<div class="text-center">Auction successfully created! <a href="FIXME">View your new listing.</a></div>');

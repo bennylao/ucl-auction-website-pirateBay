@@ -5,7 +5,6 @@ require_once "config_database.php";
 // options.
 
 
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $accountType = isset($_POST["accountType"]) ? $_POST["accountType"] : null;
@@ -19,8 +18,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     try {
         $conn = connect_to_database();
-        require_once getcwd()."/includes/signup_model.inc.php";
-        require_once getcwd()."/includes/signup_contr.inc.php";
+        require_once getcwd() . "/includes/signup_model.inc.php";
+        require_once getcwd() . "/includes/signup_contr.inc.php";
 
         // ERROR HANDLERS
         $errors = [];

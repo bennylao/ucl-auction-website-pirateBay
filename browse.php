@@ -186,8 +186,7 @@ $count_item_query = "SELECT COUNT(*) FROM items
         <?php
 
         // Create database connection
-        $connection = connect_to_database()
-        or die('Error connecting to MySQL server.' . mysqli_connect_error());
+        $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
 
         // SQL to fetch data
         $result = mysqli_query($connection, $item_query);
@@ -285,11 +284,24 @@ $count_item_query = "SELECT COUNT(*) FROM items
         <div class="col-auto ml-auto">
           <form class="form-inline" method="GET" action="browse.php">
             <label for="items_per_page" class="mb-2 mr-2">Showing</label>
-            <select class="custom-select mb-2 mr-2" id="items_per_page" name="items_per_page" onchange="this.form.submit()">
-              <option value="5" <?php if (isset($_GET['items_per_page']) && $_GET['items_per_page'] == "5") echo "selected"; ?>>5</option>
-              <option value="10" <?php if (isset($_GET['items_per_page']) && $_GET['items_per_page'] == "10") echo "selected"; ?>>10</option>
-              <option value="25" <?php if (isset($_GET['items_per_page']) && $_GET['items_per_page'] == "25") echo "selected"; ?>>25</option>
-              <option value="50" <?php if (isset($_GET['items_per_page']) && $_GET['items_per_page'] == "50") echo "selected"; ?>>50</option>
+            <select class="custom-select mb-2 mr-2" id="items_per_page" name="items_per_page"
+                    onchange="this.form.submit()">
+              <option
+                  value="5" <?php if (isset($_GET['items_per_page']) && $_GET['items_per_page'] == "5") echo "selected"; ?>>
+                5
+              </option>
+              <option
+                  value="10" <?php if (isset($_GET['items_per_page']) && $_GET['items_per_page'] == "10") echo "selected"; ?>>
+                10
+              </option>
+              <option
+                  value="25" <?php if (isset($_GET['items_per_page']) && $_GET['items_per_page'] == "25") echo "selected"; ?>>
+                25
+              </option>
+              <option
+                  value="50" <?php if (isset($_GET['items_per_page']) && $_GET['items_per_page'] == "50") echo "selected"; ?>>
+                50
+              </option>
             </select>
             <label for="items_per_page" class="mb-2 mr-2">items per page</label>
           </form>

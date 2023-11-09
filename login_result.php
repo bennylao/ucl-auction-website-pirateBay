@@ -1,5 +1,5 @@
 <?php
-require_once ("config_database.php");
+require_once("config_database.php");
 /*
 // TODO: Extract $_POST variables, check they're OK, and attempt to login.
 */
@@ -11,12 +11,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 $conn = connect_to_database();
-if (mysqli_connect_errno()){
+if (mysqli_connect_errno()) {
     exit('Failed to connect to MySQL: ' . mysqli_connect_error());
 }
 
 // Check if data from login form is submitted
-if ($_SERVER["REQUEST_METHOD"] === "POST"){
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 }

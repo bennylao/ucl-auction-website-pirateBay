@@ -29,7 +29,7 @@ $sql = "CREATE DATABASE auctionDataBase";
 if (mysqli_query($conn, $sql)) {
     echo "Database created successfully. ";
 } else {
-    echo "Error creating database: ". mysqli_error($conn);
+    echo "Error creating database: " . mysqli_error($conn);
 }
 mysqli_close($conn);
 
@@ -72,7 +72,7 @@ createDate date)";
 if (mysqli_query($conn, $sql)) {
     echo "Table User created successfully. ";
 } else {
-    echo "Error creating table User: ". mysqli_error($conn);
+    echo "Error creating table User: " . mysqli_error($conn);
 }
 
 // Create records for users
@@ -116,7 +116,7 @@ FOREIGN KEY (sellerId) REFERENCES users(userId)
 if (mysqli_query($conn, $sql)) {
     echo "Table Item created successfully. ";
 } else {
-    echo "Error creating table Item: ". mysqli_error($conn);
+    echo "Error creating table Item: " . mysqli_error($conn);
 }
 
 // Create records for items
@@ -210,10 +210,10 @@ $sql = "CREATE TABLE wishList (
     FOREIGN KEY (userId) REFERENCES users(userId)
 )";
 
-if (mysqli_query($conn, $sql)){
+if (mysqli_query($conn, $sql)) {
     echo "Table wishlist created successfully. ";
-}else{
-    echo "Error: ".$sql."<br>".mysqli_error($conn);
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
 
 // Create the records for the wishList table
@@ -222,9 +222,9 @@ VALUES (1, 8, 1),
        (2, 8, 2),
        (3, 8, 3)";
 
-if (mysqli_query($conn, $sql)){
+if (mysqli_query($conn, $sql)) {
     echo "New wishlist records created successfully. ";
-}else {
+} else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
 
@@ -234,10 +234,10 @@ $sql = "CREATE TABLE conditions (
     condDescript VARCHAR(255) NOT NULL
 )";
 
-if (mysqli_query($conn, $sql)){
+if (mysqli_query($conn, $sql)) {
     echo "Table conditions created successfully. ";
 } else {
-    echo "Error: ".$sql."<br>".mysqli_error($conn);
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
 
 // Create records for the conditions table

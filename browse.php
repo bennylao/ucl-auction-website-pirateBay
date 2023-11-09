@@ -19,6 +19,11 @@ require_once("config_database.php")
                 <label class="input-group-text" for="search_keyword"><i class="fa fa-search"></i></label>
               </div>
               <input type="text" id="search_keyword" name="search_keyword" class="form-control border-left-0"
+                     title="
+Use '&' to search for items that match all the keywords.
+e.g. 'Apple&Mac'
+Use '|' to search for items that match any of the keywords.
+e.g. 'Apple|Samsung'"
                      placeholder="Search for anything" <?php if (isset($_GET['search_keyword'])) echo "value=" . $_GET['search_keyword']; ?>>
             </div>
 

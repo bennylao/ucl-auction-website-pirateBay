@@ -236,7 +236,7 @@ if (mysqli_query($conn, $sql)) {
 
 // Create the table for
 $sql = "CREATE TABLE conditions (
-    conditionId INT NOT NULL ,
+    conditionId INT NOT NULL PRIMARY KEY ,
     condDescript VARCHAR(255) NOT NULL
 )";
 
@@ -253,6 +253,12 @@ VALUES (1, 'Brand new'),
        (3, 'Very good'),
        (4, 'Good'),
        (5, 'Acceptable')";
+
+if (mysqli_query($conn, $sql)) {
+    echo "New conditions records created successfully. ";
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
 
 mysqli_close($conn);
 ?>

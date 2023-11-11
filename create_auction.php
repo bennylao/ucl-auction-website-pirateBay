@@ -93,12 +93,21 @@ require_once 'includes/create_auction_view.inc.php';
                 <label for="auctionConditions" class="col-sm-2 col-form-label text-right">Condition</label>
                 <div class="col-sm-10">
                   <select class="form-control" id="condition" name="conditions">
-                    <option selected>Choose...</option>
-                    <option value="new"> New</option>
-                    <option value="slightlyUsed"> Slightly Used</option>
-                    <option value="certifiedRefurbished"> Certified Refurbished</option>
-                    <option value="used"> Used</option>
-                    <option value="forParts"> For Parts or Not Working</option>
+                      <option <?php if (isset($_GET['conditions']) && $_GET['conditions'] == "Brand new") echo "selected"; ?>
+                              value="Brand new"> Brand new
+                      </option>
+                      <option <?php if (isset($_GET['conditions']) && $_GET['conditions'] == "Like new") echo "selected"; ?>
+                              value="Like new">Like new
+                      </option>
+                      <option <?php if (isset($_GET['conditions']) && $_GET['conditions'] == "Very good") echo "selected"; ?>
+                              value="Very good">Very good
+                      </option>
+                      <option <?php if (isset($_GET['conditions']) && $_GET['conditions'] == "Good") echo "selected"; ?>
+                              value="Good">Good
+                      </option>
+                      <option <?php if (isset($_GET['conditions']) && $_GET['conditions'] == "Acceptable") echo "selected"; ?>
+                              value="Acceptable">Acceptable
+                      </option>
                   </select>
                   <small id="conditionHelp" class="form-text text-muted"><span class="text-danger">* Required.</span>
                     Select a condition for this item.</small>

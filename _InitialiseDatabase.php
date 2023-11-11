@@ -123,19 +123,19 @@ if (mysqli_query($conn, $sql)) {
 // Create records for items
 $sql = "INSERT INTO items (itemId, itemTitle, category, conditions, description, sellerId, numBids, currentWinner,
                    startingPrice, currentPrice, startDateTime, endDateTime, brand)
-        VALUES  (1, 'Expired Item 1', 'Others', 'New', 'This is an expired item1', 2, 3, 1, 2, 5, '2023-05-20 00:00:00','2023-10-30 00:00:00', 'expiry1'),
-                (2, 'Expired Item 2', 'Others', 'Used', 'This is an expired item2', 2, 3, 1, 2, 5, '2023-07-30 00:00:00','2023-11-02 00:00:00', 'expiry2'),
-                (3, 'An apple', 'Others', 'New', 'golden apple', 2, 3, 1, 2, 5, '2023-09-30 00:00:00', '2024-02-11 11:00:00', 'apple banana'),
-                (4, 'Sony A7m3 with 16-35 f2.8', 'Electronics and Technology', 'New', 'Sony A7m3 with 16-35 f2.8 in good condition. Bought in 2022', 3, 8, 1, 500, 890, '2023-10-01 05:00:00', '2024-03-31 23:00:00', 'Sony'),
-                (5, 'MacBook Pro 16 inch M3 Max', 'Electronics and Technology', 'New', 'A brand new Macbook Pro 16 inch with M3 Max', 4, 20, 2, 20000, 7700, '2023-10-01 18:30:00', '2024-04-22 23:00:00', 'Apple'),
+        VALUES  (1, 'Expired Item 1', 'Others', 'New', 'This is an expired item1', 5, 3, 6, 2, 5, '2023-05-20 00:00:00','2023-10-30 00:00:00', 'expiry1'),
+                (2, 'Expired Item 2', 'Others', 'Used', 'This is an expired item2', 2, 3, 6, 2, 5, '2023-07-30 00:00:00','2023-11-02 00:00:00', 'expiry2'),
+                (3, 'An apple', 'Others', 'New', 'golden apple', 2, 3, 6, 2, 5, '2023-09-30 00:00:00', '2024-02-11 11:00:00', 'apple banana'),
+                (4, 'Sony A7m3 with 16-35 f2.8', 'Electronics and Technology', 'New', 'Sony A7m3 with 16-35 f2.8 in good condition. Bought in 2022', 6, 8, 6, 500, 890, '2023-10-01 05:00:00', '2024-03-31 23:00:00', 'Sony'),
+                (5, 'MacBook Pro 16 inch M3 Max', 'Electronics and Technology', 'New', 'A brand new Macbook Pro 16 inch with M3 Max', 4, 20, 2, 1500, 2200, '2023-10-01 18:30:00', '2024-04-22 23:00:00', 'Apple'),
                 (6, 'iPhone 17 Pro', 'Electronics and Technology', 'New', 'Can play Fortnite', 4, 4, 2, 1000, 1200, '2023-10-03 15:30:00', '2024-01-20 01:00:00', 'Apple'),
                 (7, 'Samsung Galaxy S87 Ultra', 'Electronics and Technology', 'Slightly Used', 'Can play GTAVI', 4, 3, 2, 1000, 1050, '2023-10-05 20:30:00', '2024-01-03 17:30:00', 'Samsung'),
                 (8, 'My Brain', 'Others', 'For Parts or Not Working', 'This is my brain', 4, 11, 2, 1000, 1100, '2023-10-05 22:30:00', '2024-03-01 00:00:00', 'Me'),
                 (9, 'iMac', 'Electronics and Technology', 'Certified Refurbished', 'Intel Mac not good', 2, 10, 2, 5000, 7800, '2023-10-06 00:30:00', '2024-02-01 00:00:00', 'Apple'),
                 (10, 'Apple Vision Pro', 'Electronics and Technology', 'New', 'Waste of your money', 2, 3, 2, 800, 1050, '2023-10-06 12:30:00', '2024-01-03 00:00:00', 'Apple'),
-                (11, 'UCL Premium Study Space', 'Others', 'New', 'overpriced honestly', 2, 1000, 1, 10, 200, '2023-10-07 12:30:00', '2024-02-04 00:00:00', 'UCL'),
-                (12, 'iPad Pro 12.9', 'Electronics and Technology', 'Slightly Used', 'just buy macbook', 2, 15, 2, 400, 780, '2023-10-07 21:30:00', '2024-01-30 00:00:00', 'Apple'),
-                (13, 'AirPods', 'Electronics and Technology', 'New', 'It is not too bad', 2, 4, 2, 50, 80, '2023-10-08 00:30:00', '2024-02-10 00:00:00', 'Apple')";
+                (11, 'UCL Premium Study Space', 'Others', 'New', 'overpriced honestly', 2, 1000, 3, 10, 200, '2023-10-07 12:30:00', '2024-02-04 00:00:00', 'UCL'),
+                (12, 'iPad Pro 12.9', 'Electronics and Technology', 'Slightly Used', 'just buy macbook', 2, 15, 7, 400, 780, '2023-10-07 21:30:00', '2024-01-30 00:00:00', 'Apple'),
+                (13, 'AirPods', 'Electronics and Technology', 'New', 'It is not too bad', 2, 4, 3, 50, 80, '2023-10-08 00:30:00', '2024-02-10 00:00:00', 'Apple')";
 
 if (mysqli_query($conn, $sql)) {
     echo "New Item records created successfully. ";
@@ -193,8 +193,9 @@ if (mysqli_query($conn, $sql)) {
 
 // Create records for bidHistory
 $sql = "INSERT INTO bidHistory(bidId, itemId, userId, bidPrice, bidDateTime)
-VALUES (1, 1, 1, 100, '2020-10-10'),
-       (2, 1, 3, 420, '2022-12-12')";
+VALUES (1, 5, 2, 100, '2020-10-10 12:30:00'),
+       (2, 5, 3, 420, '2022-12-12 15:30:00'),
+       (3, 3, 6, 5, '2023-10-01 18:30:00')";
 
 if (mysqli_query($conn, $sql)) {
     echo "New bid history records created successfully. ";
@@ -219,9 +220,13 @@ if (mysqli_query($conn, $sql)) {
 
 // Create the records for the wishList table
 $sql = "INSERT INTO wishList (listId, itemId, userId)
-VALUES (1, 8, 1),
-       (2, 8, 2),
-       (3, 8, 3)";
+VALUES (1, 5, 2),
+       (2, 5, 3),
+       (3, 5, 6),
+       (4, 5, 7),
+       (5, 5, 8),
+       (6, 5, 9),
+       (7, 5, 10)";
 
 if (mysqli_query($conn, $sql)) {
     echo "New wishlist records created successfully. ";

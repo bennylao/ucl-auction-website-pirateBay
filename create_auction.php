@@ -47,18 +47,44 @@ require_once 'includes/create_auction_view.inc.php';
               <label for="auctionCategory" class="col-sm-2 col-form-label text-right">Category</label>
               <div class="col-sm-10">
                 <select class="form-control" id="auctionCategory" name="auctionCategory">
-                  <option selected>Choose...</option>
-                  <option value="Art And Collectibles"> Art and Collectibles</option>
-                  <option value="Antiques"> Antiques</option>
-                  <option value="Automobiles And Vehicles"> Automobiles and Vehicles</option>
-                  <option value="Jewelry And Watches"> Jewelry and Watches</option>
-                  <option value="Electronics And Technology"> Electronics and Technology</option>
-                  <option value="Fashion And Apparel"> Fashion and Apparel</option>
-                  <option value="Sports And Memorabilia"> Sports and Memorabilia</option>
-                  <option value="Wine And Spirits"> Wine and Spirits</option>
-                  <option value="Furniture And HomeDecor"> Furniture and Home Decor</option>
-                  <option value="Real Estate"> Real Estate</option>
-                  <option value="Others"> Others</option>
+                    <option <?php if (isset($_GET['category']) && $_GET['category'] == "All") echo "selected"; ?> value="All">
+                        All categories
+                    </option>
+                    <option <?php if (isset($_GET['category']) && $_GET['category'] == "Art And Collectibles") echo "selected"; ?>
+                            value="Art And Collectibles"> Art and Collectibles
+                    </option>
+                    <option <?php if (isset($_GET['category']) && $_GET['category'] == "Antiques") echo "selected"; ?>
+                            value="Antiques"> Antiques
+                    </option>
+                    <option <?php if (isset($_GET['category']) && $_GET['category'] == "Automobiles And Vehicles") echo "selected"; ?>
+                            value="Automobiles And Vehicles"> Automobiles and Vehicles
+                    </option>
+                    <option <?php if (isset($_GET['category']) && $_GET['category'] == "Jewelry And Watches") {
+                        echo "selected='selected'";
+                    } ?> value="Jewelry And Watches"> Jewelry and Watches
+                    </option>
+                    <option <?php if (isset($_GET['category']) && $_GET['category'] == "Electronics And Technology") {
+                        echo "selected='selected'";
+                    } ?> value="Electronics And Technology"> Electronics and Technology
+                    </option>
+                    <option <?php if (isset($_GET['category']) && $_GET['category'] == "Fashion And Apparel") echo "selected"; ?>
+                            value="Fashion And Apparel"> Fashion and Apparel
+                    </option>
+                    <option <?php if (isset($_GET['category']) && $_GET['category'] == "Sports And Memorabilia") echo "selected"; ?>
+                            value="Sports And Memorabilia"> Sports and Memorabilia
+                    </option>
+                    <option <?php if (isset($_GET['category']) && $_GET['category'] == "Wine And Spirits") echo "selected"; ?>
+                            value="Wine And Spirits"> Wine and Spirits
+                    </option>
+                    <option <?php if (isset($_GET['category']) && $_GET['category'] == "Furniture And HomeDecor") echo "selected"; ?>
+                            value="Furniture And HomeDecor"> Furniture and Home Decor
+                    </option>
+                    <option <?php if (isset($_GET['category']) && $_GET['category'] == "Real Estate") echo "selected"; ?>
+                            value="Real Estate"> Real Estate
+                    </option>
+                    <option <?php if (isset($_GET['category']) && $_GET['category'] == "Others") echo "selected"; ?>
+                            value="Others"> Others
+                    </option>
                 </select>
                 <small id="categoryHelp" class="form-text text-muted"><span class="text-danger">* Required.</span>
                   Select a category for this item.</small>

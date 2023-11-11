@@ -1,7 +1,9 @@
 <?php
 $title = "item";
-include_once("header.php") ?>
-<?php require("utilities.php") ?>
+include_once("header.php");
+require("utilities.php");
+require_once("config_database.php")
+?>
 
 <?php
 // Get info from the URL:
@@ -9,12 +11,26 @@ $item_id = $_GET['item_id'];
 
 // TODO: Use item_id to make a query to the database.
 
-// DELETEME: For now, using placeholder data.
-$title = "Placeholder title";
-$description = "Description blah blah blah";
-$current_price = 30.50;
-$num_bids = 1;
-$end_time = new DateTime('2020-11-02T00:00:00');
+$connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
+
+// SQL to fetch data
+$query = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.currentPrice,
+       i.numBids, i.endDateTime
+    FROM items i
+    WHERE i.itemId = $item_id";
+
+$result = mysqli_query($connection, $query);
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $title = $row["itemTitle"];
+        $description = $row["description"];
+        $current_price = $row["currentPrice"];
+        $num_bids = $row["numBids"];
+        $end_time = new DateTime($row["endDateTime"]);
+    }
+}else {
+    echo "No results found.";}
 
 // TODO: Note: Auctions that have ended may pull a different set of data,
 //       like whether the auction ended in a sale or was cancelled due
@@ -33,6 +49,8 @@ if ($now < $end_time) {
 //       For now, this is hardcoded.
 $has_session = true;
 $watching = false;
+
+mysqli_close($connection);
 ?>
 
 
@@ -65,8 +83,9 @@ $watching = false;
     <div class="col-sm-8"> <!-- Left col with item info -->
 
       <div class="itemDescription">
-          <?php echo($description); ?>
+          <?php echo $description ; ?>
       </div>
+
 
     </div>
 
@@ -79,6 +98,7 @@ $watching = false;
           <?php else: ?>
         Auction ends <?php echo(date_format($end_time, 'j M H:i') . $time_remaining) ?></p>
       <p class="lead">Current bid: £<?php echo(number_format($current_price, 2)) ?></p>
+        <p class="lead">Total bids: £<?php echo(number_format($num_bids)) ?></p>
 
       <!-- Bidding form -->
       <form method="POST" action="place_bid.php">

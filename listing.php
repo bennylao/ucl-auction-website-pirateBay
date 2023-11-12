@@ -7,7 +7,8 @@ require_once("config_database.php")
 
 
 <?php
-require_once "create_auction_result.php";
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 // Get info from the URL:
 $item_id = $_GET['item_id'];
 

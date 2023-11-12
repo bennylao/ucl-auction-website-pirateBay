@@ -1,16 +1,26 @@
 <?php
+<<<<<<< Updated upstream
 $title = "item";
 include_once("header.php");
 require("utilities.php");
 require_once("config_database.php")
 ?>
+=======
+$title = "Title";
+include_once("header.php") ?>
+<?php require("utilities.php") ?>
+>>>>>>> Stashed changes
+
 
 <?php
+require_once "create_auction_result.php";
 // Get info from the URL:
 $item_id = $_GET['item_id'];
 
 // TODO: Use item_id to make a query to the database.
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+<<<<<<< Updated upstream
 $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
 
 // SQL to fetch data
@@ -31,6 +41,24 @@ if ($result->num_rows > 0) {
     }
 }else {
     echo "No results found.";}
+=======
+// Retrieve the values from the form
+    $auctionTitle = $_POST['auctionTitle'];
+    $auctionBrand = $_POST['auctionBrand'];
+    $auctionDetails = $_POST['auctionDetails'];
+    $auctionCategory = $_POST['auctionCategory'];
+    $conditions = $_POST['conditions'];
+    $auctionStartPrice = $_POST['auctionStartPrice'];
+    $auctionReservePrice = $_POST['auctionReservePrice'];
+    $auctionEndDate = $_POST['auctionEndDate'];
+}
+
+$title = $auctionTitle;
+$description = $auctionDetails;
+$current_price = $auctionStartPrice;
+$num_bids = 2;
+$end_time = $auctionEndDate;
+>>>>>>> Stashed changes
 
 // TODO: Note: Auctions that have ended may pull a different set of data,
 //       like whether the auction ended in a sale or was cancelled due

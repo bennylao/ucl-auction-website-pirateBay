@@ -18,8 +18,8 @@ $item_id = $_GET['item_id'];
     $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
 
 // SQL to fetch data
-    $query = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.currentPrice,
-       i.numBids, i.endDateTime
+    $query = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.currentPrice,
+       i.numBids, i.endDateTime, i.reservedPrice
     FROM items i
     WHERE i.itemId = $item_id";
 
@@ -29,9 +29,11 @@ $item_id = $_GET['item_id'];
         while ($row = $result->fetch_assoc()) {
             $title = $row["itemTitle"];
             $description = $row["description"];
+            $starting_price = $row["startingPrice"];
             $current_price = $row["currentPrice"];
             $num_bids = $row["numBids"];
             $end_time = new DateTime($row["endDateTime"]);
+            $reserve_price = $row["reservedPrice"];
         }
     }
     else {
@@ -105,7 +107,9 @@ mysqli_close($connection);
             <!-- TODO: Print the result of the auction here? -->
           <?php else: ?>
         Auction ends <?php echo(date_format($end_time, 'j M H:i') . $time_remaining) ?></p>
-      <p class="lead">Current bid: £<?php echo(number_format($current_price, 2)) ?></p>
+        <p class="lead">Starting price: £<?php echo(number_format($starting_price, 2))?></p>
+        <p class="lead">Reserve price: £<?php echo(number_format($reserve_price, 2))?></p>
+      <p class="lead">Current bid: £<?php echo(number_format($current_price, 2)) ?></>
       <p class="lead">Total bids: <?php echo(number_format($num_bids)) ?></p>
 
       <!-- Bidding form -->

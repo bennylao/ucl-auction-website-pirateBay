@@ -108,7 +108,6 @@ mysqli_close($connection);
           <?php else: ?>
         Auction ends <?php echo(date_format($end_time, 'j M H:i') . $time_remaining) ?></p>
         <p class="lead">Starting price: £<?php echo(number_format($starting_price, 2))?></p>
-        <p class="lead">Reserve price: £<?php echo(number_format($reserve_price, 2))?></p>
       <p class="lead">Current bid: £<?php echo(number_format($current_price, 2)) ?></>
       <p class="lead">Total bids: <?php echo(number_format($num_bids)) ?></p>
 

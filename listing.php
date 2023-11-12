@@ -18,9 +18,10 @@ $item_id = $_GET['item_id'];
     $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
 
 // SQL to fetch data
-    $query = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.currentPrice,
-       i.numBids, i.endDateTime, i.reservedPrice
+    $query = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.startingPrice,
+       i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice
     FROM items i
+         LEFT JOIN bidHistory b ON i.itemId = b.itemId
     WHERE i.itemId = $item_id";
 
     $result = mysqli_query($connection, $query);
@@ -30,14 +31,15 @@ $item_id = $_GET['item_id'];
             $title = $row["itemTitle"];
             $description = $row["description"];
             $starting_price = $row["startingPrice"];
-            $current_price = $row["currentPrice"];
-            $num_bids = $row["numBids"];
+            $current_price = ($row["MAX(b.bidPrice)"] !== null) ? $row["MAX(b.bidPrice)"]: 0;
+            $num_bids = $row["COUNT(b.itemId)"];
             $end_time = new DateTime($row["endDateTime"]);
             $reserve_price = $row["reservedPrice"];
         }
     }
     else {
-        echo "No results found.";}
+        echo "No results found.";
+    }
 
 // Retrieve the values from the form
 

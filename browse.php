@@ -161,18 +161,20 @@ $offset = (($curr_page - 1) * $items_per_page);
 /* TODO: Use above values to construct a query. Use this query to
      retrieve data from the database. (If there is no form data entered,
      decide on appropriate default value/default query to make. */
-$item_query = "SELECT itemId, itemTitle, category, description, currentPrice, numBids, endDateTime FROM items 
-            WHERE (itemTitle LIKE '$keyword' or category LIKE '$keyword' or description LIKE '$keyword' or brand LIKE '$keyword') 
-            AND endDateTime > NOW()
+$item_query = "SELECT i.itemId, i.itemTitle, i.category, i.description, MAX(b.bidPrice), COUNT(b.itemId), i.startingPrice, i.endDateTime
+                FROM items i LEFT JOIN bidHistory b ON i.itemId = b.itemId
+            WHERE (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword')
+              GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
+            AND i.endDateTime > NOW()
             $category_query
-            ORDER BY  $ordering, itemTitle
+            ORDER BY  $ordering, i.itemTitle
             LIMIT $items_per_page OFFSET $offset;";
 
-$count_item_query = "SELECT COUNT(*) FROM items 
-            WHERE (itemTitle LIKE '$keyword' or category LIKE '$keyword' or description LIKE '$keyword' or brand LIKE '$keyword') 
-            AND items.endDateTime > NOW()
+$count_item_query = "SELECT COUNT(*) FROM items i 
+            WHERE (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword') 
+            AND i.endDateTime > NOW()
             $category_query
-            ORDER BY  $ordering, itemTitle;";
+            ORDER BY  $ordering, i.itemTitle;";
 /* For the purposes of pagination, it would also be helpful to know the
      total number of results that satisfy the above query */
 
@@ -215,8 +217,8 @@ $count_item_query = "SELECT COUNT(*) FROM items
                 $itemTitle = $row["itemTitle"];
                 $category = $row["category"];
                 $description = $row["description"];
-                $currentPrice = $row["currentPrice"];
-                $numBids = $row["numBids"];
+                $currentPrice = ($row["MAX(b.bidPrice)"] !== null) ? $row["MAX(b.bidPrice)"]: $row["startingPrice"];
+                $numBids = $row["COUNT(b.itemId)"];
                 $endDateTime = new DateTime($row["endDateTime"]);
                 // This uses a function defined in utilities.php
                 print_listing_li($itemId, $itemTitle, $category, $description, $currentPrice, $numBids, $endDateTime);

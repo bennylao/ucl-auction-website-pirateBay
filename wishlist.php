@@ -115,11 +115,15 @@ $max_page = ceil($num_results / $results_per_page);
 
 
         // SQL to fetch data
-        $query = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.currentPrice,
-       i.numBids, i.endDateTime 
-    FROM items i, wishList w 
-    WHERE w.itemId = i.itemId
-    AND w.userId = '$currentUserId'";
+        $query = "SELECT i.itemId, i.itemTitle, i.category, i.description, MAX(b.bidPrice), COUNT(b.itemId),
+                            i.startingPrice, i.endDateTime 
+    FROM wishlist w
+          INNER JOIN items i ON w.itemId = i.itemId
+          LEFT JOIN bidHistory b ON i.itemId = b.itemId
+    WHERE w.userId = '$currentUserId'
+                  GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
+";
+
         $result = mysqli_query($connection, $query);
 
         if ($result->num_rows > 0) {
@@ -129,8 +133,8 @@ $max_page = ceil($num_results / $results_per_page);
                 $itemTitle = $row["itemTitle"];
                 $category = $row["category"];
                 $description = $row["description"];
-                $currentPrice = $row["currentPrice"];
-                $numBids = $row["numBids"];
+                $currentPrice = ($row["MAX(b.bidPrice)"] !== null) ? $row["MAX(b.bidPrice)"]: $row["startingPrice"];
+                $numBids = $row["COUNT(b.itemId)"];
                 $endDateTime = new DateTime($row["endDateTime"]);
                 // This uses a function defined in utilities.php
                 print_listing_li($itemId, $itemTitle, $category, $description, $currentPrice, $numBids, $endDateTime);

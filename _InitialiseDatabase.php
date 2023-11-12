@@ -195,7 +195,9 @@ if (mysqli_query($conn, $sql)) {
 $sql = "INSERT INTO bidHistory(bidId, itemId, userId, bidPrice, bidDateTime)
 VALUES (1, 5, 2, 100, '2020-10-10 12:30:00'),
        (2, 5, 3, 450, '2022-12-12 15:30:00'),
-       (3, 3, 6, 5, '2023-10-01 18:30:00')";
+       (3, 3, 6, 5, '2023-10-01 18:30:00'),
+       (4, 3, 10, 700, '2023-10-01 18:30:00')
+";
 
 if (mysqli_query($conn, $sql)) {
     echo "New bid history records created successfully. ";

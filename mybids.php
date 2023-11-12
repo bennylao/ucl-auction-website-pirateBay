@@ -114,11 +114,13 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
 
 
 // SQL to fetch data
-$query = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.currentPrice,
-       i.numBids, i.endDateTime
-    FROM items i, bidHistory b
-    WHERE i.itemId = b.itemId AND
-          b.userId = $currentUserId";
+$query = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.startingPrice,
+       i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice
+    FROM items i
+         LEFT JOIN bidHistory b ON i.itemId = b.itemId
+    WHERE b.userId = $currentUserId
+    GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
+";
 $result = mysqli_query($connection, $query);
 
 if ($result->num_rows > 0) {
@@ -128,11 +130,11 @@ if ($result->num_rows > 0) {
         $itemTitle = $row["itemTitle"];
         $category = $row["category"];
         $description = $row["description"];
-        $currentPrice = $row["currentPrice"];
-        $numBids = $row["numBids"];
+        $currentPrice = ($row["MAX(b.bidPrice)"] !== null) ? $row["MAX(b.bidPrice)"]: 0;
+        $num_bids = $row["COUNT(b.itemId)"];
         $endDateTime = new DateTime($row["endDateTime"]);
         // This uses a function defined in utilities.php
-        print_listing_li($itemId, $itemTitle, $category, $description, $currentPrice, $numBids, $endDateTime);
+        print_listing_li($itemId, $itemTitle, $category, $description, $currentPrice, $num_bids, $endDateTime);
     }
 } else {
     echo "No results found.";

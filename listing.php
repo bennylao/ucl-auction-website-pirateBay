@@ -1,36 +1,48 @@
 <?php
-require_once("config_database.php");
-$title = "item";
-include_once("header.php") ?>
-<?php require("utilities.php") ?>
+
+include_once("header.php");
+require_once("utilities.php");
+require_once("config_database.php")
+?>
+
 
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 // Get info from the URL:
 $item_id = $_GET['item_id'];
 
 // TODO: Use item_id to make a query to the database.
 
-// DELETEME: For now, using placeholder data.
-$title = "Placeholder title";
-$description = "Description blah blah blah";
-$current_price = 30.50;
-$num_bids = 1;
-$end_time = new DateTime('2020-11-02T00:00:00');
 
-$conn = connect_to_database();
+    $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
 
-$stmt = $conn->prepare('SELECT itemTitle, description, currentPrice, numBids, endDateTime FROM items WHERE itemId = ?');
+// SQL to fetch data
+    $query = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.currentPrice,
+       i.numBids, i.endDateTime
+    FROM items i
+    WHERE i.itemId = $item_id";
 
-$stmt->bind_param("i", $item_id);
+    $result = mysqli_query($connection, $query);
 
-$stmt->execute();
-$stmt->bind_result($title, $description, $current_price, $num_bids, $end_time);
-$stmt->fetch();
-$stmt->close();
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $title = $row["itemTitle"];
+            $description = $row["description"];
+            $current_price = $row["currentPrice"];
+            $num_bids = $row["numBids"];
+            $end_time = new DateTime($row["endDateTime"]);
+        }
+    }
+    else {
+        echo "No results found.";}
+
+// Retrieve the values from the form
+
+
 // TODO: Note: Auctions that have ended may pull a different set of data,
 //       like whether the auction ended in a sale or was cancelled due
 //       to lack of high-enough bids. Or maybe not.
-$end_time = DateTime::createFromFormat('Y-m-d H:i:s', $end_time);
 
 // Calculate time to auction end:
 $now = new DateTime();
@@ -46,7 +58,7 @@ if ($now < $end_time) {
 $has_session = true;
 $watching = false;
 
-$conn->close();
+mysqli_close($connection);
 ?>
 
 
@@ -79,8 +91,9 @@ $conn->close();
     <div class="col-sm-8"> <!-- Left col with item info -->
 
       <div class="itemDescription">
-          <?php echo($description); ?>
+          <?php echo $description ; ?>
       </div>
+
 
     </div>
 
@@ -88,11 +101,12 @@ $conn->close();
 
       <p>
           <?php if ($now > $end_time): ?>
-              This auction ended <?php echo($end_time->format('j M H:i')) ?>
+            This auction ended <?php echo(date_format($end_time, 'j M H:i')) ?>
             <!-- TODO: Print the result of the auction here? -->
           <?php else: ?>
         Auction ends <?php echo(date_format($end_time, 'j M H:i') . $time_remaining) ?></p>
       <p class="lead">Current bid: £<?php echo(number_format($current_price, 2)) ?></p>
+      <p class="lead">Total bids: <?php echo(number_format($num_bids)) ?></p>
 
       <!-- Bidding form -->
       <form method="POST" action="place_bid.php">

@@ -83,11 +83,11 @@ e.g. 'Apple|Samsung'"
               <option <?php if (isset($_GET['sort_by']) && $_GET['sort_by'] == "COUNT(b.itemId) DESC") echo "selected"; ?>
                   value="COUNT(b.itemId) DESC"> Popularity
               </option>
-              <option <?php if (isset($_GET['sort_by']) && $_GET['sort_by'] == "currentPrice") echo "selected"; ?>
-                  value="currentPrice">Price (low to high)
+              <option <?php if (isset($_GET['sort_by']) && $_GET['sort_by'] == "GREATEST(COALESCE(MAX(b.bidPrice), 0), i.startingPrice)") echo "selected"; ?>
+                  value="GREATEST(COALESCE(MAX(b.bidPrice), 0), i.startingPrice)">Price (low to high)
               </option>
-              <option <?php if (isset($_GET['sort_by']) && $_GET['sort_by'] == "currentPrice DESC") echo "selected"; ?>
-                  value="currentPrice DESC">Price (high to low)
+              <option <?php if (isset($_GET['sort_by']) && $_GET['sort_by'] == "GREATEST(COALESCE(MAX(b.bidPrice), 0), i.startingPrice) DESC") echo "selected"; ?>
+                  value="GREATEST(COALESCE(MAX(b.bidPrice), 0), i.startingPrice) DESC">Price (high to low)
               </option>
               <option <?php if (isset($_GET['sort_by']) && $_GET['sort_by'] == "endDateTime") echo "selected"; ?>
                   value="endDateTime">Ending soonest
@@ -113,7 +113,6 @@ e.g. 'Apple|Samsung'"
     </form>
   </div>
   <!-- end search specs bar -->
-
 
 <?php
 
@@ -161,7 +160,7 @@ $offset = (($curr_page - 1) * $items_per_page);
 /* TODO: Use above values to construct a query. Use this query to
      retrieve data from the database. (If there is no form data entered,
      decide on appropriate default value/default query to make. */
-$item_query = "SELECT i.itemId, i.itemTitle, i.category, i.description, MAX(b.bidPrice), COUNT(b.itemId), i.startingPrice, i.endDateTime
+$item_query = "SELECT i.itemId, i.itemTitle, i.category, i.description, MAX(b.bidPrice), COUNT(b.itemId), i.startingPrice, i.endDateTime, GREATEST(MAX(b.bidPrice), i.startingPrice)
                 FROM items i LEFT JOIN bidHistory b ON i.itemId = b.itemId
                 WHERE (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword')
                 AND i.endDateTime > NOW()

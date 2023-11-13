@@ -47,9 +47,6 @@ require_once 'includes/create_auction_view.inc.php';
               <label for="auctionCategory" class="col-sm-2 col-form-label text-right">Category</label>
               <div class="col-sm-10">
                 <select class="form-control" id="auctionCategory" name="auctionCategory">
-                    <option <?php if (isset($_GET['category']) && $_GET['category'] == "All") echo "selected"; ?> value="All">
-                        All categories
-                    </option>
                     <option <?php if (isset($_GET['category']) && $_GET['category'] == "Art And Collectibles") echo "selected"; ?>
                             value="Art And Collectibles"> Art and Collectibles
                     </option>

@@ -140,8 +140,8 @@ mysqli_close($connection);
           <input type="number" class="form-control" id="bid" name="bid">
         </div>
         <button type="submit" class="btn btn-primary form-control">Place bid</button>
-          <input type="hidden" name="item_id" value="<?php echo htmlspecialchars($item_id); ?>">
-          <input type="hidden" name="current_price" value = "<?php echo htmlspecialchars($current_price);?>">
+          <input type="hidden" name="item_id" value = '.htmlspecialchars($item_id).'>
+          <input type="hidden" name="current_price" value = '.htmlspecialchars($current_price).'>
       </form>';
         }else{
             echo 'Please log in to place bid.';

@@ -80,8 +80,8 @@ e.g. 'Apple|Samsung'"
           <div class="form-group">
             <label class="sr-only" for="sort_by">Sort by:</label>
             <select class="form-control" id="sort_by" name="sort_by">
-              <option <?php if (isset($_GET['sort_by']) && $_GET['sort_by'] == "numBids DESC") echo "selected"; ?>
-                  value="numBids DESC"> Popularity
+              <option <?php if (isset($_GET['sort_by']) && $_GET['sort_by'] == "COUNT(b.itemId) DESC") echo "selected"; ?>
+                  value="COUNT(b.itemId) DESC"> Popularity
               </option>
               <option <?php if (isset($_GET['sort_by']) && $_GET['sort_by'] == "currentPrice") echo "selected"; ?>
                   value="currentPrice">Price (low to high)
@@ -139,7 +139,7 @@ if (isset($_GET['category']) and $_GET['category'] != 'All') {
 // Retrieve the ordering method
 if (!isset($_GET['sort_by'])) {
     // TODO: Define behavior if an order_by value has not been specified.
-    $ordering = "numBids DESC";
+    $ordering = "COUNT(b.itemId) DESC";
 } else {
     $ordering = $_GET['sort_by'];
 }
@@ -163,18 +163,17 @@ $offset = (($curr_page - 1) * $items_per_page);
      decide on appropriate default value/default query to make. */
 $item_query = "SELECT i.itemId, i.itemTitle, i.category, i.description, MAX(b.bidPrice), COUNT(b.itemId), i.startingPrice, i.endDateTime
                 FROM items i LEFT JOIN bidHistory b ON i.itemId = b.itemId
-            WHERE (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword')
-              GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
-            AND i.endDateTime > NOW()
-            $category_query
-            ORDER BY  $ordering, i.itemTitle
-            LIMIT $items_per_page OFFSET $offset;";
+                WHERE (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword')
+                AND i.endDateTime > NOW()
+                $category_query
+                GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
+                ORDER BY  $ordering, i.itemTitle
+                LIMIT $items_per_page OFFSET $offset;";
 
 $count_item_query = "SELECT COUNT(*) FROM items i 
-            WHERE (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword') 
-            AND i.endDateTime > NOW()
-            $category_query
-            ORDER BY  $ordering, i.itemTitle;";
+                        WHERE (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword') 
+                        AND i.endDateTime > NOW()
+                        $category_query;";
 /* For the purposes of pagination, it would also be helpful to know the
      total number of results that satisfy the above query */
 

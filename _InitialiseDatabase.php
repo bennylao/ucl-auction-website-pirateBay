@@ -36,9 +36,9 @@ mysqli_close($conn);
 $conn = connect_to_database();
 
 // Create the admin table
-$sql = "CREATE TABLE admin (
-adminId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-password VARCHAR(255) NOT NULL)";
+$sql = "CREATE TABLE accountTypes (
+typeId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+accountType VARCHAR(255) NOT NULL)";
 
 if (mysqli_query($conn, $sql)) {
     echo "Admin Table created successfully. ";
@@ -47,12 +47,14 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Create admin records
-$sql = "INSERT INTO admin (adminId, password)
-        VALUES (1, '1111'),
-               (2, '1111')";
+$sql = "INSERT INTO accountTypes (typeId, accountType)
+        VALUES (1, 'buyer'),
+               (2, 'seller'),
+               (3, 'buyerseller'),
+               (4, 'admin');";
 
 if (mysqli_query($conn, $sql)) {
-    echo "Admin records created successfully. \n";
+    echo "Account Type records created successfully. \n";
 } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
@@ -60,14 +62,15 @@ if (mysqli_query($conn, $sql)) {
 // Create the first table users
 $sql = "CREATE TABLE users (
 userId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-accountType VARCHAR(255) NOT NULL,
+accountType INT NOT NULL,
 userName VARCHAR(255) NOT NULL,
 password VARCHAR(255) NOT NULL,
 email VARCHAR(255) NOT NULL,
 firstName VARCHAR(255) NOT NULL,
 lastName VARCHAR(255) NOT NULL,
 address VARCHAR(255),
-createDate date)";
+createDate date,
+FOREIGN KEY (accountType) REFERENCES accountTypes(typeId));";
 
 if (mysqli_query($conn, $sql)) {
     echo "Table User created successfully. ";
@@ -77,17 +80,17 @@ if (mysqli_query($conn, $sql)) {
 
 // Create records for users
 $sql = "INSERT INTO users (accountType, userName, password, email, firstName, lastName, address, createDate)
-        VALUES  ('admin', 'admin', '$2y$12\$aUEuvjZcMK6C061pVzXLvuVIuhb/X5r85.JXxXymSxDKLuLAfeigi', 'admin', 'admin', 'admin', 'admin', '2000-01-01'),
-                ('buyer', 'buyer1', '$2y$12\$PDMuIe4/89OT6e/qI0Y0GOJpOpG7jpf1D3OsYqHOA8BJINthe3HWi','buyer1','Buyer1FN','Buyer1LN','123 King Cross','2020-01-01'),
-                ('buyer', 'buyer2', '$2y$12$0TEsX/Z04.JGglspufc2SOUteKvVe2RxcVfAZ65dNXNTwj5573MYi','buyer2','Buyer2FN','Buyer2LN','123 Tottenham Court Road','2020-04-09'),
-                ('seller', 'seller1', '$2y$12\$wDW0asKX3.JqO2qekoJjg.pw9aSkUJ457OGgcnftyKYKF6RVVk7gW', 'seller1', 'Seller1FN', 'Seller1LN', '20 Tottenham Court Road', '2020-06-11'),
-                ('seller', 'seller2', '$2y$12$4Ci4LUOckcr86M3jU3zwe.SaoV4Al.nyeSkhA2llAZ5imzaVUtC1a', 'seller2', 'Seller2FN', 'Seller2LN', '30 Oxford Street', '2020-07-13'),
-                ('buyerseller', 'buyerseller1','$2y$12\$kRpbUPnJrfiDkCNoY7C.gepugZNt4YvzycA3z99dTlX/sQCk2/It.', 'buyerseller1', 'BuyerSeller1FN', 'BuyerSeller1LN', '10 Gower Street', '2020-08-01'),
-                ('buyerseller', 'buyerseller2', '$2y$12$8ut3fKcWRZOzqUxW.5pn6.1Ibrirymbnyu2zOFb7K9cfpb7CxHFn.', 'buyerseller2', 'BuyerSeller2FN', 'BuyerSeller2LN', '20 Gower Street', '2020-08-03'),
-                ('buyer', 'user0', '$2y$10$4e6ITty1JFx53RnOPaVXH.orr9GSNL6nsg1h2z0CAHxzclN9rFhtG','email','fn','ln','addr','2021-06-05'), 
-                ('seller', 'user1', '$2y$10\$Cej7YR5.IYEpd93WwBWQyO/tgFqn.QDC6La5oiwq.LAkX9R78RHMe','email1','fn1','ln1','addr1','2021-06-05'),
-                ('buyerseller', 'user2', '$2y$10\$xkBU7pYHLKP6ETnXp9R/eOsrHsEmORfTYvq5bqtzkx1RpO4ghDe5y','email2','fn2','ln2','addr2','2021-06-07'),
-                ('seller', 'victor', '$2y$10\$x/oH2Gy1hdAHcoOoO4YNtOLJrCPW8PE25Mmi1tuTiFJ2MKxBdaYYq','victor2263@gmail.com','victor','chan','123 Oxford Street','2023-10-31')";
+        VALUES  (4, 'admin', '$2y$12\$aUEuvjZcMK6C061pVzXLvuVIuhb/X5r85.JXxXymSxDKLuLAfeigi', 'admin', 'admin', 'admin', 'admin', '2000-01-01'),
+                (1, 'buyer1', '$2y$12\$PDMuIe4/89OT6e/qI0Y0GOJpOpG7jpf1D3OsYqHOA8BJINthe3HWi','buyer1','Buyer1FN','Buyer1LN','123 King Cross','2020-01-01'),
+                (1, 'buyer2', '$2y$12$0TEsX/Z04.JGglspufc2SOUteKvVe2RxcVfAZ65dNXNTwj5573MYi','buyer2','Buyer2FN','Buyer2LN','123 Tottenham Court Road','2020-04-09'),
+                (2, 'seller1', '$2y$12\$wDW0asKX3.JqO2qekoJjg.pw9aSkUJ457OGgcnftyKYKF6RVVk7gW', 'seller1', 'Seller1FN', 'Seller1LN', '20 Tottenham Court Road', '2020-06-11'),
+                (2, 'seller2', '$2y$12$4Ci4LUOckcr86M3jU3zwe.SaoV4Al.nyeSkhA2llAZ5imzaVUtC1a', 'seller2', 'Seller2FN', 'Seller2LN', '30 Oxford Street', '2020-07-13'),
+                (3, 'buyerseller1','$2y$12\$kRpbUPnJrfiDkCNoY7C.gepugZNt4YvzycA3z99dTlX/sQCk2/It.', 'buyerseller1', 'BuyerSeller1FN', 'BuyerSeller1LN', '10 Gower Street', '2020-08-01'),
+                (3, 'buyerseller2', '$2y$12$8ut3fKcWRZOzqUxW.5pn6.1Ibrirymbnyu2zOFb7K9cfpb7CxHFn.', 'buyerseller2', 'BuyerSeller2FN', 'BuyerSeller2LN', '20 Gower Street', '2020-08-03'),
+                (1, 'user0', '$2y$10$4e6ITty1JFx53RnOPaVXH.orr9GSNL6nsg1h2z0CAHxzclN9rFhtG','email','fn','ln','addr','2021-06-05'), 
+                (2, 'user1', '$2y$10\$Cej7YR5.IYEpd93WwBWQyO/tgFqn.QDC6La5oiwq.LAkX9R78RHMe','email1','fn1','ln1','addr1','2021-06-05'),
+                (3, 'user2', '$2y$10\$xkBU7pYHLKP6ETnXp9R/eOsrHsEmORfTYvq5bqtzkx1RpO4ghDe5y','email2','fn2','ln2','addr2','2021-06-07'),
+                (2, 'victor', '$2y$10\$x/oH2Gy1hdAHcoOoO4YNtOLJrCPW8PE25Mmi1tuTiFJ2MKxBdaYYq','victor2263@gmail.com','victor','chan','123 Oxford Street','2023-10-31');";
 
 if (mysqli_query($conn, $sql)) {
     echo "New User records created successfully. ";
@@ -120,7 +123,7 @@ $sql = "INSERT INTO category (cateId, category)
                (8, 'Wine and Spirits'),
                (9, 'Furniture and Home Decor'),
                (10, 'Real Estate'),
-               (11, 'Others')";
+               (11, 'Others');";
 
 if (mysqli_query($conn, $sql)) {
     echo "Category options created successfully. ";

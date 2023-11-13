@@ -95,53 +95,7 @@ if (mysqli_query($conn, $sql)) {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
 
-// Create the second table items
-$sql = "CREATE TABLE items (
-itemId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-itemTitle VARCHAR(255) NOT NULL,
-category VARCHAR(255) NOT NULL,
-conditions VARCHAR(255) NOT NULL,
-description VARCHAR(255) NOT NULL,
-sellerId INT NOT NULL,
-numBids INT NOT NULL,
-currentWinner INT,
-startingPrice DECIMAL NOT NULL,
-currentPrice DECIMAL NOT NULL,
-startDateTime DATETIME NOT NULL,
-endDateTime DATETIME NOT NULL,
-brand VARCHAR(255),
-reservedPrice DECIMAL,
-FOREIGN KEY (sellerId) REFERENCES users(userId)
-)";
 
-if (mysqli_query($conn, $sql)) {
-    echo "Table Item created successfully. ";
-} else {
-    echo "Error creating table Item: " . mysqli_error($conn);
-}
-
-// Create records for items
-$sql = "INSERT INTO items (itemId, itemTitle, category, conditions, description, sellerId, numBids, currentWinner,
-                   startingPrice, currentPrice, startDateTime, endDateTime, brand, reservedPrice)
-        VALUES  (1, 'Expired Item 1', 'Others', 'New', 'This is an expired item1', 5, 3, 6, 2, 5, '2023-05-20 00:00:00','2023-10-30 00:00:00', 'expiry1', 6.7),
-                (2, 'Expired Item 2', 'Others', 'Used', 'This is an expired item2', 2, 3, 6, 2, 5, '2023-07-30 00:00:00','2023-11-02 00:00:00', 'expiry2', 6.7),
-                (3, 'An apple', 'Others', 'New', 'golden apple', 2, 3, 6, 2, 5, '2023-09-30 00:00:00', '2024-02-11 11:00:00', 'apple banana', 6.7),
-                (4, 'Sony A7m3 with 16-35 f2.8', 'Electronics and Technology', 'New', 'Sony A7m3 with 16-35 f2.8 in good condition.', 6, 8, 6, 500, 890, '2023-10-01 05:00:00', '2024-03-31 23:00:00', 'Sony', 6.7),
-                (5, 'MacBook Pro 16 inch M3 Max', 'Electronics and Technology', 'New', 'A brand new Macbook Pro 16 inch with M3 Max', 4, 20, 2, 1500, 2200, '2023-10-01 18:30:00', '2024-04-22 23:00:00', 'Apple', 6.7),
-                (6, 'iPhone 17 Pro', 'Electronics and Technology', 'New', 'Can play Fortnite', 4, 4, 2, 1000, 1200, '2023-10-03 15:30:00', '2024-01-20 01:00:00', 'Apple', 6.7),
-                (7, 'Samsung Galaxy S87 Ultra', 'Electronics and Technology', 'Slightly Used', 'Can play GTAVI', 4, 3, 2, 1000, 1050, '2023-10-05 20:30:00', '2024-01-03 17:30:00', 'Samsung', 6.7),
-                (8, 'My Brain', 'Others', 'For Parts or Not Working', 'This is my brain', 4, 11, 2, 1000, 1100, '2023-10-05 22:30:00', '2024-03-01 00:00:00', 'Me', 6.7),
-                (9, 'iMac', 'Electronics and Technology', 'Certified Refurbished', 'Intel Mac not good', 2, 10, 2, 5000, 7800, '2023-10-06 00:30:00', '2024-02-01 00:00:00', 'Apple', 6.7),
-                (10, 'Apple Vision Pro', 'Electronics and Technology', 'New', 'Waste of your money', 2, 3, 2, 800, 1050, '2023-10-06 12:30:00', '2024-01-03 00:00:00', 'Apple', 6.7),
-                (11, 'UCL Premium Study Space', 'Others', 'New', 'overpriced honestly', 2, 1000, 3, 10, 200, '2023-10-07 12:30:00', '2024-02-04 00:00:00', 'UCL', 6.7),
-                (12, 'iPad Pro 12.9', 'Electronics and Technology', 'Slightly Used', 'just buy macbook', 2, 15, 7, 400, 780, '2023-10-07 21:30:00', '2024-01-30 00:00:00', 'Apple', 6.7),
-                (13, 'AirPods', 'Electronics and Technology', 'New', 'It is not too bad', 2, 4, 3, 50, 80, '2023-10-08 00:30:00', '2024-02-10 00:00:00', 'Apple', 6.7)";
-
-if (mysqli_query($conn, $sql)) {
-    echo "New Item records created successfully. ";
-} else {
-    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-}
 
 // Create the category table
 $sql = "CREATE TABLE category (
@@ -170,6 +124,83 @@ $sql = "INSERT INTO category (cateId, category)
 
 if (mysqli_query($conn, $sql)) {
     echo "Category options created successfully. ";
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
+
+
+// Create the table for
+$sql = "CREATE TABLE conditions (
+    conditionId INT NOT NULL PRIMARY KEY ,
+    condDescript VARCHAR(255) NOT NULL
+)";
+
+if (mysqli_query($conn, $sql)) {
+    echo "Table conditions created successfully. ";
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
+// Create records for the conditions table
+$sql = "INSERT INTO conditions (conditionId, condDescript)
+VALUES (1, 'Brand new'),
+       (2, 'Like new'),
+       (3, 'Very good'),
+       (4, 'Good'),
+       (5, 'Acceptable'),
+       (6, 'Certified Refurbished'),
+       (7, 'For Parts or Not Working')";
+
+if (mysqli_query($conn, $sql)) {
+    echo "New conditions records created successfully. ";
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
+// Create the second table items
+$sql = "CREATE TABLE items (
+itemId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+itemTitle VARCHAR(255) NOT NULL,
+category INT NOT NULL,
+conditions INT NOT NULL,
+description VARCHAR(255) NOT NULL,
+sellerId INT NOT NULL,
+startingPrice DECIMAL NOT NULL,
+startDateTime DATETIME NOT NULL,
+endDateTime DATETIME NOT NULL,
+brand VARCHAR(255),
+reservedPrice DECIMAL,
+FOREIGN KEY (sellerId) REFERENCES users(userId),
+FOREIGN KEY (conditions) REFERENCES conditions(conditionId),
+FOREIGN KEY (category) REFERENCES category(cateId)
+)";
+
+if (mysqli_query($conn, $sql)) {
+    echo "Table Item created successfully. ";
+} else {
+    echo "Error creating table Item: " . mysqli_error($conn);
+}
+
+// Create records for items
+$sql = "INSERT INTO items (itemId, itemTitle, category, conditions, description, sellerId,
+                   startingPrice, startDateTime, endDateTime, brand, reservedPrice)
+        VALUES  (1, 'Expired Item 1', 11, 1, 'This is an expired item1', 6, 2, '2023-05-20 00:00:00','2023-10-30 00:00:00', 'expiry1', 6.7),
+                (2, 'Expired Item 2', 11, 3, 'This is an expired item2', 6, 2, '2023-07-30 00:00:00','2023-11-02 00:00:00', 'expiry2', 6.7),
+                (3, 'An apple', 11, 1, 'golden apple', 6, 2, '2023-09-30 00:00:00', '2024-02-11 11:00:00', 'apple banana', 6.7),
+                (4, 'Sony A7m3 with 16-35 f2.8', 5, 1, 'Sony A7m3 with 16-35 f2.8 in good condition.', 6, 500, '2023-10-01 05:00:00', '2024-03-31 23:00:00', 'Sony', 6.7),
+                (5, 'MacBook Pro 16 inch M3 Max', 5, 1, 'A brand new Macbook Pro 16 inch with M3 Max', 2, 1500, '2023-10-01 18:30:00', '2024-04-22 23:00:00', 'Apple', 6.7),
+                (6, 'iPhone 17 Pro', 5, 1, 'Can play Fortnite', 2, 1000, '2023-10-03 15:30:00', '2024-01-20 01:00:00', 'Apple', 6.7),
+                (7, 'Samsung Galaxy S87 Ultra', 5, 4, 'Can play GTAVI', 2, 1000, '2023-10-05 20:30:00', '2024-01-03 17:30:00', 'Samsung', 6.7),
+                (8, 'My Brain', 11, 7, 'This is my brain', 2, 1000, '2023-10-05 22:30:00', '2024-03-01 00:00:00', 'Me', 6.7),
+                (9, 'iMac', 5, 6, 'Intel Mac not good', 2, 5000, '2023-10-06 00:30:00', '2024-02-01 00:00:00', 'Apple', 6.7),
+                (10, 'Apple Vision Pro', 5, 1, 'Waste of your money', 2, 800, '2023-10-06 12:30:00', '2024-01-03 00:00:00', 'Apple', 6.7),
+                (11, 'UCL Premium Study Space', 11, 1, 'overpriced honestly', 3, 10, '2023-10-07 12:30:00', '2024-02-04 00:00:00', 'UCL', 6.7),
+                (12, 'iPad Pro 12.9', 5, 2, 'just buy macbook', 7, 400, '2023-10-07 21:30:00', '2024-01-30 00:00:00', 'Apple', 6.7),
+                (13, 'AirPods', 5, 1, 'It is not too bad', 3, 50, '2023-10-08 00:30:00', '2024-02-10 00:00:00', 'Apple', 6.7)";
+
+if (mysqli_query($conn, $sql)) {
+    echo "New Item records created successfully. ";
 } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
@@ -232,32 +263,6 @@ VALUES (1, 5, 2),
 
 if (mysqli_query($conn, $sql)) {
     echo "New wishlist records created successfully. ";
-} else {
-    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-}
-
-// Create the table for
-$sql = "CREATE TABLE conditions (
-    conditionId INT NOT NULL PRIMARY KEY ,
-    condDescript VARCHAR(255) NOT NULL
-)";
-
-if (mysqli_query($conn, $sql)) {
-    echo "Table conditions created successfully. ";
-} else {
-    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-}
-
-// Create records for the conditions table
-$sql = "INSERT INTO conditions (conditionId, condDescript)
-VALUES (1, 'Brand new'),
-       (2, 'Like new'),
-       (3, 'Very good'),
-       (4, 'Good'),
-       (5, 'Acceptable')";
-
-if (mysqli_query($conn, $sql)) {
-    echo "New conditions records created successfully. ";
 } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }

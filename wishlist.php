@@ -121,8 +121,9 @@ $max_page = ceil($num_results / $results_per_page);
           INNER JOIN items i ON w.itemId = i.itemId
           LEFT JOIN bidHistory b ON i.itemId = b.itemId
     WHERE w.userId = '$currentUserId'
-                  GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
+        GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
 ";
+
 
         $result = mysqli_query($connection, $query);
 

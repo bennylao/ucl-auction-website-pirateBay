@@ -28,10 +28,7 @@ if ($bid_amount > $current_price) {
     $query->bind_param('iids', $item_id, $user_id, $bid_amount, $bidDateTime);
     if ($query->execute()) {
         echo "Bid placed successfully!";
-        header("refresh:3;url=listing.php?item_id=$item_id");
-        $item_query = "UPDATE items SET numBids = numBids + 1 WHERE itemId = ?";
-        $stmt = mysqli_prepare($connection, $item_query);
-        mysqli_stmt_bind_param($stmt, 'i', $item_id);
+        header("refresh:3;url=listing.php?item_id=$item_id");;
 
     } else {
         echo "Error placing bid: " . $query->error;

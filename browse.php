@@ -114,7 +114,6 @@ e.g. 'Apple|Samsung'"
   </div>
   <!-- end search specs bar -->
 
-
 <?php
 
 

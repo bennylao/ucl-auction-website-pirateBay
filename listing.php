@@ -59,8 +59,23 @@ if ($now < $end_time) {
 // TODO: If the user has a session, use it to make a query to the database
 //       to determine if the user is already watching this item.
 //       For now, this is hardcoded.
-$has_session = true;
 $watching = false;
+if (isset($_SESSION['logged_in']))
+{
+    $currentUserId = $_SESSION['id'];
+
+    $query = "SELECT itemId, userId, COUNT(itemId)
+            FROM wishList 
+            WHERE userId = $currentUserId AND itemId = $item_id
+            GROUP BY itemId, userId";
+
+    $result = mysqli_query($connection, $query);
+
+    if ($result->num_rows > 0)
+    {
+        $watching = true;
+    }
+}
 
 mysqli_close($connection);
 ?>
@@ -78,14 +93,15 @@ mysqli_close($connection);
            just as easily use PHP as in other places in the code */
         if ($now < $end_time):
             ?>
-          <div id="watch_nowatch" <?php if ($has_session && $watching) echo('style="display: none"'); ?> >
-            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addToWatchlist()">+ Add to
+          <div id="watch_nowatch"> <?php if (isset($_SESSION['logged_in']) && $watching == false) {
+              echo '<button type="button" class="btn btn-outline-secondary btn-sm" onclick="addToWatchlist()">+ Add to
               watchlist
-            </button>
+              </button>';
+          }?>
           </div>
-          <div id="watch_watching" <?php if (!$has_session || !$watching) echo('style="display: none"'); ?> >
-            <button type="button" class="btn btn-success btn-sm" disabled>Watching</button>
-            <button type="button" class="btn btn-danger btn-sm" onclick="removeFromWatchlist()">Remove watch</button>
+          <div id="watch_watching"> <?php if (isset($_SESSION['logged_in']) && $watching == true)
+              echo('<button type="button" class="btn btn-success btn-sm" disabled>Watching</button>
+            <button type="button" class="btn btn-danger btn-sm" onclick="removeFromWatchlist()">Remove watch</button>'); ?>
           </div>
         <?php endif /* Print nothing otherwise */ ?>
     </div>
@@ -114,7 +130,9 @@ mysqli_close($connection);
       <p class="lead">Total bids: <?php echo(number_format($num_bids)) ?></p>
 
       <!-- Bidding form -->
-      <form method="POST" action="place_bid.php">
+        <?php
+        if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {  #if logged in, print the form
+            echo '<form method="POST" action="place_bid.php">
         <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text">£</span>
@@ -124,7 +142,10 @@ mysqli_close($connection);
         <button type="submit" class="btn btn-primary form-control">Place bid</button>
           <input type="hidden" name="item_id" value="<?php echo htmlspecialchars($item_id); ?>">
           <input type="hidden" name="current_price" value = "<?php echo htmlspecialchars($current_price);?>">
-      </form>
+      </form>';
+        }else{
+            echo 'Please log in to place bid.';
+        }?>
         <?php endif ?>
 
 

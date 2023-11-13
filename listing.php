@@ -119,9 +119,10 @@ mysqli_close($connection);
           <div class="input-group-prepend">
             <span class="input-group-text">£</span>
           </div>
-          <input type="number" class="form-control" id="bid">
+          <input type="number" class="form-control" id="bid" name="bid">
         </div>
         <button type="submit" class="btn btn-primary form-control">Place bid</button>
+          <input type="hidden" name="item_id" value="<?php echo htmlspecialchars($item_id); ?>">
       </form>
         <?php endif ?>
 

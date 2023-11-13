@@ -32,9 +32,6 @@ if ($bid_amount > $current_price) {
         $item_query = "UPDATE items SET numBids = numBids + 1 WHERE itemId = ?";
         $stmt = mysqli_prepare($connection, $item_query);
         mysqli_stmt_bind_param($stmt, 'i', $item_id);
-        $query->close();
-        $item_query->close();
-        $stmt->close();
 
     } else {
         echo "Error placing bid: " . $query->error;

@@ -17,7 +17,7 @@ $userName = $_SESSION['user_name'];
 $query = "SELECT password, accountType, email, firstName, lastName, address, createDate FROM users WHERE userId = $id;";
 $result = mysqli_query($conn, $query);
 if ($row = mysqli_fetch_assoc($result)) {
-    $accountType = $row['accountType'];
+    $typeId = $row['accountType'];
     $password = $row['password'];
     $email = $row['email'];
     $firstName = $row['firstName'];
@@ -29,6 +29,14 @@ if ($row = mysqli_fetch_assoc($result)) {
     header("refresh:5;url=browse.php");
 }
 
+$query = "SELECT accountType FROM accountTypes WHERE typeId = $typeId";
+$result = mysqli_query($conn, $query);
+if ($row = mysqli_fetch_assoc($result)) {
+    $accountType = $row['accountType'];
+} else {
+    echo 'User profile not found!';
+    header("refresh:5;url=browse.php");
+}
 
 
 

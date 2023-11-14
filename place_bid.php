@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $bid_amount = floatval($bid_amount_str);
 
 if (!is_numeric($bid_amount) || $bid_amount <= 0){
-    echo("Invalid bid amount: ");
+    die("Invalid bid amount: ");
     header("refresh:2;url=listing.php?item_id=$item_id");
 }
 $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());

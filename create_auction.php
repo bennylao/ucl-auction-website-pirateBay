@@ -90,20 +90,20 @@ require_once 'includes/create_auction_view.inc.php';
                 <label for="auctionConditions" class="col-sm-2 col-form-label text-right">Condition</label>
                 <div class="col-sm-10">
                   <select class="form-control" id="condition" name="conditions">
-                      <option <?php if (isset($_GET['conditions']) && $_GET['conditions'] == "Brand new") echo "selected"; ?>
-                              value="Brand new"> Brand new
+                      <option <?php if (isset($_GET['conditions']) && $_GET['conditions'] == 1) echo "selected"; ?>
+                              value= 1> Brand new
                       </option>
-                      <option <?php if (isset($_GET['conditions']) && $_GET['conditions'] == "Like new") echo "selected"; ?>
-                              value="Like new">Like new
+                      <option <?php if (isset($_GET['conditions']) && $_GET['conditions'] == 2) echo "selected"; ?>
+                              value= 2>Like new
                       </option>
-                      <option <?php if (isset($_GET['conditions']) && $_GET['conditions'] == "Very good") echo "selected"; ?>
-                              value="Very good">Very good
+                      <option <?php if (isset($_GET['conditions']) && $_GET['conditions'] == 3) echo "selected"; ?>
+                              value= 3>Very good
                       </option>
-                      <option <?php if (isset($_GET['conditions']) && $_GET['conditions'] == "Good") echo "selected"; ?>
-                              value="Good">Good
+                      <option <?php if (isset($_GET['conditions']) && $_GET['conditions'] == 4) echo "selected"; ?>
+                              value=4>Good
                       </option>
-                      <option <?php if (isset($_GET['conditions']) && $_GET['conditions'] == "Acceptable") echo "selected"; ?>
-                              value="Acceptable">Acceptable
+                      <option <?php if (isset($_GET['conditions']) && $_GET['conditions'] == 5) echo "selected"; ?>
+                              value=5>Acceptable
                       </option>
                   </select>
                   <small id="conditionHelp" class="form-text text-muted"><span class="text-danger">* Required.</span>

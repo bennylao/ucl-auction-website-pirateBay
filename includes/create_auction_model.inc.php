@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 
 #Inserts the new item into the Items table within the AuctionDatabase, though it does not create a date as of yet.
-function set_auction(mysqli $conn, int $userid, string $auctionTitle, string $auctionBrand, string $auctionDetails, string $auctionCategory, float $auctionStartingPrice, $auctionReservePrice, string $auctionEndDate, string $condition)
+function set_auction(mysqli $conn, $userid, $auctionTitle, $auctionBrand, $auctionDetails, $auctionCategory, $auctionStartingPrice, $auctionReservePrice, $auctionEndDate, $condition)
 {
     $query = "INSERT INTO Items(itemTitle, category, conditions, description, sellerId,
                                   startingPrice, reservedPrice, startDateTime, endDateTime, brand) 
@@ -26,10 +26,6 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     if (!$stmt) {
         die("Prepare failed: " . $conn->error);
     }
-
-    /*$options = [
-        'cost' => 12
-    ];*/
 
     $auctionStartDate = date("Y-m-d H:i:s");
     $stmt->bind_param("sissiiisss", $auctionTitle, $auctionCategory, $condition, $auctionDetails, $userid, $auctionStartingPrice, $auctionReservePrice, $auctionStartDate, $auctionEndDate, $auctionBrand);

@@ -40,7 +40,12 @@ $item_id = $_GET['item_id'];
     else {
         echo "No results found.";
     }
-
+if ($current_price <= $starting_price){
+    $highest_price = $starting_price;
+}
+else {
+    $highest_price = $current_price;
+}
 // Retrieve the values from the form
 
 
@@ -141,7 +146,7 @@ mysqli_close($connection);
         </div>
         <button type="submit" class="btn btn-primary form-control">Place bid</button>
           <input type="hidden" name="item_id" value = '.htmlspecialchars($item_id).'>
-          <input type="hidden" name="current_price" value = '.htmlspecialchars($current_price).'>
+          <input type="hidden" name="highest_price" value = '.htmlspecialchars($highest_price).'>
       </form>';
         }else{
             echo 'Please log in to place bid.';

@@ -67,7 +67,10 @@ function regenerate_session_id()
         // Displays either login or logout on the right, depending on user's
         // current status (session).
         if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
-            echo '<a class="nav-link" href="logout.php">Logout</a>';
+            echo '<div class="d-flex align-items-center">';
+            echo '<a class="btn nav-link" href="user_homepage.php">My account</a>';
+            echo '<a class="btn nav-link" href="logout.php">Logout</a>';
+            echo '</div>';
         } else {
             echo '<button type="button" class="btn nav-link" data-toggle="modal" data-target="#loginModal">Login</button>';
         }

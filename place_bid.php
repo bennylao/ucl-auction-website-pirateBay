@@ -1,5 +1,6 @@
 <?php
 
+global $now, $end_time, $reserve_price;
 require_once("config_database.php");
 require_once("utilities.php");
 require_once("header.php");
@@ -28,7 +29,7 @@ if ($bid_amount > $highest_price) {
     $query->bind_param('iids', $item_id, $user_id, $bid_amount, $bidDateTime);
     if ($query->execute()) {
         echo "Bid placed successfully!";
-        header("refresh:3;url=listing.php?item_id=$item_id");;
+        header("refresh:3;url=listing.php?item_id=$item_id");
 
     } else {
         echo "Error placing bid: " . $query->error;
@@ -36,7 +37,7 @@ if ($bid_amount > $highest_price) {
 }
 else{
     echo("Bid lower than current price.");
-    header("refresh:2;url=listing.php?item_id=$item_id");
+    header("refresh:3;url=listing.php?item_id=$item_id");
 }
 
 $connection->close();

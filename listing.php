@@ -11,6 +11,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 // Get info from the URL:
 $item_id = $_GET['item_id'];
+//$end_time = null;
+//$reserve_price = null;
 
 // TODO: Use item_id to make a query to the database.
 
@@ -127,6 +129,14 @@ mysqli_close($connection);
       <p>
           <?php if ($now > $end_time): ?>
             This auction ended <?php echo(date_format($end_time, 'j M H:i')) ?>
+              <?php
+          if ($current_price >= $reserve_price){
+              
+          }else{
+              echo ("Bidding price lower than reserve price, bidding failed.");
+              header("refresh:3;url=browse.php");
+          }
+              ?>
             <!-- TODO: Print the result of the auction here? -->
           <?php else: ?>
         Auction ends <?php echo(date_format($end_time, 'j M H:i') . $time_remaining) ?></p>

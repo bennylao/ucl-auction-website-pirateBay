@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit('Failed to connect to MySQL: ' . mysqli_connect_error());
     }
 
-    $query = "SELECT password, accountType, userId FROM users WHERE email = '$email';";
+    $query = "SELECT password, accountType, userId, userName FROM users WHERE email = '$email';";
     $result = mysqli_query($conn, $query);
 
     if ($row = mysqli_fetch_assoc($result)) {
@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (password_verify($inputPassword, $password)) {
             $userId = $row['userId'];
             $accountTypeId = $row['accountType'];
+            $userName = $row['userName'];
             $accountResult = mysqli_query($conn, "SELECT accountType FROM accountTypes WHERE typeId = $accountTypeId;");
             $accountType = mysqli_fetch_assoc($accountResult)["accountType"];
 
@@ -31,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION['logged_in'] = true;
             $_SESSION['account_type'] = $accountType;
             $_SESSION['id'] = $userId;
+            $_SESSION['user_name'] = $userName;
 
             echo 'You are now logged in with account type: ' . $accountType;
             echo('<div class="text-center">You will be redirected shortly.</div>');

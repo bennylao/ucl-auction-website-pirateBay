@@ -24,7 +24,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
 
 $bidDateTime = $bidDateTime->format('Y-m-d H:i:s');
 if ($bid_amount > $current_price) {
-    $query = $connection->prepare("INSERT INTO bidhistory (itemId, userId, bidPrice, bidDateTime) VALUES (?,?, ?, ?)");
+    $query = $connection->prepare("INSERT INTO bidHistory (itemId, userId, bidPrice, bidDateTime) VALUES (?,?, ?, ?)");
     $query->bind_param('iids', $item_id, $user_id, $bid_amount, $bidDateTime);
     if ($query->execute()) {
         echo "Bid placed successfully!";

@@ -37,40 +37,40 @@ e.g. 'Apple|Samsung'"
               <option <?php if (isset($_GET['category']) && $_GET['category'] == "All") echo "selected"; ?> value="All">
                 All categories
               </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == "Art And Collectibles") echo "selected"; ?>
-                  value="Art And Collectibles"> Art and Collectibles
+              <option <?php if (isset($_GET['category']) && $_GET['category'] == 1) echo "selected"; ?>
+                  value=1> Art and Collectibles
               </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == "Antiques") echo "selected"; ?>
-                  value="Antiques"> Antiques
+              <option <?php if (isset($_GET['category']) && $_GET['category'] == 2) echo "selected"; ?>
+                  value=2> Antiques
               </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == "Automobiles And Vehicles") echo "selected"; ?>
-                  value="Automobiles And Vehicles"> Automobiles and Vehicles
+              <option <?php if (isset($_GET['category']) && $_GET['category'] == 3) echo "selected"; ?>
+                  value=3> Automobiles and Vehicles
               </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == "Jewelry And Watches") {
+              <option <?php if (isset($_GET['category']) && $_GET['category'] == 4) {
                   echo "selected='selected'";
-              } ?> value="Jewelry And Watches"> Jewelry and Watches
+              } ?> value=4> Jewelry and Watches
               </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == "Electronics And Technology") {
+              <option <?php if (isset($_GET['category']) && $_GET['category'] == 5) {
                   echo "selected='selected'";
-              } ?> value="Electronics And Technology"> Electronics and Technology
+              } ?> value=5> Electronics and Technology
               </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == "Fashion And Apparel") echo "selected"; ?>
-                  value="Fashion And Apparel"> Fashion and Apparel
+              <option <?php if (isset($_GET['category']) && $_GET['category'] == 6) echo "selected"; ?>
+                  value=6> Fashion and Apparel
               </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == "Sports And Memorabilia") echo "selected"; ?>
-                  value="Sports And Memorabilia"> Sports and Memorabilia
+              <option <?php if (isset($_GET['category']) && $_GET['category'] == 7) echo "selected"; ?>
+                  value=7> Sports and Memorabilia
               </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == "Wine And Spirits") echo "selected"; ?>
-                  value="Wine And Spirits"> Wine and Spirits
+              <option <?php if (isset($_GET['category']) && $_GET['category'] == 8) echo "selected"; ?>
+                  value=8> Wine and Spirits
               </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == "Furniture And HomeDecor") echo "selected"; ?>
-                  value="Furniture And HomeDecor"> Furniture and Home Decor
+              <option <?php if (isset($_GET['category']) && $_GET['category'] == 9) echo "selected"; ?>
+                  value=9> Furniture and Home Decor
               </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == "Real Estate") echo "selected"; ?>
-                  value="Real Estate"> Real Estate
+              <option <?php if (isset($_GET['category']) && $_GET['category'] == 10) echo "selected"; ?>
+                  value=10> Real Estate
               </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == "Others") echo "selected"; ?>
-                  value="Others"> Others
+              <option <?php if (isset($_GET['category']) && $_GET['category'] == 11) echo "selected"; ?>
+                  value=11> Others
               </option>
             </select>
           </div>
@@ -130,7 +130,7 @@ if (!isset($_GET['search_keyword']) or empty($_GET['search_keyword'])) {
 if (isset($_GET['category']) and $_GET['category'] != 'All') {
     // TODO: Define behavior if a category has not been specified.
     $category = $_GET['category'];
-    $category_query = " AND category = '$category'";
+    $category_query = " AND i.category = '$category'";
 } else {
     $category_query = "";
 }

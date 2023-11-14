@@ -241,7 +241,6 @@ if (mysqli_query($conn, $sql)) {
 
 // Create the wishList table
 $sql = "CREATE TABLE wishList (
-    listId INT NOT NULL PRIMARY KEY ,
     itemId INT NOT NULL,
     userId INT NOT NULL,
     FOREIGN KEY (itemId) REFERENCES items(itemId),
@@ -255,14 +254,14 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Create the records for the wishList table
-$sql = "INSERT INTO wishList (listId, itemId, userId)
-VALUES (1, 5, 2),
-       (2, 5, 3),
-       (3, 5, 6),
-       (4, 5, 7),
-       (5, 5, 8),
-       (6, 5, 9),
-       (7, 5, 10)";
+$sql = "INSERT INTO wishList (itemId, userId)
+VALUES (5, 2),
+       (5, 3),
+       (5, 6),
+       (5, 7),
+       (5, 8),
+       (5, 9),
+       (5, 10)";
 
 if (mysqli_query($conn, $sql)) {
     echo "New wishlist records created successfully. ";

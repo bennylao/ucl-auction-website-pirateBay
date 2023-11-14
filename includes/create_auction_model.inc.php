@@ -19,9 +19,9 @@ declare(strict_types=1);
 #Inserts the new item into the Items table within the AuctionDatabase, though it does not create a date as of yet.
 function set_auction(mysqli $conn, int $userid, string $auctionTitle, string $auctionBrand, string $auctionDetails, string $auctionCategory, float $auctionStartingPrice, $auctionReservePrice, string $auctionEndDate, string $condition)
 {
-    $query = "INSERT INTO Items(itemTitle, category, conditions, description, sellerId, numBids, currentWinner,
-                                  startingPrice, reservedPrice, startDateTime, endDateTime, brand, currentPrice) 
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO Items(itemTitle, category, conditions, description, sellerId,
+                                  startingPrice, reservedPrice, startDateTime, endDateTime, brand) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
     if (!$stmt) {
         die("Prepare failed: " . $conn->error);
@@ -30,9 +30,8 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     /*$options = [
         'cost' => 12
     ];*/
-    $numBids = 0;
-    $currentWinner = null;
+
     $auctionStartDate = date("Y-m-d H:i:s");
-    $stmt->bind_param("ssssiiiddsssd", $auctionTitle, $auctionCategory, $condition, $auctionDetails, $userid, $numBids, $currentWinner, $auctionStartingPrice, $auctionReservePrice, $auctionStartDate, $auctionEndDate, $auctionBrand, $auctionStartingPrice);
+    $stmt->bind_param("ssssiiisss", $auctionTitle, $auctionCategory, $condition, $auctionDetails, $userid, $auctionStartingPrice, $auctionReservePrice, $auctionStartDate, $auctionEndDate, $auctionBrand);
     $stmt->execute();
 }

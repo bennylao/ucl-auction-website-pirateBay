@@ -39,7 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($errors) {
             $_SESSION["errors_create_auction"] = $errors;
-            header("Location: ../create_auction.php");
+            echo 'Please fill in the information';
+            header("refresh:5;url=create_auction.php");
+            //header("Location: ../create_auction.php");
             die();
         }
 

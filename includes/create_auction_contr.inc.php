@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 
 #Will return false if any of the required input fields are not filled in.
-function is_create_auction_input_empty(string $auctionTitle, string $auctionBrand, string $auctionCategory, float $auctionStartPrice, string $auctionEndDate, string $condition)
+function is_create_auction_input_empty(string $auctionTitle, string $auctionBrand, string $auctionCategory, $auctionStartPrice, string $auctionEndDate, string $condition)
 {
     if (empty($auctionTitle) || empty($auctionBrand) || empty($auctionCategory) || empty($auctionStartPrice) || empty($auctionEndDate) || empty($condition)) {
         return true;

@@ -32,6 +32,6 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     ];*/
 
     $auctionStartDate = date("Y-m-d H:i:s");
-    $stmt->bind_param("ssssiiisss", $auctionTitle, $auctionCategory, $condition, $auctionDetails, $userid, $auctionStartingPrice, $auctionReservePrice, $auctionStartDate, $auctionEndDate, $auctionBrand);
+    $stmt->bind_param("sissiiisss", $auctionTitle, $auctionCategory, $condition, $auctionDetails, $userid, $auctionStartingPrice, $auctionReservePrice, $auctionStartDate, $auctionEndDate, $auctionBrand);
     $stmt->execute();
 }

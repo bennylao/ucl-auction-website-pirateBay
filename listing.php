@@ -134,7 +134,6 @@ mysqli_close($connection);
               
           }else{
               echo ("Bidding price lower than reserve price, bidding failed.");
-              header("refresh:3;url=browse.php");
           }
               ?>
             <!-- TODO: Print the result of the auction here? -->

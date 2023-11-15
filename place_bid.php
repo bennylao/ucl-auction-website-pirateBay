@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $item_id = $_POST['item_id'];
     $highest_price_str = $_POST['highest_price'];
     $highest_price = floatval($highest_price_str);
-
 }
 $bid_amount = floatval($bid_amount_str);
 
@@ -30,7 +29,6 @@ if ($bid_amount > $highest_price) {
     if ($query->execute()) {
         echo "Bid placed successfully!";
         header("refresh:3;url=listing.php?item_id=$item_id");
-
     } else {
         echo "Error placing bid: " . $query->error;
     }

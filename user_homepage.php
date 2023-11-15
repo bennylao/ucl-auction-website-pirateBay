@@ -57,6 +57,7 @@ if ($row = mysqli_fetch_assoc($result)) {
         <div class="col">Account type: <?php echo ($accountType)?></div>
         <div class="col">Join date: <?php echo ($createDate)?></div>
     </div>
+    <a href="edit_profile.php">Edit profile</a>
 
     <div class="col-sm-8">
         <h3 class="my-3">Delivery information</h3>

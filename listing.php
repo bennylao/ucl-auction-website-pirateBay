@@ -2,7 +2,7 @@
 
 include_once("header.php");
 require_once("utilities.php");
-require_once("config_database.php")
+require_once("config_database.php");
 ?>
 
 
@@ -98,19 +98,18 @@ mysqli_close($connection);
         <?php
         /* The following watchlist functionality uses JavaScript, but could
            just as easily use PHP as in other places in the code */
+
         if ($now < $end_time):
-            ?>
-          <div id="watch_nowatch"> <?php if (isset($_SESSION['logged_in']) && $watching == false) {
-              echo '<button type="button" class="btn btn-outline-secondary btn-sm" onclick="addToWatchlist()">+ Add to
-              watchlist
-              </button>';
-          }?>
-          </div>
-          <div id="watch_watching"> <?php if (isset($_SESSION['logged_in']) && $watching == true) {
-              echo('<button type="button" class="btn btn-success btn-sm" disabled>Watching</button>
-            <button type="button" class="btn btn-danger btn-sm" onclick="removeFromWatchlist()">Remove watch</button>');} ?>
-          </div>
+        ?>
+        <div id="watch_nowatch" <?php if (isset($_SESSION['logged_in']) && $watching == true) echo('style="display: none"');?> >
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addToWatchlist()">+ Add to watchlist</button>
+        </div>
+        <div id="watch_watching" <?php if (isset($_SESSION['logged_in']) && $watching == false) echo('style="display: none"');?> >
+            <button type="button" class="btn btn-success btn-sm" disabled>Watching</button>
+            <button type="button" class="btn btn-danger btn-sm" onclick="removeFromWatchlist()">Remove watch</button>
+        </div>
         <?php endif /* Print nothing otherwise */ ?>
+
     </div>
   </div>
 
@@ -181,18 +180,19 @@ mysqli_close($connection);
           // Sends item ID as an argument to that function.
           $.ajax('watchlist_funcs.php', {
               type: "POST",
-              data: {functionname: 'add_to_watchlist', arguments: [<?php echo $item_id;?>]},
+              data: {functionname: 'add_to_watchlist', arguments: <?php echo json_encode($item_id);?>},
 
               success:
                   function (obj, textstatus) {
                       // Callback function for when call is successful and returns obj
-                      console.log("success");
+                      console.log("Success");
                       var objT = obj.trim();
 
                       if (objT == "success") {
                           $("#watch_nowatch").hide();
                           $("#watch_watching").show();
-                      } else {
+                      }
+                      else {
                           var mydiv = document.getElementById("watch_nowatch");
                           mydiv.appendChild(document.createElement("br"));
                           mydiv.appendChild(document.createTextNode(objT));
@@ -212,21 +212,21 @@ mysqli_close($connection);
           // Sends item ID as an argument to that function.
           $.ajax('watchlist_funcs.php', {
               type: "POST",
-              data: {functionname: 'remove_from_watchlist', arguments: [<?php echo($item_id);?>]},
+              data: {functionname: 'remove_from_watchlist', arguments: <?php echo $item_id;?>},
 
               success:
                   function (obj, textstatus) {
                       // Callback function for when call is successful and returns obj
-                      console.log("Success");
+                      console.log("success");
                       var objT = obj.trim();
 
-                      if (objT == "Success") {
+                      if (objT == "success") {
                           $("#watch_watching").hide();
                           $("#watch_nowatch").show();
                       } else {
                           var mydiv = document.getElementById("watch_watching");
                           mydiv.appendChild(document.createElement("br"));
-                          mydiv.appendChild(document.createTextNode("Watch removal failed. Try again later."));
+                          mydiv.appendChild(document.createTextNode(objT));
                       }
                   },
 

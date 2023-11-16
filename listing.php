@@ -102,11 +102,11 @@ mysqli_close($connection);
         if ($now < $end_time):
         ?>
         <div id="watch_nowatch" <?php if (isset($_SESSION['logged_in']) && $watching == true) echo('style="display: none"');?> >
-            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addToWatchlist()">+ Add to watchlist</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addToWatchlist()">+ Add to wishlist</button>
         </div>
         <div id="watch_watching" <?php if (isset($_SESSION['logged_in']) && $watching == false) echo('style="display: none"');?> >
             <button type="button" class="btn btn-success btn-sm" disabled>Watching</button>
-            <button type="button" class="btn btn-danger btn-sm" onclick="removeFromWatchlist()">Remove watch</button>
+            <button type="button" class="btn btn-danger btn-sm" onclick="removeFromWatchlist()">Remove from wishlist</button>
         </div>
         <?php endif /* Print nothing otherwise */ ?>
 

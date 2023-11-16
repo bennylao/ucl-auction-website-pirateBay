@@ -16,7 +16,6 @@ $currentUserId = $_SESSION['id'];
 $item_id = $_POST['arguments'];
 
 if ($_POST['functionname'] == "add_to_watchlist") {
-    // TODO: Update database and return success/failure.
     $query = "INSERT INTO wishList(itemId, userId) VALUES (?, ?)";
     $query = $connection->prepare($query);
     $query->bind_param('ii', $item_id, $currentUserId);
@@ -25,7 +24,6 @@ if ($_POST['functionname'] == "add_to_watchlist") {
 }
 }
 else if ($_POST['functionname'] == "remove_from_watchlist") {
-    // TODO: Update database and return success/failure.
     $query = "DELETE FROM wishList WHERE itemId = ? AND userId = ?";
     $query = $connection->prepare($query);
     $query->bind_param('ii', $item_id, $currentUserId);

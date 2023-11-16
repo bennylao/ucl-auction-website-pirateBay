@@ -98,16 +98,15 @@ mysqli_close($connection);
         <?php
         /* The following watchlist functionality uses JavaScript, but could
            just as easily use PHP as in other places in the code */
-
         if ($now < $end_time):
-        ?>
-        <div id="watch_nowatch" <?php if (isset($_SESSION['logged_in']) && $watching == true) echo('style="display: none"');?> >
-            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addToWatchlist()">+ Add to wishlist</button>
-        </div>
-        <div id="watch_watching" <?php if (isset($_SESSION['logged_in']) && $watching == false) echo('style="display: none"');?> >
-            <button type="button" class="btn btn-success btn-sm" disabled>Watching</button>
-            <button type="button" class="btn btn-danger btn-sm" onclick="removeFromWatchlist()">Remove from wishlist</button>
-        </div>
+            ?>
+        <div id="watch_nowatch" <?php if ((isset($_SESSION['logged_in']) && $watching) or !isset($_SESSION['logged_in'])) echo('style="display: none"');?> >
+                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addToWatchlist()">+ Add to wishlist</button>
+            </div>
+            <div id="watch_watching" <?php if (!isset($_SESSION['logged_in']) or !$watching) echo('style="display: none"');?> >
+                <button type="button" class="btn btn-success btn-sm" disabled>Watching</button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="removeFromWatchlist()">Remove from wishlist</button>
+            </div>
         <?php endif /* Print nothing otherwise */ ?>
 
     </div>
@@ -212,7 +211,7 @@ mysqli_close($connection);
           // Sends item ID as an argument to that function.
           $.ajax('watchlist_funcs.php', {
               type: "POST",
-              data: {functionname: 'remove_from_watchlist', arguments: <?php echo $item_id;?>},
+              data: {functionname: 'remove_from_watchlist', arguments: <?php echo json_encode($item_id);?>},
 
               success:
                   function (obj, textstatus) {

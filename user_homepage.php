@@ -113,5 +113,8 @@ if ($row = mysqli_fetch_assoc($result)) {
         }
         ?>
     </div>
+    <div class="col-sm-8">
+        <h3 class="my-3">Privacy and security</h3>
+        <a href="change_password.php">Change password</a>
+    </div>
 </div>
-

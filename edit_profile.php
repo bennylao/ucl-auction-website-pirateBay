@@ -2,7 +2,6 @@
 
 include_once("header.php");
 require_once("utilities.php");
-require_once("header.php");
 ?>
 
 <div class="container">

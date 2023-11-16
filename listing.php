@@ -106,9 +106,9 @@ mysqli_close($connection);
               </button>';
           }?>
           </div>
-          <div id="watch_watching"> <?php if (isset($_SESSION['logged_in']) && $watching == true)
+          <div id="watch_watching"> <?php if (isset($_SESSION['logged_in']) && $watching == true) {
               echo('<button type="button" class="btn btn-success btn-sm" disabled>Watching</button>
-            <button type="button" class="btn btn-danger btn-sm" onclick="removeFromWatchlist()">Remove watch</button>'); ?>
+            <button type="button" class="btn btn-danger btn-sm" onclick="removeFromWatchlist()">Remove watch</button>');} ?>
           </div>
         <?php endif /* Print nothing otherwise */ ?>
     </div>
@@ -182,12 +182,12 @@ mysqli_close($connection);
           // Sends item ID as an argument to that function.
           $.ajax('watchlist_funcs.php', {
               type: "POST",
-              data: {functionname: 'add_to_watchlist', arguments: [<?php echo($item_id);?>]},
+              data: {functionname: 'add_to_watchlist', arguments: [<?php echo $item_id;?>]},
 
               success:
                   function (obj, textstatus) {
                       // Callback function for when call is successful and returns obj
-                      console.log("Success");
+                      console.log("success");
                       var objT = obj.trim();
 
                       if (objT == "success") {
@@ -196,7 +196,7 @@ mysqli_close($connection);
                       } else {
                           var mydiv = document.getElementById("watch_nowatch");
                           mydiv.appendChild(document.createElement("br"));
-                          mydiv.appendChild(document.createTextNode("Add to watch failed. Try again later."));
+                          mydiv.appendChild(document.createTextNode(objT));
                       }
                   },
 
@@ -221,7 +221,7 @@ mysqli_close($connection);
                       console.log("Success");
                       var objT = obj.trim();
 
-                      if (objT == "success") {
+                      if (objT == "Success") {
                           $("#watch_watching").hide();
                           $("#watch_nowatch").show();
                       } else {

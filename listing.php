@@ -21,9 +21,10 @@ $item_id = $_GET['item_id'];
 
 // SQL to fetch data
     $query = "SELECT i.itemId, i.itemTitle, i.description, i.startingPrice,
-       i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice, c.category
+       i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice, c.category, con.condDescript
     FROM items i
         INNER JOIN category c ON i.category = c.cateId
+        INNER JOIN conditions con ON i.conditions = con.conditionId
          LEFT JOIN bidHistory b ON i.itemId = b.itemId
     WHERE i.itemId = $item_id";
 
@@ -39,6 +40,7 @@ $item_id = $_GET['item_id'];
             $end_time = new DateTime($row["endDateTime"]);
             $reserve_price = $row["reservedPrice"];
             $category = $row["category"];
+            $condition = $row["condDescript"];
         }
     }
     else {
@@ -122,6 +124,9 @@ mysqli_close($connection);
       </div>
         <div class="itemDescription">
             Category: <?php echo $category ; ?>
+        </div>
+        <div class="itemDescription">
+            Condition: <?php echo $condition ; ?>
         </div>
 
 

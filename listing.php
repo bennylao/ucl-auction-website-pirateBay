@@ -177,7 +177,7 @@ mysqli_close($connection);
           <div class="input-group-prepend">
             <span class="input-group-text">£</span>
           </div>
-          <input type="number" class="form-control" id="bid" name="bid">
+          <input type="number" step="0.01" value="0.00" class="form-control" id="bid" name="bid">
         </div>
         <button type="submit" class="btn btn-primary form-control">Place bid</button>
           <input type="hidden" name="item_id" value = '.htmlspecialchars($item_id).'>

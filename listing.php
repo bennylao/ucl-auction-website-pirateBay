@@ -64,7 +64,8 @@ $now = new DateTime();
 
 if ($now < $end_time) {
     $time_to_end = date_diff($now, $end_time);
-    $time_remaining = ' (in ' . display_time_remaining($time_to_end) . ')';
+    $time_remaining= ' (in ' . display_time_remaining($time_to_end) . ')';
+    global $time_remaining;
 }
 
 // TODO: If the user has a session, use it to make a query to the database
@@ -135,24 +136,41 @@ mysqli_close($connection);
     <div class="col-sm-4"> <!-- Right col with bidding info -->
 
       <p>
-          <?php if ($now > $end_time): ?>
-            This auction ended <?php echo(date_format($end_time, 'j M H:i')) ?>
+          <?php if ($now > $end_time):
+              $mysqli = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
+              $query = "SELECT userId, MAX(bidPrice) as maxPrice FROM bidHistory WHERE itemId = ? GROUP BY userId ORDER BY maxPrice DESC LIMIT 1";
+              $stmt = $mysqli->prepare($query);
+              $stmt->bind_param('i', $item_id);
+              $stmt->execute();
+              $result = $stmt->get_result();
+              $highestBid = $result->fetch_assoc();
+              if ($highestBid && $highestBid['maxPrice'] > $starting_price) {
+
+                  $updateQuery = "UPDATE items SET ownerId = ? WHERE itemId = ?";
+                  $updateStmt = $mysqli->prepare($updateQuery);
+                  $updateStmt->bind_param('ii', $highestBid['userId'], $item_id);
+                  $updateStmt->execute();
+                  mysqli_close($mysqli);
+                  echo "This auction ended: " . date_format($end_time, 'j M H:i');
+                  echo "<br>The winner is user with ID: " . $highestBid['userId'];
+          }
+              endif;
+              ?>
               <?php
-          if ($current_price >= $reserve_price){
-              
-          }else{
+          if (($current_price < $reserve_price || $current_price < $starting_price || $current_price === 0) && $now > $end_time){
               echo ("Bidding price lower than reserve price, bidding failed.");
           }
               ?>
             <!-- TODO: Print the result of the auction here? -->
-          <?php else: ?>
-        Auction ends <?php echo(date_format($end_time, 'j M H:i') . $time_remaining) ?></p>
-        <p class="lead">Starting price: £<?php echo(number_format($starting_price, 2))?></p>
-      <p class="lead">Current bid: £<?php echo(number_format($current_price, 2)) ?></>
-      <p class="lead">Total bids: <?php echo(number_format($num_bids)) ?></p>
-
+          <?php if ($now < $end_time): ?>
+        <p>Auction ends <?php echo date_format($end_time, 'j M H:i') . ' ' . $time_remaining; ?></p>
+        <p class="lead">Starting price: £<?php echo number_format($starting_price, 2); ?></p>
+        <p class="lead">Current bid: £<?php echo number_format($current_price, 2); ?></p>
+        <p class="lead">Total bids: <?php echo number_format($num_bids); ?></p>
+        <?php endif; ?>
       <!-- Bidding form -->
         <?php
+        if ($now < $end_time) {
         if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {  #if logged in, print the form
             echo '<form method="POST" action="place_bid.php">
         <div class="input-group">
@@ -167,8 +185,7 @@ mysqli_close($connection);
       </form>';
         }else{
             echo 'Please log in to place bid.';
-        }?>
-        <?php endif ?>
+        }}?>
 
 
     </div> <!-- End of right col with bidding info -->

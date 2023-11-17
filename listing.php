@@ -105,7 +105,8 @@ mysqli_close($connection);
            just as easily use PHP as in other places in the code */
         if ($now < $end_time):
             ?>
-        <div id="watch_nowatch" <?php if ((isset($_SESSION['logged_in']) && $watching) or !isset($_SESSION['logged_in'])) echo('style="display: none"');?> >
+        <div id="watch_nowatch" <?php if ((isset($_SESSION['logged_in']) && $watching) or !isset($_SESSION['logged_in'])
+            or ($_SESSION['account_type'] == 'seller')) echo('style="display: none"');?> >
                 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addToWatchlist()">+ Add to wishlist</button>
             </div>
             <div id="watch_watching" <?php if (!isset($_SESSION['logged_in']) or !$watching) echo('style="display: none"');?> >

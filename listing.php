@@ -145,7 +145,7 @@ mysqli_close($connection);
               $stmt->execute();
               $result = $stmt->get_result();
               $highestBid = $result->fetch_assoc();
-              if ($highestBid && $highestBid['maxPrice'] > $starting_price) {
+              if ($highestBid && $highestBid['maxPrice']> $starting_price && $_SESSION['id'] == $highestBid['userId']) {
 
                   $updateQuery = "UPDATE items SET ownerId = ? WHERE itemId = ?";
                   $updateStmt = $mysqli->prepare($updateQuery);
@@ -153,7 +153,21 @@ mysqli_close($connection);
                   $updateStmt->execute();
                   mysqli_close($mysqli);
                   echo "This auction ended: " . date_format($end_time, 'j M H:i');
+                  echo "<br> Congratulations, your bid of £" . $highestBid['maxPrice'] . " was successful" ;
+          }
+
+              if ($_SESSION['id'] != $highestBid['userId']) {
+              $userBidQuery = "SELECT EXISTS(SELECT 1 FROM bidHistory WHERE itemId = ? AND userId = ?)";
+              $userBidStmt = $mysqli->prepare($userBidQuery);
+              $userBidStmt->bind_param('ii', $item_id, $_SESSION['id']);
+              $userBidStmt->execute();
+              $userBidResult = $userBidStmt->get_result()->fetch_row();
+
+              if ($userBidResult[0]) {
+                  echo "<br>Your bid was unsuccessful.";
+                  echo "<br>This auction ended: " . date_format($end_time, 'j M H:i');
                   echo "<br>The winner is user with ID: " . $highestBid['userId'];
+              }
           }
               endif;
               ?>

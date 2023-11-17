@@ -20,9 +20,10 @@ $item_id = $_GET['item_id'];
     $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
 
 // SQL to fetch data
-    $query = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.startingPrice,
-       i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice
+    $query = "SELECT i.itemId, i.itemTitle, i.description, i.startingPrice,
+       i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice, c.category
     FROM items i
+        INNER JOIN category c ON i.category = c.cateId
          LEFT JOIN bidHistory b ON i.itemId = b.itemId
     WHERE i.itemId = $item_id";
 
@@ -37,6 +38,7 @@ $item_id = $_GET['item_id'];
             $num_bids = $row["COUNT(b.itemId)"];
             $end_time = new DateTime($row["endDateTime"]);
             $reserve_price = $row["reservedPrice"];
+            $category = $row["category"];
         }
     }
     else {
@@ -118,6 +120,9 @@ mysqli_close($connection);
       <div class="itemDescription">
           <?php echo $description ; ?>
       </div>
+        <div class="itemDescription">
+            Category: <?php echo $category ; ?>
+        </div>
 
 
     </div>

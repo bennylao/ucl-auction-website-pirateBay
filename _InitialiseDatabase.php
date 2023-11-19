@@ -202,7 +202,8 @@ $sql = "INSERT INTO items (itemId, itemTitle, category, conditions, description,
                 (11, 'UCL Premium Study Space', 11, 1, 'overpriced honestly', 6, 6, 10, '2023-10-07 12:30:00', '2024-02-04 00:00:00', 'UCL', 6.7),
                 (12, 'iPad Pro 12.9', 5, 2, 'just buy macbook', 6, 6, 400, '2023-10-07 21:30:00', '2024-01-30 00:00:00', 'Apple', 6.7),
                 (13, 'AirPods', 5, 1, 'It is not too bad', 4, 4, 50, '2023-10-08 00:30:00', '2024-02-10 00:00:00', 'Apple', 6.7),
-                (14, 'Shoulder Massager', 5, 1, 'It is not too bad', 4, 10, 50, '2023-10-08 00:30:00', '2023-11-15 00:00:00', 'Banana', 6.7)";
+                (14, 'Shoulder Massager', 5, 1, 'It is not too bad', 4, 10, 50, '2023-10-08 00:30:00', '2023-11-15 00:00:00', 'Banana', 6.7),
+                (15, 'a mug', 5, 1, 'It is not too bad', 10, 10, 50, '2023-10-08 00:30:00', '2024-11-15 00:00:00', 'Banana', 6.7)";
 ;
 
 if (mysqli_query($conn, $sql)) {

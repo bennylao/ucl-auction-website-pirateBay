@@ -20,7 +20,7 @@ $item_id = $_GET['item_id'];
     $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
 
 // SQL to fetch data
-    $query = "SELECT i.itemId, i.itemTitle, i.description, i.startingPrice,
+    $query = "SELECT i.itemId, i.itemTitle, i.description, i.sellerId, i.startingPrice, 
        i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice, c.category, con.condDescript
     FROM items i
         INNER JOIN category c ON i.category = c.cateId
@@ -34,6 +34,7 @@ $item_id = $_GET['item_id'];
         while ($row = $result->fetch_assoc()) {
             $title = $row["itemTitle"];
             $description = $row["description"];
+            $seller_id = $row["sellerId"];
             $starting_price = $row["startingPrice"];
             $current_price = ($row["MAX(b.bidPrice)"] !== null) ? $row["MAX(b.bidPrice)"]: 0;
             $num_bids = $row["COUNT(b.itemId)"];
@@ -187,6 +188,9 @@ mysqli_close($connection);
         <?php
         if ($now < $end_time) {
         if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {  #if logged in, print the form
+            if ($seller_id == $currentUserId){
+                echo 'You are the item seller.';
+            }else{
             echo '<form method="POST" action="place_bid.php">
         <div class="input-group">
           <div class="input-group-prepend">
@@ -198,6 +202,7 @@ mysqli_close($connection);
           <input type="hidden" name="item_id" value = '.htmlspecialchars($item_id).'>
           <input type="hidden" name="highest_price" value = '.htmlspecialchars($highest_price).'>
       </form>';
+        }
         }else{
             echo 'Please log in to place bid.';
         }}?>

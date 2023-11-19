@@ -187,21 +187,21 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Create records for items
-$sql = "INSERT INTO items (itemId, itemTitle, category, conditions, description, sellerId,
+$sql = "INSERT INTO items (itemId, itemTitle, category, conditions, description, sellerId, ownerId,
                    startingPrice, startDateTime, endDateTime, brand, reservedPrice)
-        VALUES  (1, 'Expired Item 1', 11, 1, 'This is an expired item1', 6, 2, '2023-05-20 00:00:00','2023-10-30 00:00:00', 'expiry1', 6.7),
-                (2, 'Expired Item 2', 11, 3, 'This is an expired item2', 6, 2, '2023-07-30 00:00:00','2023-11-02 00:00:00', 'expiry2', 6.7),
-                (3, 'An apple', 11, 1, 'golden apple', 6, 2, '2023-09-30 00:00:00', '2024-02-11 11:00:00', 'apple banana', 6.7),
-                (4, 'Sony A7m3 with 16-35 f2.8', 5, 1, 'Sony A7m3 with 16-35 f2.8 in good condition.', 6, 500, '2023-10-01 05:00:00', '2024-03-31 23:00:00', 'Sony', 6.7),
-                (5, 'MacBook Pro 16 inch M3 Max', 5, 1, 'A brand new Macbook Pro 16 inch with M3 Max', 4, 1000, '2023-10-01 18:30:00', '2024-04-22 23:00:00', 'Apple', 6.7),
-                (6, 'iPhone 17 Pro', 5, 1, 'Can play Fortnite', 4, 1000, '2023-10-03 15:30:00', '2024-01-20 01:00:00', 'Apple', 6.7),
-                (7, 'Samsung Galaxy S87 Ultra', 5, 4, 'Can play GTAVI', 4, 1000, '2023-10-05 20:30:00', '2024-01-03 17:30:00', 'Samsung', 6.7),
-                (8, 'My Brain', 11, 7, 'This is my brain', 5, 1000, '2023-10-05 22:30:00', '2024-03-01 00:00:00', 'Me', 6.7),
-                (9, 'iMac', 5, 6, 'Intel Mac not good', 4, 5000, '2023-10-06 00:30:00', '2024-02-01 00:00:00', 'Apple', 6.7),
-                (10, 'Apple Vision Pro', 5, 1, 'Waste of your money', 5, 800, '2023-10-06 12:30:00', '2024-01-03 00:00:00', 'Apple', 6.7),
-                (11, 'UCL Premium Study Space', 11, 1, 'overpriced honestly', 6, 10, '2023-10-07 12:30:00', '2024-02-04 00:00:00', 'UCL', 6.7),
-                (12, 'iPad Pro 12.9', 5, 2, 'just buy macbook', 6, 400, '2023-10-07 21:30:00', '2024-01-30 00:00:00', 'Apple', 6.7),
-                (13, 'AirPods', 5, 1, 'It is not too bad', 4, 50, '2023-10-08 00:30:00', '2024-02-10 00:00:00', 'Apple', 6.7)";
+        VALUES  (1, 'Expired Item 1', 11, 1, 'This is an expired item1', 6, 0, 2, '2023-05-20 00:00:00','2023-10-30 00:00:00', 'expiry1', 6.7),
+                (2, 'Expired Item 2', 11, 3, 'This is an expired item2', 6, 0, 2, '2023-07-30 00:00:00','2023-11-02 00:00:00', 'expiry2', 6.7),
+                (3, 'An apple', 11, 1, 'golden apple', 6, 0, 2, '2023-09-30 00:00:00', '2024-02-11 11:00:00', 'apple banana', 6.7),
+                (4, 'Sony A7m3 with 16-35 f2.8', 5, 1, 'Sony A7m3 with 16-35 f2.8 in good condition.', 6, 0, 500, '2023-10-01 05:00:00', '2024-03-31 23:00:00', 'Sony', 6.7),
+                (5, 'MacBook Pro 16 inch M3 Max', 5, 1, 'A brand new Macbook Pro 16 inch with M3 Max', 4, 0, 1000, '2023-10-01 18:30:00', '2024-04-22 23:00:00', 'Apple', 6.7),
+                (6, 'iPhone 17 Pro', 5, 1, 'Can play Fortnite', 4, 0, 1000, '2023-10-03 15:30:00', '2024-01-20 01:00:00', 'Apple', 6.7),
+                (7, 'Samsung Galaxy S87 Ultra', 5, 4, 'Can play GTAVI', 4, 0, 1000, '2023-10-05 20:30:00', '2024-01-03 17:30:00', 'Samsung', 6.7),
+                (8, 'My Brain', 11, 7, 'This is my brain', 5, 0, 1000, '2023-10-05 22:30:00', '2024-03-01 00:00:00', 'Me', 6.7),
+                (9, 'iMac', 5, 6, 'Intel Mac not good', 4, 0, 5000, '2023-10-06 00:30:00', '2024-02-01 00:00:00', 'Apple', 6.7),
+                (10, 'Apple Vision Pro', 5, 1, 'Waste of your money', 5, 0, 800, '2023-10-06 12:30:00', '2024-01-03 00:00:00', 'Apple', 6.7),
+                (11, 'UCL Premium Study Space', 11, 1, 'overpriced honestly', 6, 0, 10, '2023-10-07 12:30:00', '2024-02-04 00:00:00', 'UCL', 6.7),
+                (12, 'iPad Pro 12.9', 5, 2, 'just buy macbook', 6, 0, 400, '2023-10-07 21:30:00', '2024-01-30 00:00:00', 'Apple', 6.7),
+                (13, 'AirPods', 5, 1, 'It is not too bad', 4, 0, 50, '2023-10-08 00:30:00', '2024-02-10 00:00:00', 'Apple', 6.7)";
 
 if (mysqli_query($conn, $sql)) {
     echo "New Item records created successfully. ";

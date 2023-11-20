@@ -114,13 +114,21 @@ e.g. 'Apple|Samsung'"
         <label class="col-sm-1">Conditions: </label>
         <div class="col-md-11 pr-0">
           <?php
-          $conditions_query = "SELECT * FROM conditions";
+          $find_conditions_query = "SELECT * FROM conditions";
           // SQL to fetch data
-          $result = mysqli_query($connection, $conditions_query);
+          $result = mysqli_query($connection, $find_conditions_query);
           while ($row = mysqli_fetch_assoc($result)) {
+            $conditionDescription = $row['condDescript'];
+            $conditionId = $row['conditionId'];
+            if (!isset($_GET['conditions']) || strpos($_GET['conditions'], (string)$conditionId) !== false) {
+              $isChecked = "checked";
+            } else {
+              $isChecked = "";
+            }
+
             echo "<div class='form-check form-check-inline'>
-            <input class='form-check-input' type='checkbox' id='".$row['condDescript']."' name='".$row['condDescript']."' value=".$row['conditionId']." checked>
-            <label class='form-check-label' for='".$row['condDescript']."'>".$row['condDescript']."</label>
+            <input class='form-check-input' type='checkbox' id='".$conditionDescription."' name='conditions' value=".$conditionId." ".$isChecked.">
+            <label class='form-check-label' for='".$conditionDescription."'>".$conditionDescription."</label>
           </div>";
           }
           ?>
@@ -133,9 +141,12 @@ e.g. 'Apple|Samsung'"
 
 <?php
 // Retrieve these from the URL
-if (isset($_GET['condition'])) {
-    // TODO: Define behavior if a keyword has not been specified.
-//    echo $_GET['condition'];
+if (!isset($_GET['conditions'])) {
+    $conditions_query = "";
+} else {
+    $conditions = $_GET['conditions'];
+    $conditionsString = implode(", ", str_split($conditions));
+    $conditions_query = " AND i.conditions IN ($conditionsString)";
 }
 
 // Retrieve these from the URL
@@ -186,6 +197,7 @@ $item_query = "SELECT i.itemId, i.itemTitle, i.category, i.description, MAX(b.bi
                 WHERE (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword')
                 AND i.endDateTime > NOW()
                 $category_query
+                $conditions_query
                 GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
                 ORDER BY  $ordering, i.itemTitle
                 LIMIT $items_per_page OFFSET $offset;";
@@ -193,7 +205,8 @@ $item_query = "SELECT i.itemId, i.itemTitle, i.category, i.description, MAX(b.bi
 $count_item_query = "SELECT COUNT(*) FROM items i 
                         WHERE (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword') 
                         AND i.endDateTime > NOW()
-                        $category_query;";
+                        $category_query
+                        $conditions_query;";
 /* For the purposes of pagination, it would also be helpful to know the
      total number of results that satisfy the above query */
 

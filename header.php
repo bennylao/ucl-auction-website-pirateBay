@@ -159,7 +159,7 @@ function regenerate_session_id()
 </div> <!-- End modal -->
 
 <?php //Only shows up if logged in
-require("config_database.php");
+require_once("config_database.php");
 
 if (isset($_SESSION['logged_in'])) {   //Only shows up if logged in
 
@@ -172,14 +172,14 @@ if (isset($_SESSION['logged_in'])) {   //Only shows up if logged in
     $query = "SELECT 
     i.itemId, 
     i.itemTitle, 
-    i.sellerId,
+    i.sellerId, 
     i.ownerId, 
-    userBids.userId, 
+    COALESCE(MAX(userBids.userId), 'No Bids') AS userId,
     i.endDateTime, 
-    userBids.maxUserBid AS bidPrice,
+    COALESCE(MAX(userBids.maxUserBid), 0) AS bidPrice,
     CASE 
-        WHEN userBids.maxUserBid IS NULL THEN 'No Bids'
-        WHEN userBids.maxUserBid = maxBid.maxBidPrice THEN 'Winner'
+        WHEN MAX(userBids.maxUserBid) IS NULL THEN 'No Bids'
+        WHEN MAX(userBids.maxUserBid) = maxBid.maxBidPrice THEN 'Winner'
         ELSE 'Not Highest Bidder'
     END AS BidStatus
 FROM 
@@ -191,6 +191,8 @@ LEFT JOIN (
         MAX(b.bidPrice) as maxUserBid
     FROM 
         bidHistory b
+    WHERE
+        b.bidDateTime < NOW()
     GROUP BY 
         b.itemId, b.userId
 ) AS userBids ON i.itemId = userBids.itemId
@@ -200,12 +202,17 @@ LEFT JOIN (
         MAX(bidPrice) AS maxBidPrice
     FROM 
         bidHistory
+    WHERE
+        bidDateTime < NOW()
     GROUP BY 
         itemId
 ) AS maxBid ON i.itemId = maxBid.itemId
-WHERE     (userBids.userId = $currentUserId OR i.sellerId = $currentUserId) AND i.endDateTime < NOW()
+WHERE 
+    (userBids.userId = $currentUserId OR i.sellerId = $currentUserId) AND i.endDateTime < NOW()
+GROUP BY 
+    i.itemId
 ORDER BY 
-    i.itemId, userBids.maxUserBid DESC;;";
+    i.endDateTime DESC, bidPrice DESC;";
 
     $result = mysqli_query($connection, $query);
 
@@ -257,6 +264,7 @@ ORDER BY
         }
     }
 
+
 //if ($result->num_rows > 0) {
 //if ($sellerId == $ownerId) {    // item didn't sell
 //    if ($sellerId == $currentUserId){  // to inform the seller
@@ -292,11 +300,13 @@ ORDER BY
 //}
 //}
 //}
+
+mysqli_close($connection);
 ?>
 
 <!--Notification map:-->
 
-<!--    if sellerId == ownerId:-->
+<!--    if i.sellerId == i.ownerId:-->
 <!--        if sellerId == $currentUserId:-->
 <!--            "Your item didn't sell."-->
 <!--        if userId not highest bidder:-->

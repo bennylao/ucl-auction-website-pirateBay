@@ -16,6 +16,8 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
 
     <form action="browse.php" id="filter_bar" method="GET">
       <div class="row">
+
+        <!-- Searching Input -->
         <div class="col-md-5 pr-0">
           <div class="form-group">
             <div class="input-group">
@@ -33,7 +35,9 @@ e.g. 'Apple|Samsung'"
 
           </div>
         </div>
+        <!-- Searching Input End-->
 
+        <!-- Category Selection Dropdown -->
         <div class="col-md-4 pr-0">
           <div class="form-group">
             <label for="category" class="sr-only">Search within:</label>
@@ -41,45 +45,28 @@ e.g. 'Apple|Samsung'"
               <option <?php if (isset($_GET['category']) && $_GET['category'] == 0) echo "selected"; ?> value=0>
                 All categories
               </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == 1) echo "selected"; ?>
-                  value=1> Art and Collectibles
-              </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == 2) echo "selected"; ?>
-                  value=2> Antiques
-              </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == 3) echo "selected"; ?>
-                  value=3> Automobiles and Vehicles
-              </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == 4) {
-                  echo "selected='selected'";
-              } ?> value=4> Jewelry and Watches
-              </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == 5) {
-                  echo "selected='selected'";
-              } ?> value=5> Electronics and Technology
-              </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == 6) echo "selected"; ?>
-                  value=6> Fashion and Apparel
-              </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == 7) echo "selected"; ?>
-                  value=7> Sports and Memorabilia
-              </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == 8) echo "selected"; ?>
-                  value=8> Wine and Spirits
-              </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == 9) echo "selected"; ?>
-                  value=9> Furniture and Home Decor
-              </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == 10) echo "selected"; ?>
-                  value=10> Real Estate
-              </option>
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == 11) echo "selected"; ?>
-                  value=11> Others
-              </option>
+                <?php
+                $find_categories_query = "SELECT * FROM categories";
+                // SQL to fetch data
+                $result = mysqli_query($connection, $find_categories_query);
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $category = $row['category'];
+                    $categoryId = $row['cateId'];
+                    if (isset($_GET['category']) && $_GET['category'] == $categoryId) {
+                        $isSelected = "selected";
+                    } else {
+                        $isSelected = "";
+                    }
+
+                    echo "<option value=$categoryId $isSelected> $category </option>";
+                }
+                ?>
             </select>
           </div>
         </div>
+        <!-- Category Selection Dropdown End-->
 
+        <!-- Sorting Dropdown -->
         <div class="col-md-2 pr-0">
           <div class="form-group">
             <label class="sr-only" for="sort_by">Sort by:</label>
@@ -99,18 +86,21 @@ e.g. 'Apple|Samsung'"
               <option <?php if (isset($_GET['sort_by']) && $_GET['sort_by'] == "endDateTime DESC") echo "selected"; ?>
                   value="endDateTime DESC">Newly listed
               </option>
-
             </select>
           </div>
         </div>
+        <!-- Sorting Dropdown End -->
 
+        <!-- Submit Button -->
         <div class="col-md-1">
           <button type="submit" value="Submit" class="btn btn-primary">Search</button>
         </div>
-
+        <!-- Submit Button End -->
       </div>
 
       <div class="row">
+
+        <!-- Conditions Checkbox -->
         <label class="col-sm-1">Conditions: </label>
         <div class="col-md-11 pr-0">
           <?php
@@ -127,12 +117,13 @@ e.g. 'Apple|Samsung'"
             }
 
             echo "<div class='form-check form-check-inline'>
-            <input class='form-check-input' type='checkbox' id='".$conditionDescription."' name='conditions' value=".$conditionId." ".$isChecked.">
-            <label class='form-check-label' for='".$conditionDescription."'>".$conditionDescription."</label>
+            <input class='form-check-input' type='checkbox' id='$conditionDescription' name='conditions' value=$conditionId $isChecked>
+            <label class='form-check-label' for='$conditionDescription'>$conditionDescription</label>
           </div>";
           }
           ?>
         </div>
+        <!-- Conditions Checkbox End -->
       </div>
 
     </form>

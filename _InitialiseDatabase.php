@@ -101,18 +101,18 @@ if (mysqli_query($conn, $sql)) {
 
 
 // Create the category table
-$sql = "CREATE TABLE category (
+$sql = "CREATE TABLE categories (
 cateId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 category VARCHAR(255) NOT NULL)";
 
 if (mysqli_query($conn, $sql)) {
-    echo "Category Table created successfully. ";
+    echo "Categories Table created successfully. ";
 } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
 
 // Create category options for users
-$sql = "INSERT INTO category (cateId, category)
+$sql = "INSERT INTO categories (cateId, category)
         VALUES (1, 'Art and Collectibles'),
                (2, 'Antiques'),
                (3, 'Automobiles and Vehicles'),
@@ -126,7 +126,7 @@ $sql = "INSERT INTO category (cateId, category)
                (11, 'Others');";
 
 if (mysqli_query($conn, $sql)) {
-    echo "Category options created successfully. ";
+    echo "Categories options created successfully. ";
 } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
@@ -177,7 +177,7 @@ brand VARCHAR(255),
 reservedPrice DECIMAL,
 FOREIGN KEY (sellerId) REFERENCES users(userId),
 FOREIGN KEY (conditions) REFERENCES conditions(conditionId),
-FOREIGN KEY (category) REFERENCES category(cateId)
+FOREIGN KEY (category) REFERENCES categories(cateId)
 )";
 
 if (mysqli_query($conn, $sql)) {

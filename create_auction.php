@@ -1,7 +1,10 @@
 <?php
 include_once("header.php");
 require_once 'includes/create_auction_view.inc.php';
+
+$connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
 ?>
+
 
 
   <div class="container">
@@ -47,41 +50,17 @@ require_once 'includes/create_auction_view.inc.php';
               <label for="auctionCategory" class="col-sm-2 col-form-label text-right">Category</label>
               <div class="col-sm-10">
                 <select class="form-control" id="auctionCategory" name="auctionCategory">
-                    <option <?php if (isset($_GET['category']) && $_GET['category'] == 1) echo "selected"; ?>
-                            value= 1> Art and Collectibles
-                    </option>
-                    <option <?php if (isset($_GET['category']) && $_GET['category'] == 2) echo "selected"; ?>
-                            value= 2> Antiques
-                    </option>
-                    <option <?php if (isset($_GET['category']) && $_GET['category'] == 3) echo "selected"; ?>
-                            value= 3> Automobiles and Vehicles
-                    </option>
-                    <option <?php if (isset($_GET['category']) && $_GET['category'] == 4) {
-                        echo "selected='selected'";
-                    } ?> value= 4> Jewelry and Watches
-                    </option>
-                    <option <?php if (isset($_GET['category']) && $_GET['category'] == 5) {
-                        echo "selected='selected'";
-                    } ?> value= 5> Electronics and Technology
-                    </option>
-                    <option <?php if (isset($_GET['category']) && $_GET['category'] == 6) echo "selected"; ?>
-                            value= 6> Fashion and Apparel
-                    </option>
-                    <option <?php if (isset($_GET['category']) && $_GET['category'] == 7) echo "selected"; ?>
-                            value= 7> Sports and Memorabilia
-                    </option>
-                    <option <?php if (isset($_GET['category']) && $_GET['category'] == 8) echo "selected"; ?>
-                            value= 8> Wine and Spirits
-                    </option>
-                    <option <?php if (isset($_GET['category']) && $_GET['category'] == 9) echo "selected"; ?>
-                            value= 9> Furniture and Home Decor
-                    </option>
-                    <option <?php if (isset($_GET['category']) && $_GET['category'] == 10) echo "selected"; ?>
-                            value= 10> Real Estate
-                    </option>
-                    <option <?php if (isset($_GET['category']) && $_GET['category'] == 11) echo "selected"; ?>
-                            value= 11> Others
-                    </option>
+                    <?php
+                    $find_categories_query = "SELECT * FROM categories";
+                    // SQL to fetch data
+                    $result = mysqli_query($connection, $find_categories_query);
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $category = $row['category'];
+                        $categoryId = $row['cateId'];
+
+                        echo "<option value=$categoryId> $category </option>";
+                    }
+                    ?>
                 </select>
                 <small id="categoryHelp" class="form-text text-muted"><span class="text-danger">* Required.</span>
                   Select a category for this item.</small>
@@ -90,21 +69,17 @@ require_once 'includes/create_auction_view.inc.php';
                 <label for="auctionConditions" class="col-sm-2 col-form-label text-right">Condition</label>
                 <div class="col-sm-10">
                   <select class="form-control" id="condition" name="conditions">
-                      <option <?php if (isset($_GET['conditions']) && $_GET['conditions'] == 1) echo "selected"; ?>
-                              value= 1> Brand new
-                      </option>
-                      <option <?php if (isset($_GET['conditions']) && $_GET['conditions'] == 2) echo "selected"; ?>
-                              value= 2>Like new
-                      </option>
-                      <option <?php if (isset($_GET['conditions']) && $_GET['conditions'] == 3) echo "selected"; ?>
-                              value= 3>Very good
-                      </option>
-                      <option <?php if (isset($_GET['conditions']) && $_GET['conditions'] == 4) echo "selected"; ?>
-                              value=4>Good
-                      </option>
-                      <option <?php if (isset($_GET['conditions']) && $_GET['conditions'] == 5) echo "selected"; ?>
-                              value=5>Acceptable
-                      </option>
+                    <?php
+                    $find_conditions_query = "SELECT * FROM conditions";
+                    // SQL to fetch data
+                    $result = mysqli_query($connection, $find_conditions_query);
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $conditionDescription = $row['condDescript'];
+                        $conditionId = $row['conditionId'];
+
+                        echo "<option value=$conditionId > $conditionDescription </option>";
+                    }
+                    ?>
                   </select>
                   <small id="conditionHelp" class="form-text text-muted"><span class="text-danger">* Required.</span>
                     Select a condition for this item.</small>
@@ -154,4 +129,7 @@ require_once 'includes/create_auction_view.inc.php';
   </div>
 
 
-<?php include_once("footer.php") ?>
+<?php
+mysqli_close($connection);
+include_once("footer.php")
+?>

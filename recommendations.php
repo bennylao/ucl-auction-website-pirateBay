@@ -119,7 +119,7 @@ $max_page = ceil($num_results / $results_per_page);
             $query = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.startingPrice,
                        i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice
                             FROM items i
-                        INNER JOIN category c ON i.category = c.cateId
+                        INNER JOIN categories c ON i.category = c.cateId
                         LEFT JOIN bidHistory b ON i.itemId = b.itemId
                         WHERE i.category IN (
                             SELECT DISTINCT i.category FROM wishList w

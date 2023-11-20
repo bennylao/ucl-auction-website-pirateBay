@@ -23,7 +23,7 @@ $item_id = $_GET['item_id'];
     $query = "SELECT i.itemId, i.itemTitle, i.description, i.sellerId, i.startingPrice, 
        i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice, c.category, con.condDescript
     FROM items i
-        INNER JOIN category c ON i.category = c.cateId
+        INNER JOIN categories c ON i.category = c.cateId
         INNER JOIN conditions con ON i.conditions = con.conditionId
          LEFT JOIN bidHistory b ON i.itemId = b.itemId
     WHERE i.itemId = $item_id";

@@ -151,7 +151,6 @@ if (!isset($_GET['conditions'])) {
 
 // Retrieve these from the URL
 if (!isset($_GET['search_keyword']) or empty($_GET['search_keyword'])) {
-    // TODO: Define behavior if a keyword has not been specified.
     $keyword = "%";
 } else {
     $keyword = "%" . $_GET['search_keyword'] . "%";
@@ -160,7 +159,6 @@ if (!isset($_GET['search_keyword']) or empty($_GET['search_keyword'])) {
 // Only do filtering if category is selected and the category is not "all"
 // Otherwise do nothing
 if (isset($_GET['category']) and $_GET['category'] != 0) {
-    // TODO: Define behavior if a category has not been specified.
     $category = $_GET['category'];
     $category_query = " AND i.category = '$category'";
 } else {
@@ -169,7 +167,6 @@ if (isset($_GET['category']) and $_GET['category'] != 0) {
 
 // Retrieve the ordering method
 if (!isset($_GET['sort_by'])) {
-    // TODO: Define behavior if an order_by value has not been specified.
     $ordering = "COUNT(b.itemId) DESC";
 } else {
     $ordering = $_GET['sort_by'];
@@ -189,9 +186,6 @@ if (!isset($_GET['page'])) {
 
 $offset = (($curr_page - 1) * $items_per_page);
 
-/* TODO: Use above values to construct a query. Use this query to
-     retrieve data from the database. (If there is no form data entered,
-     decide on appropriate default value/default query to make. */
 $item_query = "SELECT i.itemId, i.itemTitle, i.category, i.description, MAX(b.bidPrice), COUNT(b.itemId), i.startingPrice, i.endDateTime, GREATEST(MAX(b.bidPrice), i.startingPrice)
                 FROM items i LEFT JOIN bidHistory b ON i.itemId = b.itemId
                 WHERE (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword')

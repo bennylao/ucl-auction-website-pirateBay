@@ -190,6 +190,8 @@ mysqli_close($connection);
         if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {  #if logged in, print the form
             if ($seller_id == $currentUserId){
                 echo 'You are the item seller.';
+            }else if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller'){
+                echo 'Please register a buyer or a buyer-seller account to start bidding';
             }else{
             echo '<form method="POST" action="place_bid.php">
         <div class="input-group">

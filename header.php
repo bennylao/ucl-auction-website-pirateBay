@@ -260,43 +260,6 @@ ORDER BY
         }
     }
 
-
-//if ($result->num_rows > 0) {
-//if ($sellerId == $ownerId) {    // item didn't sell
-//    if ($sellerId == $currentUserId){  // to inform the seller
-//        echo "</nav>
-//<div class='alert_red'>
-//    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>
-//        Sorry your item $itemTitle didn't sell.
-//</div>";}
-//    else if ($bidStatus == 'Not Highest Bidder'){   // to inform the bidder
-//        echo "<div class='alert_red'>
-//    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>
-//    Sorry you didn't win $itemTitle.
-//</div>";}}
-//else if ($sellerId != $ownerId){    // the item sold
-//    if ($sellerId == $currentUserId){   // to inform the seller
-//        echo "</nav>
-//<div class='alert_green'>
-//    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>
-//        Congrats your item $itemTitle sold.
-//</div>";}
-//    else if ($bidStatus == 'Winner'){   //to inform the winner
-//        echo "</nav>
-//<div class='alert_green'>
-//    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>
-//        Congrats you won the item $itemTitle!
-//</div>";}
-//    else if ($bidStatus == 'Not Highest Bidder'){   //to inform the losers
-//        echo "</nav>
-//<div class='alert_red'>
-//    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>
-//        Sorry you didn't win the auction.
-//</div>";}
-//}
-//}
-//}
-
 mysqli_close($connection);
 ?>
 

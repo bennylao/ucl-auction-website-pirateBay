@@ -1,5 +1,8 @@
 
 <?php
+require_once("config_database.php");
+
+$connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
 
 ini_set('session.use_only_cookies', 1);
 ini_set('session.use_only_strict_mode', 1);
@@ -159,21 +162,14 @@ function regenerate_session_id()
 </div> <!-- End modal -->
 
 <?php //Only shows up if logged in
-require_once("config_database.php");
 
 if (isset($_SESSION['logged_in'])) {   //Only shows up if logged in
 
 // Retrieve data (userid from the session)
     $currentUserId = $_SESSION['id'];
 
-    $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
-
 // SQL to fetch data
-    $query = "SELECT 
-    i.itemId, 
-    i.itemTitle, 
-    i.sellerId, 
-    i.ownerId, 
+    $query = "SELECT i.itemId, i.itemTitle, i.sellerId, i.ownerId, 
     COALESCE(MAX(userBids.userId), 'No Bids') AS userId,
     i.endDateTime, 
     COALESCE(MAX(userBids.maxUserBid), 0) AS bidPrice,
@@ -245,19 +241,19 @@ ORDER BY
                     echo "</nav>
 <div class='alert_green'>
     <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>
-        Congrats your item $itemTitle sold.
+        Congrats your item $itemTitle sold for £$bidPrice.
 </div>";}
                 else if ($bidStatus == 'Winner'){   //to inform the winner
                     echo "</nav>
 <div class='alert_green'>
     <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>
-        Congrats you won the item $itemTitle!
+        Congrats you won the item $itemTitle for £$bidPrice!
 </div>";}
                 else if ($bidStatus == 'Not Highest Bidder'){   //to inform the losers
                     echo "</nav>
 <div class='alert_red'>
     <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>
-        Sorry you didn't win the auction.
+        Sorry you didn't win the item $itemTitle.
 </div>";}
             }
         }

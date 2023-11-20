@@ -1,3 +1,4 @@
+
 <?php
 
 ini_set('session.use_only_cookies', 1);
@@ -156,3 +157,126 @@ function regenerate_session_id()
     </div>
   </div>
 </div> <!-- End modal -->
+
+<?php //Only shows up if logged in
+require("config_database.php");
+
+if (isset($_SESSION['logged_in'])) {   //Only shows up if logged in
+
+// Retrieve data (userid from the session)
+    $currentUserId = $_SESSION['id'];
+
+    $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
+
+// SQL to fetch data
+    $query = "SELECT 
+    i.itemId, 
+    i.itemTitle, 
+    i.sellerId, 
+    i.ownerId, 
+    COALESCE(b.userId, 'No Bids') AS userId,
+    i.endDateTime, 
+    COALESCE(b.bidPrice, 0) AS bidPrice, 
+    CASE 
+        WHEN b.bidPrice IS NULL THEN 'No Bids'
+        WHEN b.bidPrice = maxBid.maxBidPrice THEN 'Winner'
+        ELSE 'Not Highest Bidder'
+    END AS BidStatus
+FROM 
+    items i 
+LEFT JOIN 
+    bidHistory b ON i.itemId = b.itemId
+LEFT JOIN (
+    SELECT 
+        itemId, 
+        MAX(bidPrice) AS maxBidPrice
+    FROM 
+        bidHistory
+    GROUP BY 
+        itemId
+) AS maxBid ON i.itemId = maxBid.itemId
+WHERE b.userId = $currentUserId
+ORDER BY 
+    i.itemId, b.bidPrice DESC;";
+
+    $result = mysqli_query($connection, $query);
+
+    if ($result->num_rows > 0) {
+// Output data of each row
+        while ($row = $result->fetch_assoc()) {
+            $itemId = $row["itemId"];
+            $itemTitle = $row["itemTitle"];
+            $sellerId = $row["sellerId"];
+            $ownerId = $row["ownerId"];
+            $userId = $row["userId"];
+            $bidPrice = $row["bidPrice"];
+            $endDateTime = $row["endDateTime"];
+            $bidStatus = $row["BidStatus"];
+        }
+    }else {
+        echo mysqli_close($connection);}
+
+if ($result->num_rows > 0) {
+if ($sellerId == $ownerId) {    // item didn't sell
+    if ($sellerId == $userId){  // to inform the seller
+        echo "</nav>
+<div class='alert_red'>
+    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>
+        Sorry your item $itemTitle didn't sell.
+</div>";}
+    else if ($bidStatus == 'Not Highest Bidder'){   // to inform the bidder
+        echo "<div class='alert_red'>
+    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>
+    Sorry you didn't win $itemTitle.
+</div>";}}
+else if ($sellerId != $ownerId){    // the item sold
+    if ($sellerId == $currentUserId){   // to inform the seller
+        echo "</nav>
+<div class='alert_green'>
+    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>
+        Congrats your item $itemTitle sold.
+</div>";}
+    else if ($bidStatus == 'Winner'){   //to inform the winner
+        echo "</nav>
+<div class='alert_green'>
+    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>
+        Congrats you won the item $itemTitle!
+</div>";}
+    else if ($bidStatus == 'Not Highest Bidder'){   //to inform the losers
+        echo "</nav>
+<div class='alert_red'>
+    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>
+        Sorry you didn't win the auction.
+</div>";}
+}
+}
+}
+
+"
+</nav>
+<div class='alert_green'>
+    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>
+    Successful demo.
+</div>
+
+</nav>
+<div class='alert_red'>
+    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>
+    Losing bid/failed bid demo.
+</div>";
+?>
+
+<!--Notification map:-->
+
+<!--    if sellerId == ownerId:-->
+<!--        if sellerId == userId:-->
+<!--            "Your item didn't sell."-->
+<!--        if userId not highest bidder:-->
+<!--            "The item didn't sell. Your bid didn't win."-->
+<!--    if sellerId != ownerId:-->
+<!--        if sellerId = userId:-->
+<!--            "Your item sold"-->
+<!--        else if userId == highestBidder:-->
+<!--            "Congrats you won!"-->
+<!--        else if userId != highestBidder:-->
+<!--            "Sorry you didn't win the auction."-->

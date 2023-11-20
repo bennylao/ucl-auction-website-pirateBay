@@ -5,6 +5,10 @@ require("utilities.php");
 require_once("config_database.php")
 ?>
 
+<?php
+// Create database connection
+$connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
+?>
 
   <div class="container">
 
@@ -34,7 +38,7 @@ e.g. 'Apple|Samsung'"
           <div class="form-group">
             <label for="category" class="sr-only">Search within:</label>
             <select class="form-control" id="category" name="category">
-              <option <?php if (isset($_GET['category']) && $_GET['category'] == "All") echo "selected"; ?> value="All">
+              <option <?php if (isset($_GET['category']) && $_GET['category'] == 0) echo "selected"; ?> value=0>
                 All categories
               </option>
               <option <?php if (isset($_GET['category']) && $_GET['category'] == 1) echo "selected"; ?>
@@ -106,8 +110,21 @@ e.g. 'Apple|Samsung'"
 
       </div>
 
-      <div class="col-md-3 pr-0">
-
+      <div class="row">
+        <label class="col-sm-1">Conditions: </label>
+        <div class="col-md-11 pr-0">
+          <?php
+          $conditions_query = "SELECT * FROM conditions";
+          // SQL to fetch data
+          $result = mysqli_query($connection, $conditions_query);
+          while ($row = mysqli_fetch_assoc($result)) {
+            echo "<div class='form-check form-check-inline'>
+            <input class='form-check-input' type='checkbox' id='".$row['condDescript']."' name='".$row['condDescript']."' value=".$row['conditionId']." checked>
+            <label class='form-check-label' for='".$row['condDescript']."'>".$row['condDescript']."</label>
+          </div>";
+          }
+          ?>
+        </div>
       </div>
 
     </form>
@@ -115,7 +132,11 @@ e.g. 'Apple|Samsung'"
   <!-- end search specs bar -->
 
 <?php
-
+// Retrieve these from the URL
+if (isset($_GET['condition'])) {
+    // TODO: Define behavior if a keyword has not been specified.
+//    echo $_GET['condition'];
+}
 
 // Retrieve these from the URL
 if (!isset($_GET['search_keyword']) or empty($_GET['search_keyword'])) {
@@ -127,7 +148,7 @@ if (!isset($_GET['search_keyword']) or empty($_GET['search_keyword'])) {
 
 // Only do filtering if category is selected and the category is not "all"
 // Otherwise do nothing
-if (isset($_GET['category']) and $_GET['category'] != 'All') {
+if (isset($_GET['category']) and $_GET['category'] != 0) {
     // TODO: Define behavior if a category has not been specified.
     $category = $_GET['category'];
     $category_query = " AND i.category = '$category'";
@@ -189,10 +210,6 @@ $count_item_query = "SELECT COUNT(*) FROM items i
 
 
         <?php
-
-        // Create database connection
-        $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
-
         // SQL to fetch data
         $result = mysqli_query($connection, $item_query);
 

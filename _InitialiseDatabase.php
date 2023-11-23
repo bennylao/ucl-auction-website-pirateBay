@@ -283,5 +283,28 @@ if (mysqli_query($conn, $sql)) {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
 
+$sql = "CREATE TABLE images(
+    imageID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    imagePath VARCHAR(255) NOT NULL ,
+    itemID INT NOT NULL 
+)";
+
+if (mysqli_query($conn, $sql)) {
+    echo "Table images created successfully. ";
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
+$sql = "INSERT INTO images (imagePath, itemID)
+VALUES ('images/Image_not_available.png', 3)
+";
+
+if (mysqli_query($conn, $sql)) {
+    echo "New images records created successfully. ";
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
+
 mysqli_close($conn);
 ?>

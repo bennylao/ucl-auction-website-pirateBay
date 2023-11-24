@@ -148,6 +148,7 @@ mysqli_close($connection);
     <div class="col-sm-4"> <!-- Right col with bidding info -->
 
       <p>
+
           <?php if ($now > $end_time):
               $mysqli = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
               $query = "SELECT userId, MAX(bidPrice) as maxPrice FROM bidHistory WHERE itemId = ? GROUP BY userId ORDER BY maxPrice DESC LIMIT 1";
@@ -164,22 +165,24 @@ mysqli_close($connection);
                   $updateStmt->execute();
                   mysqli_close($mysqli);
                   echo "This auction ended: " . date_format($end_time, 'j M H:i');
-                  echo "<br> Congratulations, your bid of £" . $highestBid['maxPrice'] . " was successful" ;
-          }
-
-              if ($_SESSION['id'] != $highestBid['userId']) {
-              $userBidQuery = "SELECT EXISTS(SELECT 1 FROM bidHistory WHERE itemId = ? AND userId = ?)";
-              $userBidStmt = $mysqli->prepare($userBidQuery);
-              $userBidStmt->bind_param('ii', $item_id, $_SESSION['id']);
-              $userBidStmt->execute();
-              $userBidResult = $userBidStmt->get_result()->fetch_row();
-
-              if ($userBidResult[0]) {
-                  echo "<br>Your bid was unsuccessful.";
-                  echo "<br>This auction ended: " . date_format($end_time, 'j M H:i');
-                  echo "<br>The winner is user with ID: " . $highestBid['userId'];
+                  echo "<br> Congratulations, your bid of £" . $highestBid['maxPrice'] . " was successful";
               }
-          }
+
+              if (isset($highestBid) && is_array($highestBid) && array_key_exists('userId', $highestBid)) {
+                  if ($_SESSION['id'] != $highestBid['userId']) {
+                      $userBidQuery = "SELECT EXISTS(SELECT 1 FROM bidHistory WHERE itemId = ? AND userId = ?)";
+                      $userBidStmt = $mysqli->prepare($userBidQuery);
+                      $userBidStmt->bind_param('ii', $item_id, $_SESSION['id']);
+                      $userBidStmt->execute();
+                      $userBidResult = $userBidStmt->get_result()->fetch_row();
+
+                      if ($userBidResult[0]) {
+                          echo "<br>Your bid was unsuccessful.";
+                          echo "<br>This auction ended: " . date_format($end_time, 'j M H:i');
+                          echo "<br>The winner is user with ID: " . $highestBid['userId'];
+                      }
+                  }
+              }
               endif;
               ?>
               <?php
@@ -227,6 +230,25 @@ mysqli_close($connection);
 
     <?php include_once("footer.php") ?>
 
+    <script>
+        var end_time = new Date('<?php echo $end_time->format(DateTime::ATOM); ?>').getTime();
+
+        var refresh_interval = setInterval(function() {
+            var now_time = new Date().getTime();
+            var time_left = end_time - now_time;
+
+            if (time_left <= 10000 && time_left > 0) {
+                clearInterval(refresh_interval);
+                setTimeout(function() {
+                    window.location.reload();
+                }, time_left);
+            }
+        }, 1000);
+
+        setTimeout(function() {
+            clearInterval(refresh_interval);
+        }, end_time - new Date().getTime());
+    </script>
 
   <script>
       // JavaScript functions: addToWatchlist and removeFromWatchlist.

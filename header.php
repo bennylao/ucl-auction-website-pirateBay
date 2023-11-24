@@ -262,19 +262,3 @@ ORDER BY
 
 mysqli_close($connection);
 ?>
-
-<!--Notification map:-->
-
-<!--    if i.sellerId == i.ownerId:-->
-<!--        if sellerId == $currentUserId:-->
-<!--            "Your item didn't sell."-->
-<!--        if userId not highest bidder:-->
-<!--            "The item didn't sell. Your bid didn't win."-->
-
-<!--    if sellerId != ownerId:-->
-<!--        if sellerId = userId:-->
-<!--            "Your item sold"-->
-<!--        else if userId == highestBidder:-->
-<!--            "Congrats you won!"-->
-<!--        else if userId != highestBidder:-->
-<!--            "Sorry you didn't win the auction."-->

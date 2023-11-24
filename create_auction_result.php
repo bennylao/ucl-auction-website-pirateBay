@@ -4,7 +4,7 @@ require_once "config_database.php";
 // TODO: Extract $_POST variables, check they're OK, and attempt to create
 // an account. Notify user of success/failure and redirect/give navigation
 // options.
-
+ob_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -39,8 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($errors) {
             $_SESSION["errors_create_auction"] = $errors;
-            echo 'Please fill in all the required information';
             header("refresh:5;url=create_auction.php");
+            echo 'Please fill in all the required information';
             die();
         }
 
@@ -52,9 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mysqli_close($conn);
         $row = $result->fetch_assoc();
         $itemId = $row['itemId'];
-        echo 'Created auction successfully!';
-//        header("refresh:3;url=index.php?signup=success");
         header("refresh:3;url=listing.php?item_id=$itemId");
+        echo 'Created auction successfully!';
 
 
 
@@ -63,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 } else {
     header("Location: ../register.php");
+    ob_end_flush();
     die();
 }
 ?>

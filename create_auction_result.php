@@ -49,9 +49,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         create_auction($conn, $userid, $auctionTitle, $auctionBrand, $auctionDetails, $auctionCategory, $conditions, $auctionStartPrice, $auctionReservePrice, $auctionEndDate);
 
         $result = mysqli_query($conn, "SELECT itemId FROM items ORDER BY startDateTime DESC LIMIT 1");
-        mysqli_close($conn);
         $row = $result->fetch_assoc();
         $itemId = $row['itemId'];
+
+        if (!empty($_FILES['auctionImages']['name'][0])) {
+            $files = $_FILES['auctionImages'];
+
+            for ($i = 0; $i < count($files['name']); $i++) {
+                $fileName = $files['name'][$i];
+                $fileTmpName = $files['tmp_name'][$i];
+                $fileExt = explode('.', $fileName);
+                $fileActualExt = strtolower(end($fileExt));
+
+                $allowed = array('jpg', 'jpeg', 'png', 'gif');
+
+                if (in_array($fileActualExt, $allowed)) {
+                    $newFileName = uniqid('', true) . "." . $fileActualExt;
+                    $fileDestination = 'auction_image/' . $newFileName;
+
+                    if (move_uploaded_file($fileTmpName, $fileDestination)) {
+                        $sql = "INSERT INTO images (itemID, imagePath) VALUES (?, ?)";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("is", $itemId, $fileDestination);
+                        $stmt->execute();
+                    }
+                }
+            }
+        }
+
+        mysqli_close($conn);
+
+
         header("refresh:3;url=listing.php?item_id=$itemId");
         echo 'Created auction successfully!';
 

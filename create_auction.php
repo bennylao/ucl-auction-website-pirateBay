@@ -21,7 +21,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
           before they try to send it, but that kind of functionality should be
           extremely low-priority / only done after all database functions are
           complete. -->
-          <form method="post" action="create_auction_result.php">
+          <form method="post" action="create_auction_result.php" enctype="multipart/form-data">
             <div class="form-group row">
               <label for="auctionTitle" class="col-sm-2 col-form-label text-right">Title of auction</label>
               <div class="col-sm-10">
@@ -111,6 +111,13 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
                   <small id="reservePriceHelp" class="form-text text-muted">Optional. Auctions that end below this price
                     will not go through. This value is not displayed in the auction listing.</small>
                 </div>
+              </div>
+              <div class="form-group row">
+                  <label for="auctionImages" class="col-sm-2 col-form-label text-right">Upload Images</label>
+                  <div class="col-sm-10">
+                      <input type="file" class="form-control-file" id="auctionImages" name="auctionImages[]" accept="image/*" multiple>
+                      <small id="imagesHelp" class="form-text text-muted">9 images maximum</small>
+                  </div>
               </div>
               <div class="form-group row">
                 <label for="auctionEndDate" class="col-sm-2 col-form-label text-right">End date</label>

@@ -44,26 +44,47 @@ function regenerate_session_id()
   <!-- Bootstrap and FontAwesome CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-  <!-- Custom CSS file -->
-  <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" type= "text/css" href="css/custom.css">
   <title>
       <?php
       if (isset($title)) {
           echo $title;
       } else {
-          echo "Auction";
+          echo "PirateBay";
       }
       ?>
   </title>
+
 </head>
 
 
 <body>
+<style>
+    body {
+        background-image: url('images/luffy_flag_potential_final.jpg');
+        background-size: cover;
+        color: #000000
+        display: table;
+        margin: 0 auto;
+        background-color: white;
 
+        .navbar-background {
+            background-image: url('images/luffy_flag_potential_final.jpg');
+            background-size: cover;
+        }
+
+        .content-container {
+            background-color: white; /* Ensure content has a white background */
+            padding: 20px; /* Add some padding for aesthetics */
+        }
+
+    }
+</style>
 <!-- Navbars -->
+<div class="navbar-background">
 <nav class="navbar navbar-expand-lg navbar-light bg-light mx-2">
-  <a class="navbar-brand" href="browse.php">Site Name</a>
+
+  <a class="navbar-brand" href="browse.php">PirateBay</a>
   <ul class="navbar-nav ml-auto">
     <li class="nav-item">
 
@@ -130,6 +151,7 @@ function regenerate_session_id()
       ?>
   </ul>
 </nav>
+</div>
 
 <!-- Login modal -->
 <div class="modal fade" id="loginModal">

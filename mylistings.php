@@ -11,8 +11,8 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
 
   <div class="container">
 
-      <h2 class="my-3">Successful Sales</h2>
-      <h5 class="my-3">Shows all the successful sales</h5>
+      <h2 class="my-3 text-success">Successful Sales</h2>
+      <h5 class="my-3 text-success">Shows all the successful sales</h5>
 
       <?php
       // Retrieve data (userid from the session)
@@ -48,8 +48,8 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
       mysqli_close($connection);
       ?>
 
-      <h2 class="my-3">Unsuccessful Sales</h2>
-      <h5 class="my-3">Sorry your item did not sell</h5>
+      <h2 class="my-3 text-danger">Unsuccessful Sales</h2>
+      <h5 class="my-3 text-danger">Sorry your item did not sell</h5>
 
       <?php
       // Retrieve data (userid from the session)

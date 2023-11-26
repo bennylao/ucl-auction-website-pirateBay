@@ -6,8 +6,8 @@ include_once("header.php") ?>
 
   <div class="container">
 
-      <h2 class="my-3">Successful bids</h2>
-      <h5 class="my-3">Shows all the successful bids</h5>
+      <h2 class="my-3 text-success">Successful bids</h2>
+      <h5 class="my-3 text-success">Shows all the successful bids</h5>
 
       <?php
       // Retrieve data (userid from the session)
@@ -46,8 +46,8 @@ include_once("header.php") ?>
       mysqli_close($connection);
       ?>
 
-      <h2 class="my-3">Unsuccessful bids</h2>
-      <h5 class="my-3">Sorry you lost the auction</h5>
+      <h2 class="my-3 text-danger">Unsuccessful bids</h2>
+      <h5 class="my-3 text-danger">Sorry you lost the auction</h5>
 
       <?php
       // Retrieve data (userid from the session)

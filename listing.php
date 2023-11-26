@@ -182,7 +182,7 @@ mysqli_close($connection);
                   echo "<br> Congratulations, your bid of £" . $highestBid['maxPrice'] . " was successful";
                   echo "<p>Pay securely here: \n</p>";
 //                      <!-- Payment form -->
-                  /* echo '
+                  echo '
          <form method="post" action="create_auction_result.php">
             <div Now securely here </div>
             <div class="form-group row">
@@ -214,13 +214,6 @@ mysqli_close($connection);
                       <small id="titlhelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
                   </div>
               </div>
-              <div class="form-group row">
-                  <label for="Expi" class="col-sm-2 col-form-label text-right">Security code</label>
-                  <div class="col-sm-10">
-                      <input type="text" class="form-control" name="Securitycode">
-                      <small id="titlhelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
-                  </div>
-              </div>
                 <div class="form-group row">
                     <label for="expirydate" class="col-sm-2 col-form-label text-right">Expiry Date</label>
                     <div class="col-sm-10">
@@ -229,7 +222,7 @@ mysqli_close($connection);
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary form-control">Pay now</button> 
-        </form>' */
+        </form>'
                   ;
               }
 

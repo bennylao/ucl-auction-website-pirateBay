@@ -85,7 +85,9 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
       }
       ?>
 
-  <h2 class="my-3">My listings</h2>
+      <div class="container">
+
+      <h2 class="my-3">My listings</h2>
 
       <!-- Searching Input -->
       <div class="col-md-5 pr-0">
@@ -199,6 +201,55 @@ e.g. 'Apple|Samsung'"
     </form>
     </div>
     <!-- end search specs bar -->
+
+    </div>
+
+<?php
+// Retrieve these from the URL
+if (!isset($_GET['keyword'])) {
+    // TODO: Define behavior if a keyword has not been specified.
+} else {
+    $keyword = $_GET['keyword'];
+}
+
+if (!isset($_GET['cat'])) {
+    // TODO: Define behavior if a category has not been specified.
+} else {
+    $category = $_GET['cat'];
+}
+
+if (!isset($_GET['order_by'])) {
+    // TODO: Define behavior if an order_by value has not been specified.
+} else {
+    $ordering = $_GET['order_by'];
+}
+
+if (!isset($_GET['page'])) {
+    $curr_page = 1;
+} else {
+    $curr_page = $_GET['page'];
+}
+
+/* TODO: Use above values to construct a query. Use this query to
+   retrieve data from the database. (If there is no form data entered,
+   decide on appropriate default value/default query to make. */
+
+/* For the purposes of pagination, it would also be helpful to know the
+   total number of results that satisfy the above query */
+$num_results = 96; // TODO: Calculate me for real
+$results_per_page = 10;
+$max_page = ceil($num_results / $results_per_page);
+?>
+
+    <div class="container mt-5">
+
+    <!-- TODO: If result set is empty, print an informative message. Otherwise... -->
+
+    <ul class="list-group">
+
+    <!-- TODO: Use a while loop to print a list item for each auction listing
+         retrieved from the query -->
+
 
 <?php
 // Retrieve data (userid from the session)

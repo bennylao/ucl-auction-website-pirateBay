@@ -153,6 +153,28 @@ mysqli_close($connection);
         <div class="itemDescription">
             Condition: <?php echo $condition ; ?>
         </div>
+        <?php
+        $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
+        $historyQuery = "SELECT u.userName, b.bidPrice, b.bidDateTime
+                    FROM bidHistory b LEFT JOIN users u
+                    ON b.userId = u.userId
+                    WHERE b.itemId = $item_id;";
+        $historyResult = mysqli_query($connection, $historyQuery);
+        if ($historyResult->num_rows > 0) {
+        // Output data of each row
+            while ($row = $historyResult->fetch_assoc()) {
+            $userName = $row["userName"];
+            $bidPrice = $row["bidPrice"];
+            $bidDateTime = $row["bidDateTime"];
+
+            echo ("<p>$userName made a bid for $bidPrice at $bidDateTime.</p>");}}
+
+            else {
+                echo "No one had made a bid on this item.";
+            }
+
+
+        ?>
 
 
 
@@ -181,6 +203,7 @@ mysqli_close($connection);
                   echo "This auction ended: " . date_format($end_time, 'j M H:i');
                   echo "<br> Congratulations, your bid of £" . $highestBid['maxPrice'] . " was successful";
                   echo "<p>Pay securely here: \n</p>";
+
 //                      <!-- Payment form -->
                   echo '
          <form method="post" action="create_auction_result.php">

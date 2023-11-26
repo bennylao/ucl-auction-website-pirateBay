@@ -11,6 +11,83 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
 
   <div class="container">
 
+      <h2 class="my-3">Successful Sales</h2>
+      <h5 class="my-3">Shows all the successful sales</h5>
+
+      <?php
+      // Retrieve data (userid from the session)
+      $currentUserId = $_SESSION['id'];
+
+      // SQL to fetch data
+      $soldQuery = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.ownerId, i.sellerId, i.startingPrice,
+       i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice
+    FROM items i
+         LEFT JOIN bidHistory b ON i.itemId = b.itemId
+    WHERE i.sellerId = '$currentUserId' AND (i.ownerId != '$currentUserId') AND i.endDateTime < NOW()
+        GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
+";
+
+      $soldResult = mysqli_query($connection, $soldQuery);
+
+      if ($soldResult->num_rows > 0) {
+          // Output data of each row
+          while ($row = $soldResult->fetch_assoc()) {
+              $itemId = $row["itemId"];
+              $itemTitle = $row["itemTitle"];
+              $category = $row["category"];
+              $description = $row["description"];
+              $currentPrice = ($row["MAX(b.bidPrice)"] !== null) ? $row["MAX(b.bidPrice)"]: 0;
+              $num_bids = $row["COUNT(b.itemId)"];
+              $endDateTime = new DateTime($row["endDateTime"]);
+              // This uses a function defined in utilities.php
+              print_listing_li($itemId, $itemTitle, $category, $description, $currentPrice, $num_bids, $endDateTime);
+          }
+      } else {
+          echo "No successful sales found.";
+      }
+      mysqli_close($connection);
+      ?>
+
+      <h2 class="my-3">Unsuccessful Sales</h2>
+      <h5 class="my-3">Sorry your item did not sell</h5>
+
+      <?php
+      // Retrieve data (userid from the session)
+      $currentUserId = $_SESSION['id'];
+
+      // Create database connection
+      $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
+
+      // SQL to fetch data
+      $unsoldQuery = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.ownerId, i.sellerId, i.startingPrice,
+       i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice
+    FROM items i
+         LEFT JOIN bidHistory b ON i.itemId = b.itemId
+    WHERE i.sellerId = '$currentUserId' AND i.ownerId = '$currentUserId' AND i.endDateTime < NOW()
+    GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
+";
+
+      $unsoleResult = mysqli_query($connection, $unsoldQuery);
+
+      if ($unsoleResult->num_rows > 0) {
+          // Output data of each row
+          while ($row = $unsoleResult->fetch_assoc()) {
+              $itemId = $row["itemId"];
+              $itemTitle = $row["itemTitle"];
+              $category = $row["category"];
+              $description = $row["description"];
+              $currentPrice = ($row["MAX(b.bidPrice)"] !== null) ? $row["MAX(b.bidPrice)"]: 0;
+              $num_bids = $row["COUNT(b.itemId)"];
+              $endDateTime = new DateTime($row["endDateTime"]);
+              // This uses a function defined in utilities.php
+              print_listing_li($itemId, $itemTitle, $category, $description, $currentPrice, $num_bids, $endDateTime);
+          }
+      } else {
+          echo "No unsold items found.";
+      }
+      mysqli_close($connection);
+      ?>
+
   <h2 class="my-3">My listings</h2>
 
       <!-- Searching Input -->

@@ -296,7 +296,7 @@ if (mysqli_query($conn, $sql)) {
 }
 
 $sql = "INSERT INTO images (imagePath, itemID)
-VALUES ('images/Image_not_available.png', 3)
+VALUES ('auction_image/Image_not_available.png', 3)
 ";
 
 if (mysqli_query($conn, $sql)) {

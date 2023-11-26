@@ -128,10 +128,22 @@ mysqli_close($connection);
           <?php echo $description ; ?>
       </div>
 
+
         <?php
-        foreach ($imagePaths as $path) {
+        if (!empty($imagePaths)) {
+            foreach ($imagePaths as $path) {
+                // Start a new div for each image
+                echo '<div class="itemDescription" style="margin-bottom: 20px;">'; // Added a margin for better spacing
+
+                // Display the image. Ensure that $path contains the correct relative or absolute URL to the image
+                echo '<img src="' . htmlspecialchars($path) . '" alt="Item Image" style="max-width: 100%; height: auto;">';
+
+                // Close the div
+                echo '</div>';
+            }
+        } else {
             echo '<div class="itemDescription">';
-            echo '<img src="' . $path . '" alt="Item Image" width="900">';
+            echo '<img src="auction_image/Image_not_available.png" alt="Item Image" width="900">';
             echo '</div>';
         }
         ?>

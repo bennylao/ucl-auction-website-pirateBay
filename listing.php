@@ -143,6 +143,8 @@ mysqli_close($connection);
         </div>
 
 
+
+
     </div>
 
     <div class="col-sm-4"> <!-- Right col with bidding info -->
@@ -166,6 +168,57 @@ mysqli_close($connection);
                   mysqli_close($mysqli);
                   echo "This auction ended: " . date_format($end_time, 'j M H:i');
                   echo "<br> Congratulations, your bid of £" . $highestBid['maxPrice'] . " was successful";
+                  echo "<p>Pay securely here: \n</p>";
+//                      <!-- Payment form -->
+                      echo '        
+        <form method="post" action="create_auction_result.php">
+            <div Now securely here </div>
+            <div class="form-group row">
+                <label for="Fullname" class="col-sm-2 col-form-label text-right">Full name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="Fullname"
+                           placeholder="e.g. Vin Diesel">
+                    <small id="titleHelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Cardnumber" class="col-sm-2 col-form-label text-right">Card number</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="auctionBrand">
+                    <small id="titlhelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Address" class="col-sm-2 col-form-label text-right">Address</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" name="Address" rows="4"></textarea>
+                    <small id="detailsHelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
+                </div>
+            </div>
+              <div class="form-group row">
+                  <label for="Securitycode" class="col-sm-2 col-form-label text-right">Security code</label>
+                  <div class="col-sm-10">
+                      <input type="text" class="form-control" name="Securitycode">
+                      <small id="titlhelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label for="Expi" class="col-sm-2 col-form-label text-right">Security code</label>
+                  <div class="col-sm-10">
+                      <input type="text" class="form-control" name="Securitycode">
+                      <small id="titlhelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
+                  </div>
+              </div>
+                <div class="form-group row">
+                    <label for="expirydate" class="col-sm-2 col-form-label text-right">Expiry Date</label>
+                    <div class="col-sm-10">
+                        <input type="month" class="form-control" id="expirydate" name="expirydate">
+                        <small id="endDateHelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary form-control">Pay now</button>
+        </form>'
+                  ;
               }
 
               if (isset($highestBid) && is_array($highestBid) && array_key_exists('userId', $highestBid)) {
@@ -221,7 +274,6 @@ mysqli_close($connection);
         }else{
             echo 'Please log in to place bid.';
         }}?>
-
 
     </div> <!-- End of right col with bidding info -->
 

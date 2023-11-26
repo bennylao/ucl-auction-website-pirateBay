@@ -6,7 +6,87 @@ include_once("header.php") ?>
 
   <div class="container">
 
-  <h2 class="my-3">My Bids</h2>
+      <h2 class="my-3">Successful bids</h2>
+      <h5 class="my-3">Shows all the successful bids</h5>
+
+      <?php
+      // Retrieve data (userid from the session)
+      $currentUserId = $_SESSION['id'];
+
+      // Create database connection
+      $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
+
+      // SQL to fetch data
+      $winnerQuery = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.ownerId, i.sellerId, i.startingPrice,
+       i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice
+    FROM items i
+         LEFT JOIN bidHistory b ON i.itemId = b.itemId
+    WHERE b.userId = $currentUserId AND i.ownerId = $currentUserId AND i.endDateTime < NOW()
+    GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
+";
+
+      $winResult = mysqli_query($connection, $winnerQuery);
+
+      if ($winResult->num_rows > 0) {
+          // Output data of each row
+          while ($row = $winResult->fetch_assoc()) {
+              $itemId = $row["itemId"];
+              $itemTitle = $row["itemTitle"];
+              $category = $row["category"];
+              $description = $row["description"];
+              $currentPrice = ($row["MAX(b.bidPrice)"] !== null) ? $row["MAX(b.bidPrice)"]: 0;
+              $num_bids = $row["COUNT(b.itemId)"];
+              $endDateTime = new DateTime($row["endDateTime"]);
+              // This uses a function defined in utilities.php
+              print_listing_li($itemId, $itemTitle, $category, $description, $currentPrice, $num_bids, $endDateTime);
+          }
+      } else {
+          echo "No winning bids found.";
+      }
+      mysqli_close($connection);
+      ?>
+
+      <h2 class="my-3">Unsuccessful bids</h2>
+      <h5 class="my-3">Sorry you lost the auction</h5>
+
+      <?php
+      // Retrieve data (userid from the session)
+      $currentUserId = $_SESSION['id'];
+
+      // Create database connection
+      $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
+
+      // SQL to fetch data
+      $loserQuery = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.ownerId, i.sellerId, i.startingPrice,
+       i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice
+    FROM items i
+         LEFT JOIN bidHistory b ON i.itemId = b.itemId
+    WHERE b.userId = $currentUserId AND i.ownerId != $currentUserId AND i.endDateTime < NOW()
+    GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
+";
+
+      $loseResult = mysqli_query($connection, $loserQuery);
+
+      if ($loseResult->num_rows > 0) {
+          // Output data of each row
+          while ($row = $loseResult->fetch_assoc()) {
+              $itemId = $row["itemId"];
+              $itemTitle = $row["itemTitle"];
+              $category = $row["category"];
+              $description = $row["description"];
+              $currentPrice = ($row["MAX(b.bidPrice)"] !== null) ? $row["MAX(b.bidPrice)"]: 0;
+              $num_bids = $row["COUNT(b.itemId)"];
+              $endDateTime = new DateTime($row["endDateTime"]);
+              // This uses a function defined in utilities.php
+              print_listing_li($itemId, $itemTitle, $category, $description, $currentPrice, $num_bids, $endDateTime);
+          }
+      } else {
+          echo "No losing bids found.";
+      }
+      mysqli_close($connection);
+      ?>
+
+      <h2 class="my-3">My Bids</h2>
 
       <div id="searchSpecs">
           <!-- When this form is submitted, this PHP page is what processes it.

@@ -155,7 +155,8 @@ mysqli_close($connection);
         </div>
         <?php
         $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
-        $historyQuery = "SELECT u.userName, b.bidPrice, b.bidDateTime
+        $currentUserName = $_SESSION['user_name'];
+        $historyQuery = "SELECT u.userName, b.bidPrice, b.bidDateTime, b.userId
                     FROM bidHistory b LEFT JOIN users u
                     ON b.userId = u.userId
                     WHERE b.itemId = $item_id;";
@@ -163,7 +164,7 @@ mysqli_close($connection);
         if ($historyResult->num_rows > 0) {
         // Output data of each row
             while ($row = $historyResult->fetch_assoc()) {
-            $userName = $row["userName"];
+            $userName = ($row["userName"] == $currentUserName) ? "<b>You</b>" : $row["userName"];
             $bidPrice = $row["bidPrice"];
             $bidDateTime = $row["bidDateTime"];
 

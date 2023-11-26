@@ -8,7 +8,7 @@ include_once("header.php") ?>
     <div class="container">
 
         <h2 class="my-3">Recommendations</h2>
-        <h5 class="my-3">Based on the same categories of items in your wishlist.</h5>
+        <h5 class="my-3">Based on the items which your competitors also bid on.</h5>
 
         <div id="searchSpecs">
             <!-- When this form is submitted, this PHP page is what processes it.
@@ -119,17 +119,18 @@ $max_page = ceil($num_results / $results_per_page);
             $query = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.startingPrice,
                        i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice
                             FROM items i
-                        INNER JOIN categories c ON i.category = c.cateId
-                        LEFT JOIN bidHistory b ON i.itemId = b.itemId
-                        WHERE i.category IN (
-                            SELECT DISTINCT i.category FROM wishList w
-                            INNER JOIN items i ON w.itemId = i.itemId
-                            WHERE w.userId = '$currentUserId')
-                        AND i.itemId NOT IN (
-                        SELECT w.itemId FROM wishList w
-                        WHERE w.userId = '$currentUserId')
-                            GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
-";
+                            INNER JOIN bidHistory b ON i.itemId = b.itemId
+                            WHERE b.userId IN (
+                            SELECT b.userId FROM bidHistory b 
+                                WHERE b.itemId IN (
+                            SELECT b.itemId FROM bidHistory b 
+                                WHERE b.userId = $currentUserId))
+                              
+                                AND i.itemId NOT IN (
+                            SELECT b.itemId FROM bidHistory b
+                        WHERE b.userId = $currentUserId)
+                            
+                            GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime";
 
 
             $result = mysqli_query($connection, $query);

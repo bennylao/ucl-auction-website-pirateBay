@@ -45,7 +45,6 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
       } else {
           echo "No successful sales found.";
       }
-      mysqli_close($connection);
       ?>
 
       <h2 class="my-3 text-danger">Unsuccessful Sales</h2>
@@ -56,7 +55,6 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
       $currentUserId = $_SESSION['id'];
 
       // Create database connection
-      $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
 
       // SQL to fetch data
       $unsoldQuery = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.ownerId, i.sellerId, i.startingPrice,
@@ -85,7 +83,6 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
       } else {
           echo "No unsold items found.";
       }
-      mysqli_close($connection);
       ?>
 
   <h2 class="my-3">My listings</h2>

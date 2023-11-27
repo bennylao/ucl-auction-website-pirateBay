@@ -155,6 +155,8 @@ mysqli_close($connection);
         </div>
         <?php
         $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
+        if (isset($_SESSION['logged_in'])) {
+
         $currentUserName = $_SESSION['user_name'];
         $historyQuery = "SELECT u.userName, b.bidPrice, b.bidDateTime, b.userId
                     FROM bidHistory b LEFT JOIN users u
@@ -168,11 +170,17 @@ mysqli_close($connection);
             $bidPrice = $row["bidPrice"];
             $bidDateTime = $row["bidDateTime"];
 
-            echo ("<p>$userName made a bid for $bidPrice at $bidDateTime.</p>");}}
+            echo ("<p>$userName made a bid for $bidPrice at $bidDateTime.</p>");}   }
 
             else {
                 echo "No one had made a bid on this item.";
-            }
+            }}
+        if (!isset($_SESSION['logged_in'])) {
+            echo "Please log in to see bidding history.";
+        }
+
+
+
 
 
         ?>
@@ -208,9 +216,7 @@ mysqli_close($connection);
 
 //                     <!-- Payment form --
 
-                /*  <!-- Payment form -->
-
-
+           echo '
          <form method="post" action="create_auction_result.php">
             <div Now securely here </div>
             <div class="form-group row">
@@ -249,8 +255,8 @@ mysqli_close($connection);
                         <small id="endDateHelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary form-control">Pay now</button> 
-        </form>'  */
+        </form>'
+
                   ;
               }
 

@@ -208,9 +208,7 @@ mysqli_close($connection);
 
 //                     <!-- Payment form --
 
-                /*  <!-- Payment form -->
-
-
+           echo '
          <form method="post" action="create_auction_result.php">
             <div Now securely here </div>
             <div class="form-group row">
@@ -250,7 +248,7 @@ mysqli_close($connection);
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary form-control">Pay now</button> 
-        </form>'  */
+        </form>'
                   ;
               }
 

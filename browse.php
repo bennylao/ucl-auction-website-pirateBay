@@ -25,11 +25,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
                 <label class="input-group-text" for="search_keyword"><i class="fa fa-search"></i></label>
               </div>
               <input type="text" id="search_keyword" name="search_keyword" class="form-control border-left-0"
-                     title="
-Use '&' to search for items that match all the keywords.
-e.g. 'Apple&Mac'
-Use '|' to search for items that match any of the keywords.
-e.g. 'Apple|Samsung'"
+                     title="search for anything you want"
                      placeholder="Search for anything" <?php if (isset($_GET['search_keyword'])) echo "value=" . $_GET['search_keyword']; ?>>
             </div>
 
@@ -199,13 +195,7 @@ $count_item_query = "SELECT COUNT(*) FROM items i
 
   <div class="container mt-5">
 
-    <!-- TODO: If result set is empty, print an informative message. Otherwise... -->
-
     <ul class="list-group">
-
-      <!-- TODO: Use a while loop to print a list item for each auction listing
-           retrieved from the query -->
-
 
         <?php
         // SQL to fetch data

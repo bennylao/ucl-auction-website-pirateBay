@@ -123,7 +123,6 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
       </div>
 
     </form>
-  </div>
   <!-- end search specs bar -->
 
 <?php
@@ -172,168 +171,149 @@ if (!isset($_GET['page'])) {
 }
 
 $offset = (($curr_page - 1) * $items_per_page);
+
+// Retrieve data (userid from the session)
+$currentUserId = $_SESSION['id'];
+
+// SQL to fetch data
+$query = "SELECT i.itemId, i.itemTitle, i.category, i.description, MAX(b.bidPrice), COUNT(b.itemId),
+            i.startingPrice, i.endDateTime 
+            FROM wishlist w
+            INNER JOIN items i ON w.itemId = i.itemId
+            LEFT JOIN bidHistory b ON i.itemId = b.itemId
+            WHERE w.userId = '$currentUserId'
+            AND (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword')
+            AND i.endDateTime > NOW()
+            $category_query
+            $conditions_query
+            GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
+            ORDER BY  $ordering, i.itemTitle
+            LIMIT $items_per_page OFFSET $offset;";
+
+$count_item_query = "SELECT COUNT(*) 
+            FROM wishlist w
+            INNER JOIN items i ON w.itemId = i.itemId
+            WHERE w.userId = '$currentUserId'
+            AND (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword')
+            AND i.endDateTime > NOW()
+            $category_query
+            $conditions_query;";
+
+$result = mysqli_query($connection, $query);
+
+// Calculate the number of rows that meet the query criteria
+$count_item_result = mysqli_query($connection, $count_item_query);
+$num_item = mysqli_fetch_array($count_item_result)[0];
+
+$max_page = ceil($num_item / $items_per_page);
+
+if (isset($_GET['search_keyword']) and isset($_GET['category'])) {
+    echo "<div class='text-muted'> Found $num_item results. Showing page $curr_page of $max_page.</div>";
+}
+
+if ($result->num_rows > 0) {
+    // Output data of each row
+    while ($row = $result->fetch_assoc()) {
+        $itemId = $row["itemId"];
+        $itemTitle = $row["itemTitle"];
+        $category = $row["category"];
+        $description = $row["description"];
+        $currentPrice = ($row["MAX(b.bidPrice)"] !== null) ? $row["MAX(b.bidPrice)"]: $row["startingPrice"];
+        $numBids = $row["COUNT(b.itemId)"];
+        $endDateTime = new DateTime($row["endDateTime"]);
+        // This uses a function defined in utilities.php
+        print_listing_li($itemId, $itemTitle, $category, $description, $currentPrice, $numBids, $endDateTime);
+    }
+} else {
+    echo "No results found.";
+}
+mysqli_close($connection);
 ?>
 
-  <div class="container mt-5">
+<!-- Pagination for results listings -->
+<nav aria-label="Search results pages" class="mt-5">
+  <div class="row">
+    <div class="col">
+      <ul class="pagination justify-content-center">
+          <?php
+          // PHP code to generate pagination links
+          // Ensure your PHP code here generates the pagination items.
 
-    <!-- TODO: If result set is empty, print an informative message. Otherwise... -->
+          // Copy any currently-set GET variables to the URL.
+          $querystring = "";
+          foreach ($_GET as $key => $value) {
+              if ($key != "page") {
+                  $querystring .= "$key=$value&amp;";
+              }
+          }
 
-    <ul class="list-group">
+          $high_page_boost = max(3 - $curr_page, 0);
+          $low_page_boost = max(2 - ($max_page - $curr_page), 0);
+          $low_page = max(1, $curr_page - 2 - $low_page_boost);
+          $high_page = min($max_page, $curr_page + 2 + $high_page_boost);
 
-      <!-- TODO: Use a while loop to print a list item for each auction listing
-           retrieved from the query -->
+          if ($curr_page != 1) {
+              echo('<li class="page-item">
+        <a class="page-link" href="browse.php?' . $querystring . 'page=' . ($curr_page - 1) . '" aria-label="Previous">
+        <span aria-hidden="true"><i class="fa fa-arrow-left"></i></span>
+        <span class="sr-only">Previous</span>
+        </a>
+        </li>');
+          }
 
-        <?php
-        // Retrieve data (userid from the session)
-        $currentUserId = $_SESSION['id'];
-
-        // Create database connection
-        $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_error());
-
-
-        // SQL to fetch data
-        $query = "SELECT i.itemId, i.itemTitle, i.category, i.description, MAX(b.bidPrice), COUNT(b.itemId),
-                    i.startingPrice, i.endDateTime 
-                    FROM wishlist w
-                    INNER JOIN items i ON w.itemId = i.itemId
-                    LEFT JOIN bidHistory b ON i.itemId = b.itemId
-                    WHERE w.userId = '$currentUserId'
-                    AND (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword')
-                    AND i.endDateTime > NOW()
-                    $category_query
-                    $conditions_query
-                    GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
-                    ORDER BY  $ordering, i.itemTitle
-                    LIMIT $items_per_page OFFSET $offset;";
-
-        $count_item_query = "SELECT COUNT(*) FROM wishlist w
-                    INNER JOIN items i ON w.itemId = i.itemId
-                    WHERE w.userId = '$currentUserId'
-                    AND (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword')
-                    AND i.endDateTime > NOW()
-                    $category_query
-                    $conditions_query;";
-
-        $result = mysqli_query($connection, $query);
-
-        // Calculate the number of rows that meet the query criteria
-        $count_item_result = mysqli_query($connection, $count_item_query);
-        $num_item = mysqli_fetch_array($count_item_result)[0];
-
-        $max_page = ceil($num_item / $items_per_page);
-
-        if (isset($_GET['search_keyword']) and isset($_GET['category'])) {
-            echo "<div class='text-muted'> Found $num_item results. Showing page $curr_page of $max_page.</div>";
-        }
-
-        if ($result->num_rows > 0) {
-            // Output data of each row
-            while ($row = $result->fetch_assoc()) {
-                $itemId = $row["itemId"];
-                $itemTitle = $row["itemTitle"];
-                $category = $row["category"];
-                $description = $row["description"];
-                $currentPrice = ($row["MAX(b.bidPrice)"] !== null) ? $row["MAX(b.bidPrice)"]: $row["startingPrice"];
-                $numBids = $row["COUNT(b.itemId)"];
-                $endDateTime = new DateTime($row["endDateTime"]);
-                // This uses a function defined in utilities.php
-                print_listing_li($itemId, $itemTitle, $category, $description, $currentPrice, $numBids, $endDateTime);
-            }
-        } else {
-            echo "No results found.";
-        }
-        mysqli_close($connection);
-        ?>
-
-
-    </ul>
-
-    <!-- Pagination for results listings -->
-
-    <nav aria-label="Search results pages" class="mt-5">
-      <div class="row">
-        <div class="col">
-          <ul class="pagination justify-content-center">
-              <?php
-              // PHP code to generate pagination links
-              // Ensure your PHP code here generates the pagination items.
-
-              // Copy any currently-set GET variables to the URL.
-              $querystring = "";
-              foreach ($_GET as $key => $value) {
-                  if ($key != "page") {
-                      $querystring .= "$key=$value&amp;";
-                  }
+          for ($i = $low_page; $i <= $high_page; $i++) {
+              if ($i == $curr_page) {
+                  // Highlight the link
+                  echo('<li class="page-item active">');
+              } else {
+                  // Non-highlighted link
+                  echo('<li class="page-item">');
               }
 
-              $high_page_boost = max(3 - $curr_page, 0);
-              $low_page_boost = max(2 - ($max_page - $curr_page), 0);
-              $low_page = max(1, $curr_page - 2 - $low_page_boost);
-              $high_page = min($max_page, $curr_page + 2 + $high_page_boost);
+              // Do this in any case
+              echo('<a class="page-link" href="browse.php?' . $querystring . 'page=' . $i . '">' . $i . '</a></li>');
+          }
 
-              if ($curr_page != 1) {
-                  echo('<li class="page-item">
-            <a class="page-link" href="browse.php?' . $querystring . 'page=' . ($curr_page - 1) . '" aria-label="Previous">
-            <span aria-hidden="true"><i class="fa fa-arrow-left"></i></span>
-            <span class="sr-only">Previous</span>
-            </a>
-            </li>');
-              }
+          if ($curr_page < $max_page) {
+              echo('<li class="page-item">
+        <a class="page-link" href="browse.php?' . $querystring . 'page=' . ($curr_page + 1) . '" aria-label="Next">
+        <span aria-hidden="true"><i class="fa fa-arrow-right"></i></span>
+        <span class="sr-only">Next</span>
+        </a>
+        </li>');
+          }
+          ?>
+      </ul>
+    </div>
 
-              for ($i = $low_page; $i <= $high_page; $i++) {
-                  if ($i == $curr_page) {
-                      // Highlight the link
-                      echo('<li class="page-item active">');
-                  } else {
-                      // Non-highlighted link
-                      echo('<li class="page-item">');
-                  }
-
-                  // Do this in any case
-                  echo('<a class="page-link" href="browse.php?' . $querystring . 'page=' . $i . '">' . $i . '</a></li>');
-              }
-
-              if ($curr_page < $max_page) {
-                  echo('<li class="page-item">
-            <a class="page-link" href="browse.php?' . $querystring . 'page=' . ($curr_page + 1) . '" aria-label="Next">
-            <span aria-hidden="true"><i class="fa fa-arrow-right"></i></span>
-            <span class="sr-only">Next</span>
-            </a>
-            </li>');
-              }
-              ?>
-          </ul>
-        </div>
-
-        <div class="col-auto ml-auto">
-          <form class="form-inline" method="GET" action="browse.php">
-            <label for="items_per_page" class="mb-2 mr-2">Showing</label>
-            <select class="custom-select mb-2 mr-2" id="items_per_page" name="items_per_page"
-                    onchange="this.form.submit()">
-              <option
-                  value="5" <?php if (isset($_GET['items_per_page']) && $_GET['items_per_page'] == "5") echo "selected"; ?>>
-                5
-              </option>
-              <option
-                  value="10" <?php if (isset($_GET['items_per_page']) && $_GET['items_per_page'] == "10") echo "selected"; ?>>
-                10
-              </option>
-              <option
-                  value="25" <?php if (isset($_GET['items_per_page']) && $_GET['items_per_page'] == "25") echo "selected"; ?>>
-                25
-              </option>
-              <option
-                  value="50" <?php if (isset($_GET['items_per_page']) && $_GET['items_per_page'] == "50") echo "selected"; ?>>
-                50
-              </option>
-            </select>
-            <label for="items_per_page" class="mb-2 mr-2">items per page</label>
-          </form>
-        </div>
-      </div>
-    </nav>
-
+    <div class="col-auto ml-auto">
+      <form class="form-inline" method="GET" action="wishlist.php">
+        <label for="items_per_page" class="mb-2 mr-2">Showing</label>
+        <select class="custom-select mb-2 mr-2" id="items_per_page" name="items_per_page"
+                onchange="this.form.submit()">
+          <option
+              value="5" <?php if (isset($_GET['items_per_page']) && $_GET['items_per_page'] == "5") echo "selected"; ?>>
+            5
+          </option>
+          <option
+              value="10" <?php if (isset($_GET['items_per_page']) && $_GET['items_per_page'] == "10") echo "selected"; ?>>
+            10
+          </option>
+          <option
+              value="25" <?php if (isset($_GET['items_per_page']) && $_GET['items_per_page'] == "25") echo "selected"; ?>>
+            25
+          </option>
+          <option
+              value="50" <?php if (isset($_GET['items_per_page']) && $_GET['items_per_page'] == "50") echo "selected"; ?>>
+            50
+          </option>
+        </select>
+        <label for="items_per_page" class="mb-2 mr-2">items per page</label>
+      </form>
+    </div>
   </div>
+</nav>
+</div>
 
 <script>
     function handleSubmit(event) {

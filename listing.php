@@ -204,9 +204,15 @@ mysqli_close($connection);
                   echo "This auction ended: " . date_format($end_time, 'j M H:i');
                   echo "<br> Congratulations, your bid of £" . $highestBid['maxPrice'] . " was successful";
                   echo "<p>Pay securely here: \n</p>";
+<<<<<<< Updated upstream
 
 //                      <!-- Payment form -->
                   echo '
+=======
+                  echo '<button type="submit" class="btn btn-primary form-control"> Pay now </button>';
+//                      <!-- Payment form -->
+                /*  echo '
+>>>>>>> Stashed changes
          <form method="post" action="create_auction_result.php">
             <div Now securely here </div>
             <div class="form-group row">

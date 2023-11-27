@@ -28,7 +28,7 @@ function get_email(mysqli $conn, string $email)
 }
 
 #Inserts the new user into the Users table within the AuctionDatabase, though it does not create a date as of yet.
-function set_user(mysqli $conn, string $accountType, string $username, string $password, string $firstname, string $lastname, string $email, string $address)
+function set_user($conn, $accountType, $username, $password, $firstname, $lastname, $email, $address)
 {
     $query = "INSERT INTO auctionDatabase.Users(accountType, firstName, lastName, userName, email, password, address, createDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $conn->prepare($query);

@@ -44,7 +44,7 @@ function is_email_already_registered(object $conn, string $email)
 }
 
 #Creates a user by taking in the database connection and the input variables and querying the database via the set_user function in the signup_model.inc.php file.
-function create_user(object $conn, string $accountType, string $username, string $password, string $firstname, string $lastname, string $email, string $address)
+function create_user($conn, $accountType, $username, $password, $firstname, $lastname, $email, $address)
 {
     set_user($conn, $accountType, $username, $password, $firstname, $lastname, $email, $address);
 }

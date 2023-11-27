@@ -16,21 +16,21 @@ require_once 'includes/signup_view.inc.php';
 
 <div class="container">
   <h2 class="my-3">Register new account</h2>
-  <form action="../process_registration.php" method="post">
+  <form action="process_registration.php" method="post">
     <!-- Select Account Type -->
     <div class="form-group row">
       <label for="accountType" class="col-sm-2 col-form-label text-right">Registering as a:</label>
       <div class="col-sm-10">
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="accountType" id="accountBuyer" value="buyer" checked>
+          <input class="form-check-input" type="radio" name="accountType" id="accountBuyer" value=1 checked>
           <label class="form-check-label" for="accountBuyer">Buyer</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="accountType" id="accountSeller" value="seller">
+          <input class="form-check-input" type="radio" name="accountType" id="accountSeller" value=2>
           <label class="form-check-label" for="accountSeller">Seller</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="accountType" id="accountBuyerSeller" value="buyerseller">
+          <input class="form-check-input" type="radio" name="accountType" id="accountBuyerSeller" value=3>
           <label class="form-check-label" for="accountSeller">Buyer and Seller</label>
         </div>
         <small id="accountTypeHelp" class="form-text-inline text-muted"><span

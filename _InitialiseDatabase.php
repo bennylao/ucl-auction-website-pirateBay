@@ -296,7 +296,26 @@ if (mysqli_query($conn, $sql)) {
 }
 
 $sql = "INSERT INTO images (imagePath, itemID)
-VALUES ('auction_image/Image_not_available.png', 3)
+VALUES 
+('auction_image/mbp16-spaceblack-gallery1-202310.png', 5),
+('auction_image/mbp16-spaceblack-gallery2-202310_GEO_GB.jpeg', 5),
+('auction_image/mbp16-spaceblack-gallery3-202310.jpeg', 5),
+('auction_image/mbp16-spaceblack-gallery4-202310.jpeg', 5),
+('auction_image/mbp16-spaceblack-gallery5-202310.jpeg', 5),
+('auction_image/mbp16-spaceblack-gallery6-202310.jpeg', 5),
+('auction_image/changing_place.jpg', 11),
+('auction_image/Golden_Apple_JE2_BE2.png', 3),
+('auction_image/Primary_Image-2.png', 4),
+('auction_image/71R6LTyMphL._AC_UF1000,1000_QL80_.jpg', 4),
+('auction_image/iphone1.1697206388.8248.jpg', 6),
+('auction_image/uk-galaxy-s22-ultra-s908-sm-s908bzkgeub-530846955.png', 7),
+('auction_image/51YshU3zBxL._AC_UF894,1000_QL80_.jpg',8),
+('auction_image/imac-24-no-id-blue-selection-hero-202310.jpeg',9),
+('auction_image/sola-adult-mask-snorkel-set-8877-1-p.jpg', 10),
+('auction_image/ipad-pro-finish-select-202212-12-9inch-space-gray-wifi_FMT_WHH.jpeg', 12),
+('auction_image/MV7N2.jpeg', 13),
+('auction_image/3902fb565f0590c79cbcdf062663d63b.jpeg', 14),
+('auction_image/444Iittala_AK.jpeg', 15)
 ";
 
 if (mysqli_query($conn, $sql)) {

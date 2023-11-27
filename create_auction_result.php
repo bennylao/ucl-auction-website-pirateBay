@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $fileExt = explode('.', $fileName);
                 $fileActualExt = strtolower(end($fileExt));
 
-                $allowed = array('jpg', 'jpeg', 'png', 'gif');
+                $allowed = array('jpg', 'jpeg', 'png');
 
                 if (in_array($fileActualExt, $allowed)) {
                     $newFileName = uniqid('', true) . "." . $fileActualExt;

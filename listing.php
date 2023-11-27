@@ -20,12 +20,11 @@ $item_id = $_GET['item_id'];
 
 // SQL to fetch data
 $query = "SELECT i.itemId, i.itemTitle, i.description, i.sellerId, i.startingPrice, 
-       i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice, c.category, con.condDescript, GROUP_CONCAT(img.imagePath SEPARATOR ',') AS imagePaths
+       i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice, c.category, con.condDescript
     FROM items i
         INNER JOIN categories c ON i.category = c.cateId
         INNER JOIN conditions con ON i.conditions = con.conditionId
         LEFT JOIN bidHistory b ON i.itemId = b.itemId
-        LEFT JOIN images img ON i.itemId = img.itemID
     WHERE i.itemId = $item_id
     GROUP BY i.itemId";
 
@@ -43,12 +42,20 @@ $query = "SELECT i.itemId, i.itemTitle, i.description, i.sellerId, i.startingPri
             $reserve_price = $row["reservedPrice"];
             $category = $row["category"];
             $condition = $row["condDescript"];
-            $imagePaths = isset($row["imagePaths"]) ? explode(',', $row["imagePaths"]) : [];
         }
     }
     else {
         echo "No results found.";
     }
+
+$query = "SELECT imagePath FROM images WHERE itemID = $item_id";
+    $result = mysqli_query($connection, $query);
+    if ($result->num_rows > 0){
+        while ($row = $result->fetch_assoc()) {
+            $images[] = $row['imagePath'];
+        }
+    }
+
 if ($current_price <= $starting_price){
     $highest_price = $starting_price;
 }
@@ -130,18 +137,14 @@ mysqli_close($connection);
 
 
         <?php
-        if (!empty($imagePaths)) {
-            foreach ($imagePaths as $path) {
-                // Start a new div for each image
-                echo '<div class="itemDescription" style="margin-bottom: 20px;">'; // Added a margin for better spacing
-
-                // Display the image. Ensure that $path contains the correct relative or absolute URL to the image
+        if (!empty($images)) {
+            echo '<div class="itemDescription">';
+            foreach ($images as $path) {
                 echo '<img src="' . htmlspecialchars($path) . '" alt="Item Image" style="max-width: 100%; height: auto;">';
-
-                // Close the div
-                echo '</div>';
             }
+            echo '</div>';
         } else {
+            // Fallback if no images are found
             echo '<div class="itemDescription">';
             echo '<img src="auction_image/Image_not_available.png" alt="Item Image" width="900">';
             echo '</div>';

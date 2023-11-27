@@ -61,7 +61,7 @@ function regenerate_session_id()
 <body>
 <style>
     body {
-        background-image: url('images/luffy_flag_potential_final.jpg');
+        /*background-image: url('images/luffy_flag_potential_final.jpg');*/
         background-size: cover;
         color: #000000
         display: table;

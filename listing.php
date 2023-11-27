@@ -204,9 +204,13 @@ mysqli_close($connection);
                   echo "This auction ended: " . date_format($end_time, 'j M H:i');
                   echo "<br> Congratulations, your bid of £" . $highestBid['maxPrice'] . " was successful";
                   echo "<p>Pay securely here: \n</p>";
+                  echo '<button type="submit" class="btn btn-primary form-control"> Pay now </button>';
 
-//                      <!-- Payment form -->
-                  echo '
+//                     <!-- Payment form --
+
+                /*  <!-- Payment form -->
+
+
          <form method="post" action="create_auction_result.php">
             <div Now securely here </div>
             <div class="form-group row">
@@ -246,7 +250,7 @@ mysqli_close($connection);
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary form-control">Pay now</button> 
-        </form>'
+        </form>'  */
                   ;
               }
 

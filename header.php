@@ -115,10 +115,10 @@ function regenerate_session_id()
       <a class="nav-link" href="mybids.php">My Bids</a>
     </li>
 	<li class="nav-item mx-1">
-      <a class="nav-link" href="recommendations_old.php">Recommended</a>
+      <a class="nav-link" href="recommendations.php">Recommended</a>
     </li>
     <li class="nav-item mx-1">
-      <a class="nav-link" href="recommendations.php">Popular Items</a>
+      <a class="nav-link" href="you_might_also_like.php">You Might Like</a>
     </li>
     <li class="nav-item mx-1">
       <a class="nav-link" href="wishlist.php">Wishlist</a>
@@ -139,10 +139,10 @@ function regenerate_session_id()
       <a class="nav-link" href="mybids.php">My Bids</a>
     </li>
 	<li class="nav-item mx-1">
-      <a class="nav-link" href="recommendations_old.php">Recommended</a>
+      <a class="nav-link" href="recommendations.php">Recommended</a>
     </li>
     <li class="nav-item mx-1">
-      <a class="nav-link" href="recommendations.php">Popular Items</a>
+      <a class="nav-link" href="you_might_also_like.php">You Might Like</a>
     </li>
     <li class="nav-item mx-1">
       <a class="nav-link" href="wishlist.php">Wishlist</a>

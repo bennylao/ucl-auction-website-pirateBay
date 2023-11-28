@@ -101,6 +101,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
         <div class="col-md-11 pr-0">
           <?php
           $find_conditions_query = "SELECT * FROM conditions";
+
           // SQL to fetch data
           $result = mysqli_query($connection, $find_conditions_query);
           while ($row = mysqli_fetch_assoc($result)) {

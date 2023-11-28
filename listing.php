@@ -116,10 +116,10 @@ mysqli_close($connection);
         if ($now < $end_time):
             ?>
         <div id="watch_nowatch" <?php if ((isset($_SESSION['logged_in']) && $watching) or !isset($_SESSION['logged_in'])
-            or ($_SESSION['account_type'] == 'seller')) echo('style="display: none"');?> >
+            or ($_SESSION['account_type'] == 'seller') or ($_SESSION['account_type'] == 'admin')) echo('style="display: none"');?> >
                 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addToWatchlist()">+ Add to wishlist</button>
             </div>
-            <div id="watch_watching" <?php if (!isset($_SESSION['logged_in']) or !$watching) echo('style="display: none"');?> >
+            <div id="watch_watching" <?php if (!isset($_SESSION['logged_in']) or ($_SESSION['account_type'] == 'admin')or !$watching) echo('style="display: none"');?> >
                 <button type="button" class="btn btn-success btn-sm" disabled>Watching</button>
                 <button type="button" class="btn btn-danger btn-sm" onclick="removeFromWatchlist()">Remove from wishlist</button>
             </div>
@@ -298,7 +298,9 @@ mysqli_close($connection);
         if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {  #if logged in, print the form
             if ($seller_id == $currentUserId){
                 echo 'You are the item seller.';
-            }else if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller'){
+            } else if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'admin'){
+                echo 'you are the admin.';
+            } else if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller'){
                 echo 'Please register a buyer or a buyer-seller account to start bidding';
             }else{
             echo '<form method="POST" action="place_bid.php">

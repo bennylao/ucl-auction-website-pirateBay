@@ -173,9 +173,11 @@ if (!isset($_GET['page'])) {
 
 $offset = (($curr_page - 1) * $items_per_page);
 
-$item_query = "SELECT i.itemId, i.itemTitle, i.category, i.description, MAX(b.bidPrice), COUNT(b.itemId), i.startingPrice, i.endDateTime, GREATEST(MAX(b.bidPrice), i.startingPrice)
+$item_query = "SELECT i.itemId, i.itemTitle, i.category, i.description, MAX(b.bidPrice), COUNT(b.itemId), 
+       i.startingPrice, i.endDateTime, GREATEST(MAX(b.bidPrice), i.startingPrice)
                 FROM items i LEFT JOIN bidHistory b ON i.itemId = b.itemId
-                WHERE (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword')
+                WHERE (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' 
+                           or i.brand LIKE '$keyword')
                 AND i.endDateTime > NOW()
                 $category_query
                 $conditions_query
@@ -184,7 +186,8 @@ $item_query = "SELECT i.itemId, i.itemTitle, i.category, i.description, MAX(b.bi
                 LIMIT $items_per_page OFFSET $offset;";
 
 $count_item_query = "SELECT COUNT(*) FROM items i 
-                        WHERE (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword') 
+                        WHERE (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or 
+                               i.description LIKE '$keyword' or i.brand LIKE '$keyword') 
                         AND i.endDateTime > NOW()
                         $category_query
                         $conditions_query;";

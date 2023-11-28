@@ -45,7 +45,7 @@ if ($row = mysqli_fetch_assoc($result)) {
 
 <div class="container">
     <div class="col-sm-8">
-        <h2 class="my-3">Hello! <?php echo($userName); ?> (<?php echo($id)?>)</h2>
+        <h2 class="my-3">Hello! <?php echo($userName); ?> (<?php echo("userID: $id")?>)</h2>
         <h3 class="my-3">User Profile</h3>
     </div>
     <div class="row">
@@ -118,3 +118,4 @@ if ($row = mysqli_fetch_assoc($result)) {
         <a href="change_password.php">Change password</a>
     </div>
 </div>
+<br><br><br>

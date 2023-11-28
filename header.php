@@ -82,81 +82,91 @@ function regenerate_session_id()
 </style>
 <!-- Navbars -->
 <div class="navbar-background">
-<nav class="navbar navbar-expand-lg navbar-light bg-light mx-2">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-  <a class="navbar-brand" href="browse.php">PirateBay</a>
-  <ul class="navbar-nav ml-auto">
-    <li class="nav-item">
+    <a class="navbar-brand" href="browse.php">PirateBay</a>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
 
+          <?php
+          // Displays either login or logout on the right, depending on user's
+          // current status (session).
+          if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
+              echo '<div class="d-flex align-items-center">';
+              echo '<a class="btn nav-link" href="user_homepage.php">My account</a>';
+              echo '<a class="btn nav-link" href="logout.php">Logout</a>';
+              echo '</div>';
+          } else {
+              echo '<button type="button" class="btn nav-link" data-toggle="modal" data-target="#loginModal">Login</button>';
+          }
+          ?>
+      </li>
+    </ul>
+  </nav>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <ul class="navbar-nav align-middle">
+      <li class="nav-item mx-1">
+        <a class="nav-link" href="browse.php">Browse</a>
+      </li>
         <?php
-        // Displays either login or logout on the right, depending on user's
-        // current status (session).
-        if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
-            echo '<div class="d-flex align-items-center">';
-            echo '<a class="btn nav-link" href="user_homepage.php">My account</a>';
-            echo '<a class="btn nav-link" href="logout.php">Logout</a>';
-            echo '</div>';
-        } else {
-            echo '<button type="button" class="btn nav-link" data-toggle="modal" data-target="#loginModal">Login</button>';
+        if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'buyer') {   //this is buyer type account
+            echo('
+	<li class="nav-item mx-1">
+      <a class="nav-link" href="mybids.php">My Bids</a>
+    </li>
+	<li class="nav-item mx-1">
+      <a class="nav-link" href="recommendations.php">Recommended</a>
+    </li>
+    <li class="nav-item mx-1">
+      <a class="nav-link" href="you_might_also_like.php">You Might Like</a>
+    </li>
+    <li class="nav-item mx-1">
+      <a class="nav-link" href="wishlist.php">Wishlist</a>
+    </li>');
+        }
+        if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller') {  //this is seller type account
+            echo('
+	<li class="nav-item mx-1">
+      <a class="nav-link" href="mylistings.php">My Listings</a>
+    </li>
+	<li class="nav-item ml-3">
+      <a class="nav-link btn border-light" href="create_auction.php">+ Create auction</a>
+    </li>');
+        }
+        if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'buyerseller') {   //this is buyerseller type account
+            echo('
+	<li class="nav-item mx-1">
+      <a class="nav-link" href="mybids.php">My Bids</a>
+    </li>
+	<li class="nav-item mx-1">
+      <a class="nav-link" href="recommendations.php">Recommended</a>
+    </li>
+    <li class="nav-item mx-1">
+      <a class="nav-link" href="you_might_also_like.php">You Might Like</a>
+    </li>
+    <li class="nav-item mx-1">
+      <a class="nav-link" href="wishlist.php">Wishlist</a>
+    </li>
+    <li class="nav-item mx-1">
+      <a class="nav-link" href="mylistings.php">My Listings</a>
+    </li>
+	<li class="nav-item ml-3">
+      <a class="nav-link btn border-light" href="create_auction.php">+ Create auction</a>
+    </li>');
         }
         ?>
-    </li>
-  </ul>
-</nav>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <ul class="navbar-nav align-middle">
-    <li class="nav-item mx-1">
-      <a class="nav-link" href="browse.php">Browse</a>
-    </li>
-      <?php
-      if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'buyer') {   //this is buyer type account
-          echo('
-	<li class="nav-item mx-1">
-      <a class="nav-link" href="mybids.php">My Bids</a>
-    </li>
-	<li class="nav-item mx-1">
-      <a class="nav-link" href="recommendations.php">Recommended</a>
-    </li>
-    <li class="nav-item mx-1">
-      <a class="nav-link" href="you_might_also_like.php">You Might Like</a>
-    </li>
-    <li class="nav-item mx-1">
-      <a class="nav-link" href="wishlist.php">Wishlist</a>
-    </li>');
-      }
-      if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller') {  //this is seller type account
-          echo('
-	<li class="nav-item mx-1">
-      <a class="nav-link" href="mylistings.php">My Listings</a>
-    </li>
-	<li class="nav-item ml-3">
-      <a class="nav-link btn border-light" href="create_auction.php">+ Create auction</a>
-    </li>');
-      }
-      if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'buyerseller') {   //this is buyerseller type account
-          echo('
-	<li class="nav-item mx-1">
-      <a class="nav-link" href="mybids.php">My Bids</a>
-    </li>
-	<li class="nav-item mx-1">
-      <a class="nav-link" href="recommendations.php">Recommended</a>
-    </li>
-    <li class="nav-item mx-1">
-      <a class="nav-link" href="you_might_also_like.php">You Might Like</a>
-    </li>
-    <li class="nav-item mx-1">
-      <a class="nav-link" href="wishlist.php">Wishlist</a>
-    </li>
-    <li class="nav-item mx-1">
-      <a class="nav-link" href="mylistings.php">My Listings</a>
-    </li>
-	<li class="nav-item ml-3">
-      <a class="nav-link btn border-light" href="create_auction.php">+ Create auction</a>
-    </li>');
-      }
-      ?>
-  </ul>
-</nav>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+        <?php
+        if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'admin') {   //this is buyer type account
+            echo'
+	  <li class="nav-item mx-1">
+      <a class="nav-link" href="admin_management.php">Site Management</a>
+    </li>';
+        }
+        ?>
+    </ul>
+  </nav>
 </div>
 
 <!-- Login modal -->
@@ -269,8 +279,8 @@ ORDER BY i.endDateTime DESC, bidPrice DESC;";
 </div>";}
             }
         }
-        }
     }
+}
 
 mysqli_close($connection);
 ?>

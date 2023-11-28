@@ -274,7 +274,11 @@ include_once("header.php") ?>
 
       // Calculate the number of rows that meet the query criteria
       $count_item_result = mysqli_query($connection, $count_item_query);
-      $num_item = mysqli_fetch_array($count_item_result)[0];
+      if ($count_item_result) {
+          $num_item = mysqli_fetch_array($count_item_result)[0];
+      } else {
+          $num_item = 0;
+      }
 
       $max_page = ceil($num_item / $items_per_page);
 
@@ -284,7 +288,7 @@ include_once("header.php") ?>
 
       $result = mysqli_query($connection, $query);
 
-      if ($result->num_rows > 0) {
+      if ($result) {
           // Output data of each row
           while ($row = $result->fetch_assoc()) {
               $itemId = $row["itemId"];

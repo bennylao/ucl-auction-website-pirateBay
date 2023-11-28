@@ -274,7 +274,11 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
 
       // Calculate the number of rows that meet the query criteria
       $count_item_result = mysqli_query($connection, $count_item_query);
-      $num_item = mysqli_fetch_array($count_item_result)[0];
+      if ($count_item_result) {
+          $num_item = mysqli_fetch_array($count_item_result)[0];
+      } else {
+          $num_item = 0;
+      }
 
       $max_page = ceil($num_item / $items_per_page);
 
@@ -282,7 +286,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
           echo "<div class='text-muted'> Found $num_item results. Showing page $curr_page of $max_page.</div>";
       }
 
-      if ($result->num_rows > 0) {
+      if ($result) {
           // Output data of each row
           while ($row = $result->fetch_assoc()) {
               $itemId = $row["itemId"];

@@ -11,8 +11,8 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
 
   <div class="container">
 
-  <h2 class="my-3">Recommendations</h2>
-  <h5 class="my-3">Based on the items which your competitors also bid on.</h5>
+  <h2 class="my-3">Popular Items</h2>
+  <h5 class="my-3">Based on the items other bidders also bid on.</h5>
 
   <form action="recommendations.php" id="filter_bar" method="GET">
     <div class="row">
@@ -216,63 +216,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
     mysqli_close($connection);
     ?>
 
-  <!--Next recommendation list-->
-  <h2 class="my-3">Recommendations</h2>
-
-  <h5 class="my-3">Based on the same categories of items in your wishlist.</h5>
-
-    <?php
-    // Retrieve data (userid from the session)
-    $currentUserId = $_SESSION['id'];
-
-    // Create database connection
-    $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_error());
-
-
-    // SQL to fetch data
-    $query = "SELECT i.itemId, i.itemTitle, i.category, i.description, i.startingPrice,
-                i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice
-                FROM items i
-                INNER JOIN categories c ON i.category = c.cateId
-                LEFT JOIN bidHistory b ON i.itemId = b.itemId
-                WHERE i.category IN (
-                SELECT DISTINCT i.category FROM wishList w
-                INNER JOIN items i ON w.itemId = i.itemId
-                WHERE w.userId = '$currentUserId')
-                AND i.itemId NOT IN (
-                SELECT w.itemId FROM wishList w
-                WHERE w.userId = '$currentUserId')
-                AND (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword')
-                AND i.endDateTime > NOW()
-                $category_query
-                $conditions_query
-                GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
-                ORDER BY  $ordering, i.itemTitle;";
-
-
-    $result = mysqli_query($connection, $query);
-
-    if ($result->num_rows > 0) {
-        // Output data of each row
-        while ($row = $result->fetch_assoc()) {
-            $itemId = $row["itemId"];
-            $itemTitle = $row["itemTitle"];
-            $category = $row["category"];
-            $description = $row["description"];
-            $currentPrice = ($row["MAX(b.bidPrice)"] !== null) ? $row["MAX(b.bidPrice)"]: $row["startingPrice"];
-            $numBids = $row["COUNT(b.itemId)"];
-            $endDateTime = new DateTime($row["endDateTime"]);
-            // This uses a function defined in utilities.php
-            print_listing_li($itemId, $itemTitle, $category, $description, $currentPrice, $numBids, $endDateTime);
-        }
-    } else {
-        echo "No results found.";
-    }
-    mysqli_close($connection);
-    ?>
-    <h2></h2>
-    <h2>End of Recommendations</h2>
-  <script>
+    <script>
       function handleSubmit(event) {
           // Prevent the default form submission if this function is called in response to the form's submit event
           if (event) event.preventDefault();

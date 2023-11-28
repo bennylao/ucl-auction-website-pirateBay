@@ -115,7 +115,10 @@ function regenerate_session_id()
       <a class="nav-link" href="mybids.php">My Bids</a>
     </li>
 	<li class="nav-item mx-1">
-      <a class="nav-link" href="recommendations.php">Recommended</a>
+      <a class="nav-link" href="recommendations_old.php">Recommended</a>
+    </li>
+    <li class="nav-item mx-1">
+      <a class="nav-link" href="recommendations.php">Popular Items</a>
     </li>
     <li class="nav-item mx-1">
       <a class="nav-link" href="wishlist.php">Wishlist</a>
@@ -136,7 +139,10 @@ function regenerate_session_id()
       <a class="nav-link" href="mybids.php">My Bids</a>
     </li>
 	<li class="nav-item mx-1">
-      <a class="nav-link" href="recommendations.php">Recommended</a>
+      <a class="nav-link" href="recommendations_old.php">Recommended</a>
+    </li>
+    <li class="nav-item mx-1">
+      <a class="nav-link" href="recommendations.php">Popular Items</a>
     </li>
     <li class="nav-item mx-1">
       <a class="nav-link" href="wishlist.php">Wishlist</a>
@@ -200,37 +206,21 @@ if (isset($_SESSION['logged_in'])) {   //Only shows up if logged in
         WHEN MAX(userBids.maxUserBid) = maxBid.maxBidPrice THEN 'Winner'
         ELSE 'Not Highest Bidder'
     END AS BidStatus
-FROM 
-    items i 
-LEFT JOIN (
-    SELECT 
-        b.itemId, 
-        b.userId,
-        MAX(b.bidPrice) as maxUserBid
-    FROM 
-        bidHistory b
-    WHERE
-        b.bidDateTime < NOW()
-    GROUP BY 
-        b.itemId, b.userId
-) AS userBids ON i.itemId = userBids.itemId
-LEFT JOIN (
-    SELECT 
-        itemId, 
-        MAX(bidPrice) AS maxBidPrice
-    FROM 
-        bidHistory
-    WHERE
-        bidDateTime < NOW()
-    GROUP BY 
-        itemId
-) AS maxBid ON i.itemId = maxBid.itemId
-WHERE 
-    (userBids.userId = $currentUserId OR i.sellerId = $currentUserId) AND i.endDateTime < NOW()
-GROUP BY 
-    i.itemId
-ORDER BY 
-    i.endDateTime DESC, bidPrice DESC;";
+FROM items i 
+    
+LEFT JOIN (SELECT b.itemId, b.userId,MAX(b.bidPrice) as maxUserBid
+    FROM bidHistory b
+    WHERE b.bidDateTime < NOW()
+    GROUP BY b.itemId, b.userId) AS userBids ON i.itemId = userBids.itemId
+    
+LEFT JOIN (SELECT itemId, MAX(bidPrice) AS maxBidPrice
+    FROM bidHistory
+    WHERE bidDateTime < NOW()
+    GROUP BY itemId) AS maxBid ON i.itemId = maxBid.itemId
+
+WHERE (userBids.userId = $currentUserId OR i.sellerId = $currentUserId) AND i.endDateTime < NOW()
+GROUP BY i.itemId
+ORDER BY i.endDateTime DESC, bidPrice DESC;";
 
     $result = mysqli_query($connection, $query);
 

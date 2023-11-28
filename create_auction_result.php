@@ -22,6 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $auctionReservePrice = NULL;
     }
 
+    if ($auctionEndDate < new DateTime()){
+        echo "Invalid end date!";
+        header("refresh:2;create_auction.php");
+        exit();
+    }
+
     try {
         $conn = connect_to_database();
         require_once "includes/create_auction_model.inc.php";

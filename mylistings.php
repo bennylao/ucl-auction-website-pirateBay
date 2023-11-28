@@ -85,7 +85,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
       }
       ?>
 
-    <h2 class="my-3">My listings</h2>
+    <h2 class="my-3">My Ongoing Listings</h2>
 
     <form action="mylistings.php" id="filter_bar" method="GET">
       <div class="row">
@@ -257,6 +257,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
             AND (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword')
             $category_query
             $conditions_query
+            AND i.endDateTime > NOW()
             GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
             ORDER BY  $ordering, i.itemTitle
             LIMIT $items_per_page OFFSET $offset;";

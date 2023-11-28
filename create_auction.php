@@ -140,3 +140,4 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
 mysqli_close($connection);
 include_once("footer.php")
 ?>
+

@@ -82,7 +82,7 @@ include_once("header.php") ?>
 
       ?>
 
-    <h2 class="my-3">My Bids</h2>
+    <h2 class="my-3">My Ongoing Bids</h2>
 
     <form action="mybids.php" id="filter_bar" method="GET">
       <div class="row">
@@ -257,6 +257,7 @@ include_once("header.php") ?>
             AND (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword')
             $category_query
             $conditions_query
+            AND i.endDateTime > NOW()
             GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
             ORDER BY  $ordering, i.itemTitle
             LIMIT $items_per_page OFFSET $offset;";

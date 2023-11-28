@@ -11,12 +11,11 @@ if (mysqli_connect_errno()) {
 }
 
 $id = $_SESSION['id'];
-$userName = $_SESSION['user_name'];
 
-
-$query = "SELECT password, accountType, email, firstName, lastName, address, createDate FROM users WHERE userId = $id;";
+$query = "SELECT password, accountType, email, firstName, lastName, address, createDate, userName FROM users WHERE userId = $id;";
 $result = mysqli_query($conn, $query);
 if ($row = mysqli_fetch_assoc($result)) {
+    $userName = $row['userName'];
     $typeId = $row['accountType'];
     $password = $row['password'];
     $email = $row['email'];

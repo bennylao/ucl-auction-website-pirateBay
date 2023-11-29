@@ -22,7 +22,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $auctionReservePrice = NULL;
     }
 
-    if ($auctionEndDate < new DateTime()){
+    $now = new DateTime();
+    echo "Current Date and Time: " . $now->format('Y-m-d H:i:s') . "<br>";
+    if ($auctionEndDate > $now){
+
         echo "Invalid end date!";
         header("refresh:2;create_auction.php");
         exit();

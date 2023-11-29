@@ -278,31 +278,31 @@ ORDER BY
                 if ($sellerId == $currentUserId && $sellerRead != 1){  // to inform the seller
                     echo "</nav>
 <div class='alert_red'>
-    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>
+    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>  //TODO update the isRead in item table for seller
         Sorry your item $itemTitle didn't sell.
 </div>";}
                 else if ($bidStatus == 'Not Highest Bidder' && $bidderRead != 1){   // to inform the bidder
                     echo "<div class='alert_red'>
-    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>
+    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span> //TODO update the isRead in bidHistory table for bidder's highest bid
     Sorry you didn't win $itemTitle.
 </div>";}}
             else if ($sellerId != $ownerId){    // the item sold
                 if ($sellerId == $currentUserId && $sellerRead != 1){   // to inform the seller
                     echo "</nav>
 <div class='alert_green'>
-    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>
+    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span> //TODO update the isRead in item table for seller
         Congrats your item $itemTitle sold for £$bidPrice.
 </div>";}
                 else if ($ownerId == $currentUserId && $bidStatus == 'Winner' && $bidderRead != 1){   //to inform the winner
                     echo "</nav>
 <div class='alert_green'>
-    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>
+    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span> //TODO update the isRead in bidHistory table for bidder's highest bid
         Congrats you won the item $itemTitle for £$bidPrice!
 </div>";}
                 else if ($bidStatus == 'Not Highest Bidder' && $bidderRead != 1){   //to inform the losers
                     echo "</nav>
 <div class='alert_red'>
-    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>
+    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span> //TODO update the isRead in bidHistory table for bidder's highest bid
         Sorry you didn't win the item $itemTitle.
 </div>";}
             }

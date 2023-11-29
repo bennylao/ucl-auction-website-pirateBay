@@ -12,7 +12,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
 
   <div class="container">
 
-    <h2 class="my-3">Browse listings</h2>
+    <h2 class="my-3">Wishlist</h2>
 
     <form action="wishlist.php" id="filter_bar" method="GET">
       <div class="row">

@@ -179,15 +179,19 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
                i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice
                     FROM items i
                     INNER JOIN bidHistory b ON i.itemId = b.itemId
+                    
                     WHERE b.userId IN (
                     SELECT b.userId FROM bidHistory b 
                     WHERE b.itemId IN (
                     SELECT b.itemId FROM bidHistory b 
                     WHERE b.userId = $currentUserId))
+                      
                     AND i.itemId NOT IN (
                     SELECT b.itemId FROM bidHistory b
                     WHERE b.userId = $currentUserId)
-                    AND (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword')
+                      
+                    AND (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' 
+                             or i.description LIKE '$keyword' or i.brand LIKE '$keyword')
                     AND i.endDateTime > NOW()
                     $category_query
                     $conditions_query

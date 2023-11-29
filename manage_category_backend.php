@@ -26,14 +26,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($actionType) && $actionType == "EditCategory") {
         $newCategoryName = $_POST['newCategoryName'];
-        $category = $_POST['$category'];
-        $category_explode = explode('|', $category);
-        $categoryId = $category_explode[0];
-        $oldCategoryName = $category_explode[1];
+        $oldCategoryName = $_POST['$category'];
 
         $query = "UPDATE categories
                     SET category = '$newCategoryName'
-                    WHERE cateId = $categoryId;";
+                    WHERE category = '$oldCategoryName';";
 
         $result = mysqli_query($connection, $query);
         mysqli_close($connection);

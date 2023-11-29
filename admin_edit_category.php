@@ -23,9 +23,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
                     $result = mysqli_query($connection, $find_categories_query);
                     while ($row = mysqli_fetch_assoc($result)) {
                         $category = $row['category'];
-                        $categoryId = $row['cateId'];
-
-                        echo "<option value='$categoryId|$category'> $category </option>";
+                        echo "<option value='$category'> $category </option>";
                     }
                     ?>
                 </select>

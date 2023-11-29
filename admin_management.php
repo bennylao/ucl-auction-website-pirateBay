@@ -29,13 +29,13 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
         while ($row = mysqli_fetch_assoc($result)) {
             $category = $row['category'];
             $categoryId = $row['cateId'];
-            echo "[$categoryId] $category<br>";
+            echo "<i class='bi bi-tag'></i> $category<br>";
         }
         ?>
       <br>
       <h5 class="font-weight-bold">Edit Categories:</h5>
-      <button type="button" class="btn btn-outline-success" onclick="window.location.href='add_category.php';">Add Category</button>
-      <button type="button" class="btn btn-outline-warning">Edit Category</button>
+      <button type="button" class="btn btn-outline-success" onclick="window.location.href='admin_add_category.php';">Add Category</button>
+      <button type="button" class="btn btn-outline-warning" onclick="window.location.href='admin_edit_category.php';">Edit Category</button>
       <button type="button" class="btn btn-outline-danger">Remove Category</button>
     </div>
     <div class="col-sm">
@@ -48,7 +48,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
         while ($row = mysqli_fetch_assoc($result)) {
             $conditionDescription = $row['condDescript'];
             $conditionId = $row['conditionId'];
-            echo "[$conditionId] $conditionDescription<br>";
+            echo "<i class='bi bi-tag-fill'></i> $conditionDescription<br>";
         }
         ?>
 

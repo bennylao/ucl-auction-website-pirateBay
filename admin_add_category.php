@@ -9,8 +9,8 @@ include_once("header.php");
                 <div class="card-body">
                     <form method="post" action="manage_category_backend.php">
                         <div class="form-group row">
-                            <label for="lastName" class="col-sm-2 col-form-label text-right">New Category</label>
-                            <div class="col-sm-10">
+                            <label for="newCategory" class="col-sm-2 col-form-label text-right">New Category</label>
+                            <div class="col-sm-8">
                                 <input type="text" class="form-control" id="newCategory" name="newCategory">
                             </div>
                             <input type="hidden" name="$actionType" value = 'CreateNewCategory'>

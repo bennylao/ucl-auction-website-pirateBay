@@ -135,7 +135,7 @@ if (mysqli_query($conn, $sql)) {
 
 // Create the table for
 $sql = "CREATE TABLE conditions (
-    conditionId INT NOT NULL PRIMARY KEY ,
+    conditionId INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     condDescript VARCHAR(255) NOT NULL
 )";
 

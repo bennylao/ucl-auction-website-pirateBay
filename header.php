@@ -44,6 +44,7 @@ function regenerate_session_id()
   <!-- Bootstrap and FontAwesome CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
   <link rel="stylesheet" type= "text/css" href="css/custom.css">
   <title>
       <?php
@@ -260,7 +261,7 @@ ORDER BY
 
     $result = mysqli_query($connection, $query);
 
-    if ($result->num_rows > 0) {
+    if ($result) {
 // Output data of each row
         while ($row = $result->fetch_assoc()) {
             $itemId = $row["itemId"];

@@ -23,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $now = new DateTime();
-    echo "Current Date and Time: " . $now->format('Y-m-d H:i:s') . "<br>";
     if ($auctionEndDate > $now){
 
         echo "Invalid end date!";

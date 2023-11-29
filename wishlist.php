@@ -258,7 +258,7 @@ mysqli_close($connection);
 
           if ($curr_page != 1) {
               echo('<li class="page-item">
-        <a class="page-link" href="browse.php?' . $querystring . 'page=' . ($curr_page - 1) . '" aria-label="Previous">
+        <a class="page-link" href="wishlist.php?' . $querystring . 'page=' . ($curr_page - 1) . '" aria-label="Previous">
         <span aria-hidden="true"><i class="fa fa-arrow-left"></i></span>
         <span class="sr-only">Previous</span>
         </a>
@@ -275,12 +275,12 @@ mysqli_close($connection);
               }
 
               // Do this in any case
-              echo('<a class="page-link" href="browse.php?' . $querystring . 'page=' . $i . '">' . $i . '</a></li>');
+              echo('<a class="page-link" href="wishlist.php?' . $querystring . 'page=' . $i . '">' . $i . '</a></li>');
           }
 
           if ($curr_page < $max_page) {
               echo('<li class="page-item">
-        <a class="page-link" href="browse.php?' . $querystring . 'page=' . ($curr_page + 1) . '" aria-label="Next">
+        <a class="page-link" href="wishlist.php?' . $querystring . 'page=' . ($curr_page + 1) . '" aria-label="Next">
         <span aria-hidden="true"><i class="fa fa-arrow-right"></i></span>
         <span class="sr-only">Next</span>
         </a>

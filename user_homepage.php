@@ -68,14 +68,15 @@ if ($row = mysqli_fetch_assoc($result)) {
         <?php
         if ($accountType == 'buyer') {
             echo '<h3 class="my-3">My bids</h3>';
-            $query = "SELECT itemId FROM bidHistory WHERE userId = $id";
+            $query = "SELECT DISTINCT(itemId) FROM bidHistory WHERE userId = $id";
             $result = mysqli_query($conn, $query);
             $bidHisSize = mysqli_num_rows($result);
             echo "<div class='col'>You are now bidding on $bidHisSize items</div>";
             echo "<a href='mybids.php'>Click for more in your bidding history</a><br>";
             echo "<a href='browse.php'>Explore current active biddings</a>";
             echo '<h3 class="my-3">My wishlist</h3>';
-            $query = "SELECT itemId FROM wishList WHERE userId = $id";
+            $query = "SELECT w.itemId FROM wishList w INNER JOIN items i ON i.itemId = w.itemId 
+                WHERE userId = $id AND i.endDateTime > NOW()";
             $result = mysqli_query($conn, $query);
             $wishListSize = mysqli_num_rows($result);
             echo "<div class='col'>$wishListSize items in wishlist</div>";
@@ -90,14 +91,15 @@ if ($row = mysqli_fetch_assoc($result)) {
             echo "<a href='create_auction.php'>Create a new listing</a>";
         } elseif ($accountType == 'buyerseller') {
             echo '<h3 class="my-3">My bids</h3>';
-            $query = "SELECT itemId FROM bidHistory WHERE userId = $id";
+            $query = "SELECT DISTINCT(itemId) FROM bidHistory WHERE userId = $id";
             $result = mysqli_query($conn, $query);
             $bidHisSize = mysqli_num_rows($result);
             echo "<div class='col'>You are now bidding on $bidHisSize items</div>";
             echo "<a href='mybids.php'>Click for more in your bidding history</a><br>";
             echo "<a href='browse.php'>Explore current active biddings</a>";
             echo '<h3 class="my-3">My wishlist</h3>';
-            $query = "SELECT itemId FROM wishList WHERE userId = $id";
+            $query = "SELECT w.itemId FROM wishList w INNER JOIN items i ON i.itemId = w.itemId 
+                WHERE userId = $id AND i.endDateTime > NOW()";
             $result = mysqli_query($conn, $query);
             $wishListSize = mysqli_num_rows($result);
             echo "<div class='col'>$wishListSize items in wishlist</div>";

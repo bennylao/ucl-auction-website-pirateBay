@@ -36,10 +36,32 @@ function regenerate_session_id()
 ?>
 
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function markAsRead(itemId, type) {
+            $.ajax({
+                url: 'isRead.php',
+                type: 'POST',
+                data: {
+                    itemId: itemId,
+                    type: type
+                },
+                success: function(response) {
+                    console.log("Update successful");
+                    $("#notification_" + itemId).hide();
+                },
+                error: function(xhr, status, error) {
+                    console.error("An error occurred: " + error);
+                }
+            });
+        }
+
+    </script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Bootstrap and FontAwesome CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -208,11 +230,7 @@ if (isset($_SESSION['logged_in'])) {   //Only shows up if logged in
     $currentUserId = $_SESSION['id'];
 
 // SQL to fetch data
-    $query = "SELECT 
-    i.itemId, 
-    i.itemTitle, 
-    i.sellerId, 
-    i.ownerId, 
+    $query = "SELECT i.itemId, i.itemTitle, i.sellerId, i.ownerId, 
     COALESCE(MAX(userBids.userId), 'No Bids') AS userId,
     i.endDateTime, 
     COALESCE(MAX(userBids.maxUserBid), 0) AS bidPrice,
@@ -226,38 +244,20 @@ if (isset($_SESSION['logged_in'])) {   //Only shows up if logged in
 FROM 
     items i 
     LEFT JOIN (
-    SELECT 
-        b.itemId, 
-        b.userId,
-        MAX(b.isRead) as isRead,
-        MAX(b.bidPrice) as maxUserBid
-    FROM 
-        bidHistory b
-    WHERE
-        b.bidDateTime < NOW()
-    GROUP BY 
-        b.itemId, b.userId
-) AS userBids ON i.itemId = userBids.itemId
+    SELECT b.itemId, b.userId, MAX(b.isRead) as isRead, MAX(b.bidPrice) as maxUserBid
+    FROM bidHistory b
+    WHERE b.bidDateTime < NOW()
+    GROUP BY b.itemId, b.userId) AS userBids ON i.itemId = userBids.itemId
 
-LEFT JOIN (
-    SELECT 
-        itemId, 
-        MAX(bidPrice) AS maxBidPrice
-    FROM 
-        bidHistory
-    WHERE
-        bidDateTime < NOW()
-    GROUP BY 
-        itemId
-) AS maxBid ON i.itemId = maxBid.itemId
+LEFT JOIN (SELECT itemId, MAX(bidPrice) AS maxBidPrice
+    FROM bidHistory
+    WHERE bidDateTime < NOW()
+    GROUP BY itemId) AS maxBid ON i.itemId = maxBid.itemId
 WHERE 
     (userBids.userId = $currentUserId OR i.sellerId = $currentUserId) 
-    AND i.endDateTime < NOW()
-    AND (i.isRead IS NULL OR userBids.isRead IS NULL)
-GROUP BY 
-    i.itemId
-ORDER BY 
-    i.endDateTime DESC, bidPrice DESC;";
+    AND i.endDateTime < NOW() AND (i.isRead IS NULL OR userBids.isRead IS NULL)
+GROUP BY i.itemId
+ORDER BY i.endDateTime DESC, bidPrice DESC;";
 
     $result = mysqli_query($connection, $query);
 
@@ -275,37 +275,38 @@ ORDER BY
             $sellerRead = $row["isRead"];
             $bidderRead = $row["maxBidIsRead"];
 
-            if ($sellerId == $ownerId) {    // item didn't sell
-                if ($sellerId == $currentUserId && $sellerRead != 1){  // to inform the seller
-                    echo "</nav>
-<div class='alert_red'>
-    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span>  //TODO update the isRead in item table for seller
-        Sorry your item $itemTitle didn't sell.
-</div>";}
-                else if ($bidStatus == 'Not Highest Bidder' && $bidderRead != 1){   // to inform the bidder
-                    echo "<div class='alert_red'>
-    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span> //TODO update the isRead in bidHistory table for bidder's highest bid
-    Sorry you didn't win $itemTitle.
-</div>";}}
-            else if ($sellerId != $ownerId){    // the item sold
-                if ($sellerId == $currentUserId && $sellerRead != 1){   // to inform the seller
-                    echo "</nav>
-<div class='alert_green'>
-    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span> //TODO update the isRead in item table for seller
-        Congrats your item $itemTitle sold for £$bidPrice.
-</div>";}
-                else if ($ownerId == $currentUserId && $bidStatus == 'Winner' && $bidderRead != 1){   //to inform the winner
-                    echo "</nav>
-<div class='alert_green'>
-    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span> //TODO update the isRead in bidHistory table for bidder's highest bid
-        Congrats you won the item $itemTitle for £$bidPrice!
-</div>";}
-                else if ($bidStatus == 'Not Highest Bidder' && $bidderRead != 1){   //to inform the losers
-                    echo "</nav>
-<div class='alert_red'>
-    <span class='closebtn' onclick='this.parentElement.style.display= &#39;none &#39;';>&times;</span> //TODO update the isRead in bidHistory table for bidder's highest bid
-        Sorry you didn't win the item $itemTitle.
-</div>";}
+            if ($sellerId == $ownerId) { // Item didn't sell
+                if ($sellerId == $currentUserId && $sellerRead != 1) { // Inform the seller
+                    echo "<div id='notification_$itemId' class='alert_red'>
+                  <span class='closebtn' onclick='markAsRead($itemId, \"seller\")'>&times;</span>
+                  Sorry your item $itemTitle didn't sell.
+              </div>";
+                }
+                if ($bidStatus == 'Not Highest Bidder' && $bidderRead != 1) { // Inform the bidder
+                    echo "<div id='notification_$itemId' class='alert_red'>
+                  <span class='closebtn' onclick='markAsRead($itemId, \"bidder\")'>&times;</span>
+                  Sorry you didn't win $itemTitle.
+              </div>";
+                }
+            } else if ($sellerId != $ownerId) { // The item sold
+                if ($sellerId == $currentUserId && $sellerRead != 1) { // Inform the seller
+                    echo "<div id='notification_$itemId' class='alert_green'>
+                  <span class='closebtn' onclick='markAsRead($itemId, \"seller\")'>&times;</span>
+                  Congrats your item $itemTitle sold for £$bidPrice.
+              </div>";
+                }
+                if ($ownerId == $currentUserId && $bidStatus == 'Winner' && $bidderRead != 1) { // Inform the winner
+                    echo "<div id='notification_$itemId' class='alert_green'>
+                  <span class='closebtn' onclick='markAsRead($itemId, \"bidder\")'>&times;</span>
+                  Congrats you won the item $itemTitle for £$bidPrice!
+              </div>";
+                }
+                if ($sellerId != $currentUserId && $bidStatus == 'Not Highest Bidder' && $bidderRead != 1) { // Inform the bidder who didn't win
+                    echo "<div id='notification_$itemId' class='alert_red'>
+                  <span class='closebtn' onclick='markAsRead($itemId, \"bidder\")'>&times;</span>
+                  Sorry you didn't win the item $itemTitle.
+              </div>";
+                }
             }
         }
     }

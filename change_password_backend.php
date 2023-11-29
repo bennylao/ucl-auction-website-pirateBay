@@ -32,7 +32,7 @@ if(!empty($currentPw) && !empty($newPw) && !empty($confirmPw)){
                     header("refresh:2;user_homepage.php");
                 } else {
                     echo 'Something is wrong, please try again';
-                    header("refresh:2;chagne_password.php");
+                    header("refresh:2;change_password.php");
                 }
             } else {
                 echo 'New password and confirm password must match';
@@ -50,4 +50,5 @@ if(!empty($currentPw) && !empty($newPw) && !empty($confirmPw)){
     echo 'Please fill in the blanks';
     header("refresh:2;change_password.php");
 }
+mysqli_close($conn);
 ?>

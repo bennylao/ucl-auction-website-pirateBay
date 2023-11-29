@@ -6,7 +6,7 @@ include_once("header.php") ?>
 
 <?php
 // Create database connection
-$connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
+$conn = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
 ?>
 
   <div class="container">
@@ -27,7 +27,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
         GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
 ";
 
-      $soldResult = mysqli_query($connection, $soldQuery);
+      $soldResult = mysqli_query($conn, $soldQuery);
 
       if ($soldResult->num_rows > 0) {
           // Output data of each row
@@ -65,7 +65,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
     GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
 ";
 
-      $unsoleResult = mysqli_query($connection, $unsoldQuery);
+      $unsoleResult = mysqli_query($conn, $unsoldQuery);
 
       if ($unsoleResult->num_rows > 0) {
           // Output data of each row
@@ -117,7 +117,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
                 <?php
                 $find_categories_query = "SELECT * FROM categories";
                 // SQL to fetch data
-                $result = mysqli_query($connection, $find_categories_query);
+                $result = mysqli_query($conn, $find_categories_query);
                 while ($row = mysqli_fetch_assoc($result)) {
                     $category = $row['category'];
                     $categoryId = $row['cateId'];
@@ -175,7 +175,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
             <?php
             $find_conditions_query = "SELECT * FROM conditions";
             // SQL to fetch data
-            $result = mysqli_query($connection, $find_conditions_query);
+            $result = mysqli_query($conn, $find_conditions_query);
             while ($row = mysqli_fetch_assoc($result)) {
                 $conditionDescription = $row['condDescript'];
                 $conditionId = $row['conditionId'];
@@ -270,10 +270,10 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
             $category_query
             $conditions_query;";
 
-      $result = mysqli_query($connection, $query);
+      $result = mysqli_query($conn, $query);
 
       // Calculate the number of rows that meet the query criteria
-      $count_item_result = mysqli_query($connection, $count_item_query);
+      $count_item_result = mysqli_query($conn, $count_item_query);
       if ($count_item_result) {
           $num_item = mysqli_fetch_array($count_item_result)[0];
       } else {
@@ -302,7 +302,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
       } else {
           echo "No results found.";
       }
-      mysqli_close($connection);
+      mysqli_close($conn);
       ?>
 
     <!-- Pagination for results listings -->

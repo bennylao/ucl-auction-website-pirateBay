@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     $firstName = $_POST['firstName'];
     $lastName = $_POST['lastName'];
     $username = $_POST['username'];
-    $address = $_POST['username'];
+    $address = $_POST['address'];
 }
 
 $conn = connect_to_database();

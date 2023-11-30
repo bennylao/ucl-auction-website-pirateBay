@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $query = "DELETE FROM conditions WHERE conditionId = $conditionId;";
             $result = mysqli_query($connection, $query);
             mysqli_close($connection);
-            echo "<div style='text-align: center;'><br><h5>Condition '$conditionDescript' has been deleted.</div>";
+            echo "<div style='text-align: center;'><br><h5>Condition '$conditionDescript' has been removed.</div>";
             header("refresh:3;admin_management.php");
         }
     }

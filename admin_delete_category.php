@@ -5,7 +5,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
 
     <div class="container">
         <div style="max-width: 800px; margin: 10px auto">
-            <h2 class="my-3">Edit Category</h2>
+            <h2 class="my-3">Remove Category</h2>
             <div class="card">
                 <div class="card-body">
                     <form method="post" action="manage_category_backend.php">

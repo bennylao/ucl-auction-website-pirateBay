@@ -5,7 +5,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
 
     <div class="container">
         <div style="max-width: 800px; margin: 10px auto">
-            <h2 class="my-3">Edit Condition</h2>
+            <h2 class="my-3">Remove Condition</h2>
             <div class="card">
                 <div class="card-body">
                     <form method="post" action="manage_condition_backend.php">

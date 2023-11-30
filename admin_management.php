@@ -10,8 +10,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
 ?>
 
 <div class="container" style="max-width: 80%;">
-
-  <h2 class="my-3">Browse listings</h2>
+  <br>
   <h2>Admin Management Page</h2>
   <h5>
     This is the page for admin to manage the available options for Categories and Conditions that Users can choose from
@@ -53,9 +52,9 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
 
       <br>
       <h5 class="font-weight-bold">Edit Conditions:</h5>
-      <button type="button" class="btn btn-outline-success">Add Condition</button>
-      <button type="button" class="btn btn-outline-warning">Edit Condition</button>
-      <button type="button" class="btn btn-outline-danger">Remove Condition</button>
+      <button type="button" class="btn btn-outline-success" onclick="window.location.href='admin_add_condition.php';">Add Condition</button>
+      <button type="button" class="btn btn-outline-warning" onclick="window.location.href='admin_edit_condition.php';">Edit Condition</button>
+      <button type="button" class="btn btn-outline-danger" onclick="window.location.href='admin_delete_condition.php';">Remove Condition</button>
     </div>
   </div>
 </div>

@@ -5,13 +5,13 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
 
     <div class="container">
         <div style="max-width: 800px; margin: 10px auto">
-            <h2 class="my-3">Edit Category</h2>
+            <h2 class="my-3">Remove Category</h2>
             <div class="card">
                 <div class="card-body">
                     <form method="post" action="manage_category_backend.php">
                         <div class="form-group row">
                             <!-- Category Selection Dropdown -->
-                            <label for="categoryInfo" class="col-sm-4 col-form-label text-right">Category to be renamed:</label>
+                            <label for="categoryInfo" class="col-sm-4 col-form-label text-right">Category to be deleted:</label>
                             <div class="col-sm-8">
                                 <select class="form-control" id="categoryInfo" name="categoryInfo">
                                     <?php

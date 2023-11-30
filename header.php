@@ -41,12 +41,13 @@ function regenerate_session_id()
   <meta charset="utf-8">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        function markAsRead(itemId, type) {
+        function markAsRead(itemId, userId, type) {
             $.ajax({
                 url: 'isRead.php',
                 type: 'POST',
                 data: {
                     itemId: itemId,
+                    userId: userId,
                     type: type
                 },
                 success: function(response) {
@@ -278,32 +279,32 @@ ORDER BY i.endDateTime DESC, bidPrice DESC;";
             if ($sellerId == $ownerId) { // Item didn't sell
                 if ($sellerId == $currentUserId && $sellerRead != 1) { // Inform the seller
                     echo "<div id='notification_$itemId' class='alert_red'>
-                  <span class='closebtn' onclick='markAsRead($itemId, \"seller\")'>&times;</span>
+                  <span class='closebtn' onclick='markAsRead(" . $itemId . ", " . $currentUserId . ", \"seller\")'>&times;</span>
                   Sorry your item $itemTitle didn't sell.
               </div>";
                 }
                 if ($sellerId != $currentUserId && $bidderRead != 1) { // Inform the bidder
                     echo "<div id='notification_$itemId' class='alert_red'>
-                  <span class='closebtn' onclick='markAsRead($itemId, \"bidder\")'>&times;</span>
+                  <span class='closebtn' onclick='markAsRead(" . $itemId . ", " . $currentUserId . ", \"bidder\")'>&times;</span>
                   Sorry you didn't win $itemTitle.
               </div>";
                 }
             } else if ($sellerId != $ownerId) { // The item sold
                 if ($sellerId == $currentUserId && $sellerRead != 1) { // Inform the seller
                     echo "<div id='notification_$itemId' class='alert_green'>
-                  <span class='closebtn' onclick='markAsRead($itemId, \"seller\")'>&times;</span>
+                  <span class='closebtn' onclick='markAsRead(" . $itemId . ", " . $currentUserId . ", \"seller\")'>&times;</span>
                   Congrats your item $itemTitle sold for £$bidPrice.
               </div>";
                 }
                 if ($ownerId == $currentUserId && $bidStatus == 'Winner' && $bidderRead != 1) { // Inform the winner
                     echo "<div id='notification_$itemId' class='alert_green'>
-                  <span class='closebtn' onclick='markAsRead($itemId, \"bidder\")'>&times;</span>
+                  <span class='closebtn' onclick='markAsRead(" . $itemId . ", " . $currentUserId . ", \"bidder\")'>&times;</span>
                   Congrats you won the item $itemTitle for £$bidPrice!
               </div>";
                 }
                 if ($sellerId != $currentUserId && $bidStatus == 'Not Highest Bidder' && $bidderRead != 1) { // Inform the bidder who didn't win
                     echo "<div id='notification_$itemId' class='alert_red'>
-                  <span class='closebtn' onclick='markAsRead($itemId, \"bidder\")'>&times;</span>
+                  <span class='closebtn' onclick='markAsRead(" . $itemId . ", " . $currentUserId . ", \"bidder\")'>&times;</span>
                   Sorry you didn't win the item $itemTitle.
               </div>";
                 }

@@ -10,10 +10,10 @@ include_once("header.php");
                     <form method="post" action="manage_category_backend.php">
                         <div class="form-group row">
                             <label for="newCategory" class="col-sm-2 col-form-label text-right">New Category</label>
-                            <div class="col-sm-8">
+                            <div class="col-sm-10">
                                 <input type="text" class="form-control" id="newCategory" name="newCategory">
                             </div>
-                            <input type="hidden" name="$actionType" value = 'CreateNewCategory'>
+                            <input type="hidden" name="actionType" value ='CreateNewCategory'>
                         </div>
                         <button type="submit" class="btn btn-primary form-control">Save changes</button><br><br>
                         <a href="admin_management.php" class="btn btn-secondary form-control">Discard changes</a>

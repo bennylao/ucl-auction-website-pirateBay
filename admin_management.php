@@ -19,7 +19,6 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
   <br>
 
   <div class="row">
-
     <div class="col-sm">
       <h3>Existing Categories</h3>
         <?php
@@ -36,7 +35,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
       <h5 class="font-weight-bold">Edit Categories:</h5>
       <button type="button" class="btn btn-outline-success" onclick="window.location.href='admin_add_category.php';">Add Category</button>
       <button type="button" class="btn btn-outline-warning" onclick="window.location.href='admin_edit_category.php';">Edit Category</button>
-      <button type="button" class="btn btn-outline-danger">Remove Category</button>
+      <button type="button" class="btn btn-outline-danger" onclick="window.location.href='admin_delete_category.php';">Remove Category</button>
     </div>
     <div class="col-sm">
       <h3>Existing Conditions</h3>

@@ -205,7 +205,7 @@ mysqli_close($connection);
               $stmt->execute();
               $result = $stmt->get_result();
               $highestBid = $result->fetch_assoc();
-              if ($highestBid && $highestBid['maxPrice']> $starting_price && $_SESSION['id'] == $highestBid['userId']) {
+              if ($highestBid && $highestBid['maxPrice']> $reserve_price && $_SESSION['id'] == $highestBid['userId']) {
 
                   $updateQuery = "UPDATE items SET ownerId = ? WHERE itemId = ?";
                   $updateStmt = $mysqli->prepare($updateQuery);

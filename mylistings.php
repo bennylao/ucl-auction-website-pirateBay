@@ -24,8 +24,7 @@ $conn = connect_to_database() or die('Error connecting to MySQL server.' . mysql
     FROM items i
          LEFT JOIN bidHistory b ON i.itemId = b.itemId
     WHERE i.sellerId = '$currentUserId' AND (i.ownerId != '$currentUserId') AND i.endDateTime < NOW()
-        GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
-";
+        GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime";
 
       $soldResult = mysqli_query($conn, $soldQuery);
 
@@ -62,8 +61,7 @@ $conn = connect_to_database() or die('Error connecting to MySQL server.' . mysql
     FROM items i
          LEFT JOIN bidHistory b ON i.itemId = b.itemId
     WHERE i.sellerId = '$currentUserId' AND i.ownerId = '$currentUserId' AND i.endDateTime < NOW()
-    GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime
-";
+    GROUP BY i.itemId, i.itemTitle, i.category, i.description, i.startingPrice, i.endDateTime";
 
       $unsoleResult = mysqli_query($conn, $unsoldQuery);
 

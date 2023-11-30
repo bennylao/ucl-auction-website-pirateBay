@@ -181,7 +181,7 @@ function regenerate_session_id()
     </ul>
     <ul class="navbar-nav ml-auto">
         <?php
-        if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'admin') {   //this is buyer type account
+        if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'admin') {   //this is admin type account
             echo'
 	  <li class="nav-item mx-1">
       <a class="nav-link" href="admin_management.php">Site Management</a>
@@ -282,7 +282,7 @@ ORDER BY i.endDateTime DESC, bidPrice DESC;";
                   Sorry your item $itemTitle didn't sell.
               </div>";
                 }
-                if ($bidStatus == 'Not Highest Bidder' && $bidderRead != 1) { // Inform the bidder
+                if ($sellerId != $currentUserId && $bidderRead != 1) { // Inform the bidder
                     echo "<div id='notification_$itemId' class='alert_red'>
                   <span class='closebtn' onclick='markAsRead($itemId, \"bidder\")'>&times;</span>
                   Sorry you didn't win $itemTitle.

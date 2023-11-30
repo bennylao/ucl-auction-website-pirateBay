@@ -188,13 +188,16 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
                     FROM items i
                     INNER JOIN categories c ON i.category = c.cateId
                     LEFT JOIN bidHistory b ON i.itemId = b.itemId
+                    
                     WHERE i.category IN (
                     SELECT DISTINCT i.category FROM wishList w
                     INNER JOIN items i ON w.itemId = i.itemId
                     WHERE w.userId = '$currentUserId')
+                      
                     AND i.itemId NOT IN (
                     SELECT w.itemId FROM wishList w
                     WHERE w.userId = '$currentUserId')
+                      
                     AND (i.itemTitle LIKE '$keyword' or i.category LIKE '$keyword' or i.description LIKE '$keyword' or i.brand LIKE '$keyword')
                     AND i.endDateTime > NOW()
                     $category_query

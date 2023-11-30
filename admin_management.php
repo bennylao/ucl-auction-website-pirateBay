@@ -10,8 +10,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
 ?>
 
 <div class="container" style="max-width: 80%;">
-
-  <h2 class="my-3">Browse listings</h2>
+  <br>
   <h2>Admin Management Page</h2>
   <h5>
     This is the page for admin to manage the available options for Categories and Conditions that Users can choose from

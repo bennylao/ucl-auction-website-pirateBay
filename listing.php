@@ -315,6 +315,7 @@ mysqli_close($connection);
                 <form method='post' action='manage_item_backend.php'>
                 <button type='submit' class='btn btn-outline-danger form-control'>Remove Auction</button>
                 <input type='hidden' name='itemId' value=$item_id>
+                <input type='hidden' name='itemTitle' value='$title'>
                 <input type='hidden' name='actionType' value='removeItem'>
                 </form>";
 

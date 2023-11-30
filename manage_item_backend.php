@@ -35,4 +35,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "<br><br><a href='listing.php?item_id=$item_id' class='btn btn-outline-info'>Return</a></div>";
         }
     }
+
+    if (isset($actionType) && $actionType == "removeItem") {
+        $item_id = $_POST['itemId'];
+        $title = $_POST['itemTitle'];
+        $query = "DELETE FROM items WHERE itemId = $item_id;";
+        $result = mysqli_query($connection, $query);
+        mysqli_close($connection);
+        if ($result) {
+            echo "<div style='text-align: center;'><br><h5>Auction for '$title' is removed</div>";
+            header("refresh:3;browse.php");
+        } else {
+            echo "<div style='text-align: center;'><br><h5>Failed to remove auction for '$title'";
+            echo "<br><br><a href='listing.php?item_id=$item_id' class='btn btn-outline-info'>Return</a></div>";
+        }
+    }
 }

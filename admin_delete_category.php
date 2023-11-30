@@ -11,7 +11,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
                     <form method="post" action="manage_category_backend.php">
                         <div class="form-group row">
                             <!-- Category Selection Dropdown -->
-                            <label for="categoryInfo" class="col-sm-4 col-form-label text-right">Category to be renamed:</label>
+                            <label for="categoryInfo" class="col-sm-4 col-form-label text-right">Category to be deleted:</label>
                             <div class="col-sm-8">
                                 <select class="form-control" id="categoryInfo" name="categoryInfo">
                                     <?php

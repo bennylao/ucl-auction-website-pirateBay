@@ -20,7 +20,7 @@ $item_id = $_GET['item_id'];
 
 // SQL to fetch data
 $query = "SELECT i.itemId, i.itemTitle, i.description, i.sellerId, i.startingPrice, 
-       i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice, c.category, con.condDescript
+       i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice, c.category, con.condDescript, i.brand
     FROM items i
         INNER JOIN categories c ON i.category = c.cateId
         INNER JOIN conditions con ON i.conditions = con.conditionId
@@ -42,6 +42,7 @@ $query = "SELECT i.itemId, i.itemTitle, i.description, i.sellerId, i.startingPri
             $reserve_price = $row["reservedPrice"];
             $category = $row["category"];
             $condition = $row["condDescript"];
+            $brand = $row["brand"];
         }
     }
     else {
@@ -131,10 +132,11 @@ mysqli_close($connection);
   <div class="row"> <!-- Row #2 with auction description + bidding info -->
     <div class="col-sm-8"> <!-- Left col with item info -->
 
-      <div class="itemDescription">
-          <?php echo $description ; ?>
-      </div>
-
+          <?php
+          echo "<h6>Brand: $brand</h6>";
+          echo "<h6>Item Description: $description</h6>";
+          echo "<h6>Category: $category</h6>";
+          echo "<h6>Condition: $condition</h6>"; ?>
 
         <?php
         if (!empty($images)) {
@@ -150,12 +152,6 @@ mysqli_close($connection);
             echo '</div>';
         }
         ?>
-        <div class="itemDescription">
-            Category: <?php echo $category ; ?>
-        </div>
-        <div class="itemDescription">
-            Condition: <?php echo $condition ; ?>
-        </div>
         <?php
         $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
         if (isset($_SESSION['logged_in'])) {
@@ -167,6 +163,7 @@ mysqli_close($connection);
                     WHERE b.itemId = $item_id;";
         $historyResult = mysqli_query($connection, $historyQuery);
         if ($historyResult->num_rows > 0) {
+          echo "<br><h5>Auction History</h5>";
         // Output data of each row
             while ($row = $historyResult->fetch_assoc()) {
             $userName = ($row["userName"] == $currentUserName) ? "<b>You</b>" : $row["userName"];
@@ -299,7 +296,28 @@ mysqli_close($connection);
             if ($seller_id == $currentUserId){
                 echo 'You are the item seller.';
             } else if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'admin'){
-                echo 'you are the admin.';
+                echo "
+                <br><br>
+                <h5>You are admin</h5>
+                <p>If you think the item title, brand, description, category or condition is inappropiate,
+                you can edit the item information.</p>
+                <form method='post' action='admin_edit_item.php'>
+                <button type='submit' class='btn btn-outline-warning form-control'>Edit Auction</button>
+                <input type='hidden' name='itemId' value=$item_id>
+                <input type='hidden' name='itemTitle' value='$title'>
+                <input type='hidden' name='description' value='$description'>
+                <input type='hidden' name='category' value='$category'>
+                <input type='hidden' name='condDescript' value='$condition'>
+                <input type='hidden' name='brand' value='$brand'> 
+                </form>
+                <br><br>
+                <p>If you believe the auction is inappropiate, you can remove it from the auction site.</p>
+                <form method='post' action='manage_item_backend.php'>
+                <button type='submit' class='btn btn-outline-danger form-control'>Remove Auction</button>
+                <input type='hidden' name='itemId' value=$item_id>
+                <input type='hidden' name='actionType' value='removeItem'>
+                </form>";
+
             } else if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller'){
                 echo 'Please register a buyer or a buyer-seller account to start bidding';
             }else{

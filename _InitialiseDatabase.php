@@ -221,7 +221,7 @@ userId INT NOT NULL,
 bidPrice DECIMAL(12, 2) NOT NULL ,
 bidDateTime DATETIME NOT NULL,
 isRead BIT,
-FOREIGN KEY (itemId) REFERENCES items(itemId),
+FOREIGN KEY (itemId) REFERENCES items(itemId) ON DELETE CASCADE,
 FOREIGN KEY (userId) REFERENCES users(userId)
 )";
 
@@ -260,7 +260,7 @@ if (mysqli_query($conn, $sql)) {
 $sql = "CREATE TABLE wishList (
     itemId INT NOT NULL,
     userId INT NOT NULL,
-    FOREIGN KEY (itemId) REFERENCES items(itemId),
+    FOREIGN KEY (itemId) REFERENCES items(itemId) ON DELETE CASCADE,
     FOREIGN KEY (userId) REFERENCES users(userId)
 )";
 
@@ -294,7 +294,8 @@ if (mysqli_query($conn, $sql)) {
 $sql = "CREATE TABLE images(
     imageID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     imagePath VARCHAR(255) NOT NULL ,
-    itemID INT NOT NULL 
+    itemID INT NOT NULL,
+    FOREIGN KEY (itemID) REFERENCES items(itemId) ON DELETE CASCADE 
 )";
 
 if (mysqli_query($conn, $sql)) {

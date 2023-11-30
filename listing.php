@@ -312,12 +312,7 @@ mysqli_close($connection);
                 </form>
                 <br><br>
                 <p>If you believe the auction is inappropiate, you can remove it from the auction site.</p>
-                <form method='post' action='manage_item_backend.php'>
-                <button type='submit' class='btn btn-outline-danger form-control'>Remove Auction</button>
-                <input type='hidden' name='itemId' value=$item_id>
-                <input type='hidden' name='itemTitle' value='$title'>
-                <input type='hidden' name='actionType' value='removeItem'>
-                </form>";
+                <button type='button' class='btn btn-outline-danger form-control' data-toggle='modal' data-target='#removeAuction'>Remove Auction</button>";
 
             } else if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller'){
                 echo 'Please register a buyer or a buyer-seller account to start bidding';
@@ -342,6 +337,37 @@ mysqli_close($connection);
 
   </div> <!-- End of row #2 -->
 
+  <!-- removeAuction modal -->
+  <div class="modal fade" id="removeAuction">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Remove Auction</h4>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <h6>Are you sure you want to remove this auction for '<?php echo $title;?>'?</h6>
+          <form method='post' action='manage_item_backend.php'>
+            <div class="row justify-content-between">
+              <div class="col-6">
+                <button type='submit' class='btn btn-outline-danger form-control'>Remove</button>
+              </div>
+              <div class="col-6">
+                <a href="listing.php?item_id=<?php echo $item_id;?>" class="btn btn-outline-primary form-control">Cancel</a>
+              </div>
+            </div>
+            <input type='hidden' name='itemId' value=<?php echo $item_id;?>>
+            <input type='hidden' name='itemTitle' value='<?php echo $title;?>'>
+            <input type='hidden' name='actionType' value='removeItem'>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div> <!-- End modal -->
 
     <?php include_once("footer.php") ?>
 

@@ -11,12 +11,9 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
           <form method="post" action="manage_category_backend.php">
             <div class="form-group row">
               <!-- Category Selection Dropdown -->
-              <label for="$category" class="col-sm-4 col-form-label text-right">Category to be renamed:</label>
+              <label for="category" class="col-sm-4 col-form-label text-right">Category to be renamed:</label>
               <div class="col-sm-8">
-                <select class="form-control" id="$category" name="$category">
-                  <option  value=0>
-                    All categories
-                  </option>
+                <select class="form-control" id="category" name="category">
                     <?php
                     $find_categories_query = "SELECT * FROM categories";
                     // SQL to fetch data
@@ -35,7 +32,7 @@ $connection = connect_to_database() or die('Error connecting to MySQL server.' .
               <div class="col-sm-8">
                 <input type="text" class="form-control" id="newCategoryName" name="newCategoryName">
               </div>
-              <input type="hidden" name="$actionType" value='EditCategory'>
+              <input type="hidden" name="actionType" value='EditCategory'>
             </div>
             <button type="submit" class="btn btn-primary form-control">Save changes</button>
             <br><br>

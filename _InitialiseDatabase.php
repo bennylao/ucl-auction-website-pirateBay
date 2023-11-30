@@ -177,8 +177,8 @@ brand VARCHAR(255),
 reservedPrice DECIMAL,
 isRead BIT,
 FOREIGN KEY (sellerId) REFERENCES users(userId),
-FOREIGN KEY (conditions) REFERENCES conditions(conditionId),
-FOREIGN KEY (category) REFERENCES categories(cateId)
+FOREIGN KEY (conditions) REFERENCES conditions(conditionId) ON DELETE RESTRICT,
+FOREIGN KEY (category) REFERENCES categories(cateId) ON DELETE RESTRICT
 )";
 
 if (mysqli_query($conn, $sql)) {

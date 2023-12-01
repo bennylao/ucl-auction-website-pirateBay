@@ -34,7 +34,7 @@ if (!is_numeric($bid_amount) || $bid_amount <= 0){
         if ($query->execute()) {
             echo "<h2>Bid placed successfully!</h2><br>
         <p>You will be redirected to the item page shortly.</p>";
-            header("refresh:3;url=listing.php?item_id=$item_id");
+            //header("refresh:3;url=listing.php?item_id=$item_id");
         } else {
             echo "Error placing bid: " . $query->error;
         }

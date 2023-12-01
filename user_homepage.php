@@ -120,3 +120,4 @@ if ($row = mysqli_fetch_assoc($result)) {
     </div>
 </div>
 <br><br><br>
+<?php include_once("footer.php") ?>

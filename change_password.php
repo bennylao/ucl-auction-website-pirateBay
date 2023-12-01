@@ -35,3 +35,4 @@ require_once ("config_database.php");
         </div>
     </div>
 </div>
+<?php include_once("footer.php") ?>

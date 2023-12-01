@@ -39,29 +39,6 @@ function regenerate_session_id()
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="utf-8">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        function markAsRead(itemId, userId, type) {
-            $.ajax({
-                url: 'isRead.php',
-                type: 'POST',
-                data: {
-                    itemId: itemId,
-                    userId: userId,
-                    type: type
-                },
-                success: function(response) {
-                    console.log("Update successful");
-                    $("#notification_" + itemId).hide();
-                },
-                error: function(xhr, status, error) {
-                    console.error("An error occurred: " + error);
-                }
-            });
-        }
-
-    </script>
-
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Bootstrap and FontAwesome CSS -->

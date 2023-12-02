@@ -224,11 +224,6 @@ mysqli_close($connection);
               $result = $stmt->get_result();
               $highestBid = $result->fetch_assoc();
               if ($highestBid && $highestBid['maxPrice']> $reserve_price && $_SESSION['id'] == $highestBid['userId']) {
-
-                  $updateQuery = "UPDATE items SET ownerId = ? WHERE itemId = ?";
-                  $updateStmt = $mysqli->prepare($updateQuery);
-                  $updateStmt->bind_param('ii', $highestBid['userId'], $item_id);
-                  $updateStmt->execute();
                   mysqli_close($mysqli);
                   echo "This auction ended: " . date_format($end_time, 'j M H:i');
                   echo "<br> Congratulations, your bid of £" . $highestBid['maxPrice'] . " was successful";

@@ -1,5 +1,4 @@
 <?php
-include_once("header.php");
 require_once("utilities.php");
 require_once("config_database.php");
 ?>
@@ -63,6 +62,8 @@ if ($current_price <= $starting_price){
 else {
     $highest_price = $current_price;
 }
+
+
 // Retrieve the values from the form
 
 
@@ -79,6 +80,26 @@ if ($now < $end_time) {
     global $time_remaining;
 }
 
+if ($now > $end_time) {
+$mysqli = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
+$query = "SELECT userId, MAX(bidPrice) as maxPrice FROM bidHistory WHERE itemId = ? GROUP BY userId ORDER BY maxPrice DESC LIMIT 1";
+$stmt = $mysqli->prepare($query);
+$stmt->bind_param('i', $item_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$highestBid = $result->fetch_assoc();
+if ($highestBid && $highestBid['maxPrice'] > $reserve_price && $_SESSION['id'] == $highestBid['userId']) {
+
+    $updateQuery = "UPDATE items SET ownerId = ? WHERE itemId = ?";
+    $updateStmt = $mysqli->prepare($updateQuery);
+    $updateStmt->bind_param('ii', $highestBid['userId'], $item_id);
+    $updateStmt->execute();
+    mysqli_close($mysqli);
+}
+}
+
+include_once("header.php");
+$connection = connect_to_database();
 // TODO: If the user has a session, use it to make a query to the database
 //       to determine if the user is already watching this item.
 //       For now, this is hardcoded.

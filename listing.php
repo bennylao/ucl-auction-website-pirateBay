@@ -14,8 +14,8 @@ $item_id = $_GET['item_id'];
 
 // TODO: Use item_id to make a query to the database.
 
-
-    $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
+session_start();
+$connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
 
 // SQL to fetch data
 $query = "SELECT i.itemId, i.itemTitle, i.description, i.sellerId, i.startingPrice, 
@@ -27,39 +27,37 @@ $query = "SELECT i.itemId, i.itemTitle, i.description, i.sellerId, i.startingPri
     WHERE i.itemId = $item_id
     GROUP BY i.itemId";
 
-    $result = mysqli_query($connection, $query);
+$result = mysqli_query($connection, $query);
 
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $title = $row["itemTitle"];
-            $description = $row["description"];
-            $seller_id = $row["sellerId"];
-            $starting_price = $row["startingPrice"];
-            $current_price = ($row["MAX(b.bidPrice)"] !== null) ? $row["MAX(b.bidPrice)"]: 0;
-            $num_bids = $row["COUNT(b.itemId)"];
-            $end_time = new DateTime($row["endDateTime"]);
-            $reserve_price = $row["reservedPrice"];
-            $category = $row["category"];
-            $condition = $row["condDescript"];
-            $brand = $row["brand"];
-        }
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $title = $row["itemTitle"];
+        $description = $row["description"];
+        $seller_id = $row["sellerId"];
+        $starting_price = $row["startingPrice"];
+        $current_price = ($row["MAX(b.bidPrice)"] !== null) ? $row["MAX(b.bidPrice)"] : 0;
+        $num_bids = $row["COUNT(b.itemId)"];
+        $end_time = new DateTime($row["endDateTime"]);
+        $reserve_price = $row["reservedPrice"];
+        $category = $row["category"];
+        $condition = $row["condDescript"];
+        $brand = $row["brand"];
     }
-    else {
-        echo "No results found.";
-    }
+} else {
+    echo "No results found.";
+}
 
 $query = "SELECT imagePath FROM images WHERE itemID = $item_id";
-    $result = mysqli_query($connection, $query);
-    if ($result->num_rows > 0){
-        while ($row = $result->fetch_assoc()) {
-            $images[] = $row['imagePath'];
-        }
+$result = mysqli_query($connection, $query);
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $images[] = $row['imagePath'];
     }
-
-if ($current_price <= $starting_price){
-    $highest_price = $starting_price;
 }
-else {
+
+if ($current_price <= $starting_price) {
+    $highest_price = $starting_price;
+} else {
     $highest_price = $current_price;
 }
 
@@ -76,26 +74,26 @@ $now = new DateTime();
 
 if ($now < $end_time) {
     $time_to_end = date_diff($now, $end_time);
-    $time_remaining= ' (in ' . display_time_remaining($time_to_end) . ')';
+    $time_remaining = ' (in ' . display_time_remaining($time_to_end) . ')';
     global $time_remaining;
 }
 
 if ($now > $end_time) {
-$mysqli = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
-$query = "SELECT userId, MAX(bidPrice) as maxPrice FROM bidHistory WHERE itemId = ? GROUP BY userId ORDER BY maxPrice DESC LIMIT 1";
-$stmt = $mysqli->prepare($query);
-$stmt->bind_param('i', $item_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$highestBid = $result->fetch_assoc();
-if ($highestBid && $highestBid['maxPrice'] > $reserve_price && $_SESSION['id'] == $highestBid['userId']) {
+    $mysqli = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
+    $query = "SELECT userId, MAX(bidPrice) as maxPrice FROM bidHistory WHERE itemId = ? GROUP BY userId ORDER BY maxPrice DESC LIMIT 1";
+    $stmt = $mysqli->prepare($query);
+    $stmt->bind_param('i', $item_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $highestBid = $result->fetch_assoc();
+    if ($highestBid && $highestBid['maxPrice'] > $reserve_price && $_SESSION['id'] == $highestBid['userId']) {
 
-    $updateQuery = "UPDATE items SET ownerId = ? WHERE itemId = ?";
-    $updateStmt = $mysqli->prepare($updateQuery);
-    $updateStmt->bind_param('ii', $highestBid['userId'], $item_id);
-    $updateStmt->execute();
-    mysqli_close($mysqli);
-}
+        $updateQuery = "UPDATE items SET ownerId = ? WHERE itemId = ?";
+        $updateStmt = $mysqli->prepare($updateQuery);
+        $updateStmt->bind_param('ii', $highestBid['userId'], $item_id);
+        $updateStmt->execute();
+        mysqli_close($mysqli);
+    }
 }
 
 include_once("header.php");
@@ -104,8 +102,7 @@ $connection = connect_to_database();
 //       to determine if the user is already watching this item.
 //       For now, this is hardcoded.
 $watching = false;
-if (isset($_SESSION['logged_in']))
-{
+if (isset($_SESSION['logged_in'])) {
     $currentUserId = $_SESSION['id'];
 
     $query = "SELECT itemId, userId, COUNT(itemId)
@@ -115,8 +112,7 @@ if (isset($_SESSION['logged_in']))
 
     $result = mysqli_query($connection, $query);
 
-    if ($result->num_rows > 0)
-    {
+    if ($result->num_rows > 0) {
         $watching = true;
     }
 }
@@ -137,14 +133,19 @@ mysqli_close($connection);
            just as easily use PHP as in other places in the code */
         if ($now < $end_time):
             ?>
-        <div id="watch_nowatch" <?php if ((isset($_SESSION['logged_in']) && $watching) or !isset($_SESSION['logged_in'])
-            or ($_SESSION['account_type'] == 'seller') or ($_SESSION['account_type'] == 'admin')) echo('style="display: none"');?> >
-                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addToWatchlist()">+ Add to wishlist</button>
-            </div>
-            <div id="watch_watching" <?php if (!isset($_SESSION['logged_in']) or ($_SESSION['account_type'] == 'admin')or !$watching) echo('style="display: none"');?> >
-                <button type="button" class="btn btn-success btn-sm" disabled>Watching</button>
-                <button type="button" class="btn btn-danger btn-sm" onclick="removeFromWatchlist()">Remove from wishlist</button>
-            </div>
+          <div
+              id="watch_nowatch" <?php if ((isset($_SESSION['logged_in']) && $watching) or !isset($_SESSION['logged_in'])
+              or ($_SESSION['account_type'] == 'seller') or ($_SESSION['account_type'] == 'admin')) echo('style="display: none"'); ?> >
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addToWatchlist()">+ Add to
+              wishlist
+            </button>
+          </div>
+          <div
+              id="watch_watching" <?php if (!isset($_SESSION['logged_in']) or ($_SESSION['account_type'] == 'admin') or !$watching) echo('style="display: none"'); ?> >
+            <button type="button" class="btn btn-success btn-sm" disabled>Watching</button>
+            <button type="button" class="btn btn-danger btn-sm" onclick="removeFromWatchlist()">Remove from wishlist
+            </button>
+          </div>
         <?php endif /* Print nothing otherwise */ ?>
 
     </div>
@@ -153,11 +154,11 @@ mysqli_close($connection);
   <div class="row"> <!-- Row #2 with auction description + bidding info -->
     <div class="col-sm-8"> <!-- Left col with item info -->
 
-          <?php
-          echo "<h6>Brand: $brand</h6>";
-          echo "<h6>Item Description: $description</h6>";
-          echo "<h6>Category: $category</h6>";
-          echo "<h6>Condition: $condition</h6>"; ?>
+        <?php
+        echo "<h6>Brand: $brand</h6>";
+        echo "<h6>Item Description: $description</h6>";
+        echo "<h6>Category: $category</h6>";
+        echo "<h6>Condition: $condition</h6>"; ?>
 
         <?php
         if (!empty($images)) {
@@ -177,36 +178,32 @@ mysqli_close($connection);
         $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
         if (isset($_SESSION['logged_in'])) {
 
-        $currentUserName = $_SESSION['user_name'];
-        $historyQuery = "SELECT u.userName, b.bidPrice, b.bidDateTime, b.userId
+            $currentUserName = $_SESSION['user_name'];
+            $historyQuery = "SELECT u.userName, b.bidPrice, b.bidDateTime, b.userId
                     FROM bidHistory b LEFT JOIN users u
                     ON b.userId = u.userId
                     WHERE b.itemId = $item_id;";
-        $historyResult = mysqli_query($connection, $historyQuery);
-        if ($historyResult->num_rows > 0) {
-          echo "<br><h5>Auction History</h5>";
-        // Output data of each row
-            while ($row = $historyResult->fetch_assoc()) {
-            $userName = ($row["userName"] == $currentUserName) ? "<b>You</b>" : $row["userName"];
-            $bidPrice = $row["bidPrice"];
-            $bidDateTime = $row["bidDateTime"];
+            $historyResult = mysqli_query($connection, $historyQuery);
+            if ($historyResult->num_rows > 0) {
+                echo "<br><h5>Auction History</h5>";
+                // Output data of each row
+                while ($row = $historyResult->fetch_assoc()) {
+                    $userName = ($row["userName"] == $currentUserName) ? "<b>You</b>" : $row["userName"];
+                    $bidPrice = $row["bidPrice"];
+                    $bidDateTime = $row["bidDateTime"];
 
-            echo ("<p>$userName made a bid for $bidPrice at $bidDateTime.</p>");}   }
-
-            else {
+                    echo("<p>$userName made a bid for $bidPrice at $bidDateTime.</p>");
+                }
+            } else {
                 echo "No one had made a bid on this item.";
-            }}
+            }
+        }
         if (!isset($_SESSION['logged_in'])) {
             echo "Please log in to see bidding history.";
         }
 
 
-
-
-
         ?>
-
-
 
 
     </div>
@@ -223,7 +220,7 @@ mysqli_close($connection);
               $stmt->execute();
               $result = $stmt->get_result();
               $highestBid = $result->fetch_assoc();
-              if ($highestBid && $highestBid['maxPrice']> $reserve_price && $_SESSION['id'] == $highestBid['userId']) {
+              if ($highestBid && $highestBid['maxPrice'] > $reserve_price && $_SESSION['id'] == $highestBid['userId']) {
                   mysqli_close($mysqli);
                   echo "This auction ended: " . date_format($end_time, 'j M H:i');
                   echo "<br> Congratulations, your bid of £" . $highestBid['maxPrice'] . " was successful";
@@ -232,7 +229,7 @@ mysqli_close($connection);
 
 //                     <!-- Payment form --
 
-           echo '
+                  echo '
          <form method="post" action="create_auction_result.php">
             <div> Now securely here </div>
             <div class="form-group row">
@@ -271,9 +268,7 @@ mysqli_close($connection);
                         <small id="endDateHelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
                     </div>
                 </div>
-        </form>'
-
-                  ;
+        </form>';
               }
 
               if (isset($highestBid) && is_array($highestBid) && array_key_exists('userId', $highestBid)) {
@@ -291,28 +286,28 @@ mysqli_close($connection);
                       }
                   }
               }
-              endif;
-              ?>
-              <?php
-          if (($current_price < $reserve_price || $current_price < $starting_price || $current_price === 0) && $now > $end_time){
-              echo ("Bidding price lower than reserve price, bidding failed.");
+          endif;
+          ?>
+          <?php
+          if (($current_price < $reserve_price || $current_price < $starting_price || $current_price === 0) && $now > $end_time) {
+              echo("Bidding price lower than reserve price, bidding failed.");
           }
-              ?>
-            <!-- TODO: Print the result of the auction here? -->
+          ?>
+        <!-- TODO: Print the result of the auction here? -->
           <?php if ($now < $end_time): ?>
-        <p>Auction ends <?php echo date_format($end_time, 'j M H:i') . ' ' . $time_remaining; ?></p>
-        <p class="lead">Starting price: £<?php echo number_format($starting_price, 2); ?></p>
-        <p class="lead">Current bid: £<?php echo number_format($current_price, 2); ?></p>
-        <p class="lead">Total bids: <?php echo number_format($num_bids); ?></p>
+      <p>Auction ends <?php echo date_format($end_time, 'j M H:i') . ' ' . $time_remaining; ?></p>
+      <p class="lead">Starting price: £<?php echo number_format($starting_price, 2); ?></p>
+      <p class="lead">Current bid: £<?php echo number_format($current_price, 2); ?></p>
+      <p class="lead">Total bids: <?php echo number_format($num_bids); ?></p>
         <?php endif; ?>
       <!-- Bidding form -->
         <?php
         if ($now < $end_time) {
-        if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {  #if logged in, print the form
-            if ($seller_id == $currentUserId){
-                echo 'You are the item seller.';
-            } else if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'admin'){
-                echo "
+            if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {  #if logged in, print the form
+                if ($seller_id == $currentUserId) {
+                    echo 'You are the item seller.';
+                } else if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'admin') {
+                    echo "
                 <br><br>
                 <h5>You are admin</h5>
                 <p>If you think the item title, brand, description, category or condition is inappropiate,
@@ -330,10 +325,10 @@ mysqli_close($connection);
                 <p>If you believe the auction is inappropiate, you can remove it from the auction site.</p>
                 <button type='button' class='btn btn-outline-danger form-control' data-toggle='modal' data-target='#removeAuction'>Remove Auction</button>";
 
-            } else if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller'){
-                echo 'Please register a buyer or a buyer-seller account to start bidding';
-            }else{
-            echo '<form method="POST" action="place_bid.php">
+                } else if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller') {
+                    echo 'Please register a buyer or a buyer-seller account to start bidding';
+                } else {
+                    echo '<form method="POST" action="place_bid.php">
         <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text">£</span>
@@ -341,13 +336,14 @@ mysqli_close($connection);
           <input type="number" step="0.01" value="0.00" class="form-control" id="bid" name="bid">
         </div>
         <button type="submit" class="btn btn-primary form-control">Place bid</button>
-          <input type="hidden" name="item_id" value = '.htmlspecialchars($item_id).'>
-          <input type="hidden" name="highest_price" value = '.htmlspecialchars($highest_price).'>
+          <input type="hidden" name="item_id" value = ' . htmlspecialchars($item_id) . '>
+          <input type="hidden" name="highest_price" value = ' . htmlspecialchars($highest_price) . '>
       </form>';
-        }
-        }else{
-            echo 'Please log in to place bid.';
-        }}?>
+                }
+            } else {
+                echo 'Please log in to place bid.';
+            }
+        } ?>
 
     </div> <!-- End of right col with bidding info -->
 
@@ -365,18 +361,18 @@ mysqli_close($connection);
 
         <!-- Modal body -->
         <div class="modal-body">
-          <h6>Are you sure you want to remove this auction for '<?php echo $title;?>'?</h6>
+          <h6>Are you sure you want to remove this auction for '<?php echo $title; ?>'?</h6>
           <form method='post' action='manage_item_backend.php'>
             <div class="row justify-content-between">
               <div class="col-6">
                 <button type='submit' class='btn btn-outline-danger form-control'>Remove</button>
               </div>
               <div class="col-6">
-                <a href="listing.php?item_id=<?php echo $item_id;?>" class="btn btn-outline-primary form-control">Cancel</a>
+                <a href="listing.php?item_id=<?php echo $item_id; ?>" class="btn btn-outline-primary form-control">Cancel</a>
               </div>
             </div>
-            <input type='hidden' name='itemId' value=<?php echo $item_id;?>>
-            <input type='hidden' name='itemTitle' value='<?php echo $title;?>'>
+            <input type='hidden' name='itemId' value=<?php echo $item_id; ?>>
+            <input type='hidden' name='itemTitle' value='<?php echo $title; ?>'>
             <input type='hidden' name='actionType' value='removeItem'>
           </form>
         </div>
@@ -387,25 +383,25 @@ mysqli_close($connection);
 
     <?php include_once("footer.php") ?>
 
-    <script>
-        var end_time = new Date('<?php echo $end_time->format(DateTime::ATOM); ?>').getTime();
+  <script>
+      var end_time = new Date('<?php echo $end_time->format(DateTime::ATOM); ?>').getTime();
 
-        var refresh_interval = setInterval(function() {
-            var now_time = new Date().getTime();
-            var time_left = end_time - now_time;
+      var refresh_interval = setInterval(function () {
+          var now_time = new Date().getTime();
+          var time_left = end_time - now_time;
 
-            if (time_left <= 10000 && time_left > 0) {
-                clearInterval(refresh_interval);
-                setTimeout(function() {
-                    window.location.reload();
-                }, time_left);
-            }
-        }, 1000);
+          if (time_left <= 10000 && time_left > 0) {
+              clearInterval(refresh_interval);
+              setTimeout(function () {
+                  window.location.reload();
+              }, time_left);
+          }
+      }, 1000);
 
-        setTimeout(function() {
-            clearInterval(refresh_interval);
-        }, end_time - new Date().getTime());
-    </script>
+      setTimeout(function () {
+          clearInterval(refresh_interval);
+      }, end_time - new Date().getTime());
+  </script>
 
   <script>
       // JavaScript functions: addToWatchlist and removeFromWatchlist.
@@ -428,8 +424,7 @@ mysqli_close($connection);
                       if (objT == "success") {
                           $("#watch_nowatch").hide();
                           $("#watch_watching").show();
-                      }
-                      else {
+                      } else {
                           var mydiv = document.getElementById("watch_nowatch");
                           mydiv.appendChild(document.createElement("br"));
                           mydiv.appendChild(document.createTextNode(objT));

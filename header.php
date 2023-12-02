@@ -1,4 +1,3 @@
-
 <?php
 require_once("config_database.php");
 
@@ -33,19 +32,44 @@ function regenerate_session_id()
 }
 
 
+$existing_item = "SELECT * FROM items WHERE endDateTime <= NOW();";
+$result = mysqli_query($connection, $existing_item);
+mysqli_close($connection);
+if ($result) {
+// Output data of each row
+    while ($row = mysqli_fetch_assoc($result)) {
+        $connection = connect_to_database();
+        $itemId = $row["itemId"];
+        $reserve_price = $row['reservedPrice'];
+        $query = "SELECT userId, MAX(bidPrice) as maxPrice FROM bidHistory WHERE itemId = $itemId GROUP BY userId ORDER BY maxPrice DESC LIMIT 1";
+        $highestBiddingHistory = mysqli_query($connection, $query);
+        if (mysqli_num_rows($highestBiddingHistory) > 0) {
+            $highestBid = mysqli_fetch_assoc($highestBiddingHistory);
+            $winnerId = $highestBid['userId'];
+            if ($highestBid && $highestBid['maxPrice'] >= $reserve_price) {
+
+                $updateQuery = "UPDATE items SET ownerId = $winnerId WHERE itemId = $itemId;";
+                $updateAuction = mysqli_query($connection, $updateQuery);
+
+            }
+        }
+        mysqli_close($connection);
+    }
+}
+
 ?>
 
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Bootstrap and FontAwesome CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" type= "text/css" href="css/custom.css">
+  <link rel="stylesheet" type="text/css" href="css/custom.css">
   <title>
       <?php
       if (isset($title)) {
@@ -160,7 +184,7 @@ function regenerate_session_id()
     <ul class="navbar-nav ml-auto">
         <?php
         if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'admin') {   //this is admin type account
-            echo'
+            echo '
 	  <li class="nav-item mx-1">
       <a class="nav-link" href="admin_management.php">Site Management</a>
     </li>';
@@ -201,7 +225,7 @@ function regenerate_session_id()
 </div> <!-- End modal -->
 
 <?php //Notification system
-
+$connection = connect_to_database();
 if (isset($_SESSION['logged_in'])) {   //Only shows up if logged in
 
 // Retrieve data (userid from the session)

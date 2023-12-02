@@ -1,6 +1,7 @@
 <?php
 require_once("utilities.php");
 require_once("config_database.php");
+include_once("header.php");
 ?>
 
 
@@ -10,33 +11,6 @@ ini_set('display_errors', 1);
 // Get info from the URL:
 $item_id = $_GET['item_id'];
 
-ini_set('session.use_only_cookies', 1);
-ini_set('session.use_only_strict_mode', 1);
-
-session_set_cookie_params([
-    'lifetime' => 1800,
-    'domain' => 'localhost',
-    'path' => '/',
-    'secure' => true,
-    'httponly' => true
-]);
-session_start();
-
-if (!isset($_SESSION["last_regeneration"])) {
-    regenerate_session_id();
-} else {
-    $interval = 60 * 30;
-    if (time() - $_SESSION["last_regeneration"] >= $interval) {
-        regenerate_session_id();
-    }
-}
-
-
-function regenerate_session_id()
-{
-    session_regenerate_id();
-    $_SESSION["last_regeneration"] = time();
-}
 
 $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
 
@@ -101,25 +75,6 @@ if ($now < $end_time) {
     global $time_remaining;
 }
 
-if ($now > $end_time) {
-    $mysqli = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
-    $query = "SELECT userId, MAX(bidPrice) as maxPrice FROM bidHistory WHERE itemId = ? GROUP BY userId ORDER BY maxPrice DESC LIMIT 1";
-    $stmt = $mysqli->prepare($query);
-    $stmt->bind_param('i', $item_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $highestBid = $result->fetch_assoc();
-    if ($highestBid && $highestBid['maxPrice'] > $reserve_price && $_SESSION['id'] == $highestBid['userId']) {
-
-        $updateQuery = "UPDATE items SET ownerId = ? WHERE itemId = ?";
-        $updateStmt = $mysqli->prepare($updateQuery);
-        $updateStmt->bind_param('ii', $highestBid['userId'], $item_id);
-        $updateStmt->execute();
-        mysqli_close($mysqli);
-    }
-}
-
-include_once("header_listing.php");
 $connection = connect_to_database();
 // TODO: If the user has a session, use it to make a query to the database
 //       to determine if the user is already watching this item.

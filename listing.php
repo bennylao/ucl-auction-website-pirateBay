@@ -9,12 +9,35 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 // Get info from the URL:
 $item_id = $_GET['item_id'];
-//$end_time = null;
-//$reserve_price = null;
 
-// TODO: Use item_id to make a query to the database.
+ini_set('session.use_only_cookies', 1);
+ini_set('session.use_only_strict_mode', 1);
 
+session_set_cookie_params([
+    'lifetime' => 1800,
+    'domain' => 'localhost',
+    'path' => '/',
+    'secure' => true,
+    'httponly' => true
+]);
 session_start();
+
+if (!isset($_SESSION["last_regeneration"])) {
+    regenerate_session_id();
+} else {
+    $interval = 60 * 30;
+    if (time() - $_SESSION["last_regeneration"] >= $interval) {
+        regenerate_session_id();
+    }
+}
+
+
+function regenerate_session_id()
+{
+    session_regenerate_id();
+    $_SESSION["last_regeneration"] = time();
+}
+
 $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
 
 // SQL to fetch data
@@ -96,7 +119,7 @@ if ($now > $end_time) {
     }
 }
 
-include_once("header.php");
+include_once("header_listing.php");
 $connection = connect_to_database();
 // TODO: If the user has a session, use it to make a query to the database
 //       to determine if the user is already watching this item.

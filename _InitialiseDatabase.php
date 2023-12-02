@@ -90,7 +90,9 @@ $sql = "INSERT INTO users (accountType, userName, password, email, firstName, la
                 (1, 'user0', '$2y$10$4e6ITty1JFx53RnOPaVXH.orr9GSNL6nsg1h2z0CAHxzclN9rFhtG','email','fn','ln','addr','2021-06-05'), 
                 (2, 'user1', '$2y$10\$Cej7YR5.IYEpd93WwBWQyO/tgFqn.QDC6La5oiwq.LAkX9R78RHMe','email1','fn1','ln1','addr1','2021-06-05'),
                 (3, 'user2', '$2y$10\$xkBU7pYHLKP6ETnXp9R/eOsrHsEmORfTYvq5bqtzkx1RpO4ghDe5y','email2','fn2','ln2','addr2','2021-06-07'),
-                (2, 'victor', '$2y$10\$x/oH2Gy1hdAHcoOoO4YNtOLJrCPW8PE25Mmi1tuTiFJ2MKxBdaYYq','victor2263@gmail.com','victor','chan','123 Oxford Street','2023-10-31');";
+                (2, 'victor', '$2y$10\$x/oH2Gy1hdAHcoOoO4YNtOLJrCPW8PE25Mmi1tuTiFJ2MKxBdaYYq','victor2263@gmail.com','victor','chan','123 Oxford Street','2023-10-31'),
+                (1, 'buyer_demo', '$2y$10$YeiwMEskxv4xs2mB.OAMqe.nXvKq/oI2/GKVo/dhNkT6aDIUOm2gy', 'buyer_demo@ucl.ac.uk', 'james', 'smith', '123 road', '2023-10-31'),
+                (3, 'buyerseller_demo', '$2y$10$YeiwMEskxv4xs2mB.OAMqe.nXvKq/oI2/GKVo/dhNkT6aDIUOm2gy','buyerseller_demo@ucl.ac.uk', 'jaden', 'smith', '123 road', '2023-10-31');";
 
 if (mysqli_query($conn, $sql)) {
     echo "New User records created successfully. ";
@@ -177,6 +179,7 @@ brand VARCHAR(255),
 reservedPrice DECIMAL,
 isRead BIT,
 FOREIGN KEY (sellerId) REFERENCES users(userId),
+FOREIGN KEY (ownerId) REFERENCES users(userId),
 FOREIGN KEY (conditions) REFERENCES conditions(conditionId) ON DELETE RESTRICT,
 FOREIGN KEY (category) REFERENCES categories(cateId) ON DELETE RESTRICT
 )";

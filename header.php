@@ -216,7 +216,7 @@ if (isset($_SESSION['logged_in'])) {   //Only shows up if logged in
     MAX(userBids.isRead) AS maxBidIsRead,
     CASE 
         WHEN MAX(userBids.maxUserBid) IS NULL THEN 'No Bids'
-        WHEN MAX(userBids.maxUserBid) = maxBid.maxBidPrice THEN 'Winner'
+        WHEN MAX(userBids.maxUserBid) = maxBid.maxBidPrice THEN 'Highest Bidder'
         ELSE 'Not Highest Bidder'
     END AS BidStatus
 FROM 
@@ -273,7 +273,7 @@ ORDER BY i.endDateTime DESC, bidPrice DESC;";
                   Congrats your item $itemTitle sold for £$bidPrice.
               </div>";
                 }
-                if ($ownerId == $currentUserId && $bidStatus == 'Winner' && $bidderRead != 1) { // Inform the winner
+                if ($ownerId == $currentUserId && $bidStatus == 'Highest Bidder' && $bidderRead != 1) { // Inform the winner
                     echo "<div id='notification_$itemId' class='alert_green'>
                   <span class='closebtn' onclick='markAsRead(" . $itemId . ", " . $currentUserId . ", \"bidder\")'>&times;</span>
                   Congrats you won the item $itemTitle for £$bidPrice!

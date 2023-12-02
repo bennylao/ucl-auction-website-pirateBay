@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = isset($_POST["email"]) ? $_POST["email"] : null;
     $password = isset($_POST["password"]) ? $_POST["password"] : null;
     $address = isset($_POST["address"]) ? $_POST["address"] : null;
-
+    
     $conn = connect_to_database();
     $existingEmailQuery = "SELECT * FROM users WHERE email = '$email';";
     $existingEmail = mysqli_query($conn, $existingEmailQuery);

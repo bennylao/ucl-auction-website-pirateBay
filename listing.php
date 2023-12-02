@@ -218,7 +218,7 @@ mysqli_close($connection);
 
            echo '
          <form method="post" action="create_auction_result.php">
-            <div Now securely here </div>
+            <div> Now securely here </div>
             <div class="form-group row">
                 <label for="Fullname" class="col-sm-2 col-form-label text-right">Full name</label>
                 <div class="col-sm-10">

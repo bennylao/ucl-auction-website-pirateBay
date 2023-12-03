@@ -8,6 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $actionType = $_POST['actionType'];
     $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
 
+    // logics for creating new category
     if (isset($actionType) && $actionType == "CreateNewCategory") {
         $newCategory = $_POST['newCategory'];
         $existingNameQuery = "SELECT * FROM categories WHERE category = '$newCategory';";
@@ -31,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+    // logics for editing category
     if (isset($actionType) && $actionType == "EditCategory") {
         $newCategoryName = $_POST['newCategoryName'];
         $oldCategoryName = $_POST['category'];
@@ -58,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+    // logics for deleting category
     if (isset($actionType) && $actionType == "DeleteCategory") {
         $categoryInfo = $_POST['categoryInfo'];
         $categoryInfoArray = explode('|', $categoryInfo);

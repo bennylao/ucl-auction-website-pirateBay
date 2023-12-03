@@ -58,14 +58,6 @@ if ($current_price <= $starting_price) {
     $highest_price = $current_price;
 }
 
-
-// Retrieve the values from the form
-
-
-// TODO: Note: Auctions that have ended may pull a different set of data,
-//       like whether the auction ended in a sale or was cancelled due
-//       to lack of high-enough bids. Or maybe not.
-
 // Calculate time to auction end:
 $now = new DateTime();
 
@@ -76,9 +68,7 @@ if ($now < $end_time) {
 }
 
 $connection = connect_to_database();
-// TODO: If the user has a session, use it to make a query to the database
-//       to determine if the user is already watching this item.
-//       For now, this is hardcoded.
+
 $watching = false;
 if (isset($_SESSION['logged_in'])) {
     $currentUserId = $_SESSION['id'];
@@ -205,7 +195,7 @@ mysqli_close($connection);
                   echo "<p>Pay securely here: \n</p>";
                   echo '<button type="submit" class="btn btn-primary form-control"> Pay now </button>';
 
-//                     <!-- Payment form --
+//                  Payment form
 
                   echo '
          <form method="post" action="create_auction_result.php">
@@ -271,7 +261,7 @@ mysqli_close($connection);
               echo("Bidding price lower than reserve price, bidding failed.");
           }
           ?>
-        <!-- TODO: Print the result of the auction here? -->
+
           <?php if ($now < $end_time): ?>
       <p>Auction ends <?php echo date_format($end_time, 'j M H:i') . ' ' . $time_remaining; ?></p>
       <p class="lead">Starting price: £<?php echo number_format($starting_price, 2); ?></p>

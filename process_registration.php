@@ -39,12 +39,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             if ($errors) {
                 $_SESSION["errors_signup"] = $errors;
-                echo "Error: " . implode(', ', $errors);
+                echo "<div style='text-align: center;'><br><h5>Error: " . implode(', ', $errors)."</h5></div>";
                 header("refresh:5;url=../register.php");
                 die();
             }
             create_user($conn, $accountType, $username, $password, $firstname, $lastname, $email, $address);
-            header("Location: ../index.php?signup=success");
+            echo "<div style='text-align: center;'><br><h5>Account created successfully!</h5></div>";
+            header("refresh:5;url=../browse.php");
             mysqli_close($conn);
             die();
 

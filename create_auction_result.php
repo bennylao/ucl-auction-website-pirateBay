@@ -1,9 +1,5 @@
 <?php
 require_once "config_database.php";
-//include_once "login_result.php";
-// TODO: Extract $_POST variables, check they're OK, and attempt to create
-// an account. Notify user of success/failure and redirect/give navigation
-// options.
 ob_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

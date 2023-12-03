@@ -36,14 +36,14 @@ if(!empty($firstName) || !empty($lastName) || !empty($username) || !empty($addre
     $query .= " WHERE userId = $userId";
     $result = mysqli_query($conn, $query);
     if($result){
-        echo "User profile updated successfully";
+        echo "<div style='text-align: center;'><br><h5>User profile updated successfully</h5></div>";
         header("refresh:2;user_homepage.php");
     }else{
-        echo "Failed to update";
+        echo "<div style='text-align: center;'><br><h5>Failed to update</h5></div>";
         header("refresh:2;user_homepage.php");
     }
 } else {
-    echo ('No changes made');
+    echo "<div style='text-align: center;'><br><h5>No changes made</h5></div>";
     header("refresh:2;edit_profile.php");
 }
 ?>

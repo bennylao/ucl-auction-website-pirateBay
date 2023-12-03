@@ -31,7 +31,7 @@ function regenerate_session_id()
     $_SESSION["last_regeneration"] = time();
 }
 
-
+// update ownerId of the item which action has ended
 $existing_item = "SELECT * FROM items WHERE endDateTime <= NOW();";
 $result = mysqli_query($connection, $existing_item);
 mysqli_close($connection);

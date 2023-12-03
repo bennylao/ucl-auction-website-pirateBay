@@ -1,7 +1,7 @@
 <?php
 require_once "config_database.php";
 include_once("header.php");
-
+ob_start();
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $accountType = isset($_POST["accountType"]) ? $_POST["accountType"] : null;
@@ -13,14 +13,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $address = isset($_POST["address"]) ? $_POST["address"] : null;
     
     $conn = connect_to_database();
-    $existingEmailQuery = "SELECT * FROM users WHERE email = '$email';";
-    $existingEmail = mysqli_query($conn, $existingEmailQuery);
-    if (mysqli_num_rows($existingEmail) > 0) {
-        mysqli_close($conn);
-        echo "<div style='text-align: center;'><br><h5>'$email' already exists. Please use other email.";
-        echo "<br><br><a href='register.php' class='btn btn-outline-info'>Return</a></div>";
-    } else {
-
 
         try {
 
@@ -47,23 +39,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             if ($errors) {
                 $_SESSION["errors_signup"] = $errors;
-                header("Location: ../register.php");
+                echo "Error: " . implode(', ', $errors);
+                header("refresh:5;url=../register.php");
                 die();
             }
             create_user($conn, $accountType, $username, $password, $firstname, $lastname, $email, $address);
             header("Location: ../index.php?signup=success");
             mysqli_close($conn);
-
+            die();
 
         } catch (PDOException $e) {
             die("Query failed: " . $e->getMessage());
         }
-    }
+
 }
 else {
         header("Location: ../register.php");
         die();
     }
-
 ?>
 

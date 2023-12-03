@@ -9,6 +9,7 @@ require_once("config_database.php")
 $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
 ?>
 
+<!--page for admin to manage categories and conditions-->
 <div class="container" style="max-width: 80%;">
   <br>
   <h2>Admin Management Page</h2>

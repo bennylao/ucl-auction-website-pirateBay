@@ -4,13 +4,14 @@ require_once("utilities.php");
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-    $firstName = $_POST['firstName'];
-    $lastName = $_POST['lastName'];
-    $username = $_POST['username'];
-    $address = $_POST['address'];
+    $conn = connect_to_database();
+    $firstName = mysqli_real_escape_string($conn, $_POST['firstName']);
+    $lastName = mysqli_real_escape_string($conn, $_POST['lastName']);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $address = mysqli_real_escape_string($conn, $_POST['address']);
 }
 
-$conn = connect_to_database();
+
 
 if (mysqli_connect_errno()) {
     exit('Failed to connect to MySQL: ' . mysqli_connect_error());

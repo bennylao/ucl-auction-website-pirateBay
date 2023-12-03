@@ -4,6 +4,7 @@ include_once("header.php");
 require_once("utilities.php");
 ?>
 
+<!--page for all user to change their account info-->
 <div class="container">
     <div style="max-width: 800px; margin: 10px auto">
         <h2 class="my-3">Edit Profile</h2>

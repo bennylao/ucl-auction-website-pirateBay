@@ -3,6 +3,7 @@ include_once("header.php");
 $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
 ?>
 
+<!--page for admin to remove condition-->
     <div class="container">
         <div style="max-width: 800px; margin: 10px auto">
             <h2 class="my-3">Remove Condition</h2>

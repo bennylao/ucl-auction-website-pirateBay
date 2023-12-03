@@ -2,6 +2,7 @@
 include_once("header.php");
 ?>
 
+<!--page for admin to add new category-->
     <div class="container">
         <div style="max-width: 800px; margin: 10px auto">
             <h2 class="my-3">Add Category</h2>

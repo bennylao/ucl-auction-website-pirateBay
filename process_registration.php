@@ -13,6 +13,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $address = isset($_POST["address"]) ? $_POST["address"] : null;
     
     $conn = connect_to_database();
+    $username = mysqli_real_escape_string($conn, $username);
+    $firstname = mysqli_real_escape_string($conn, $firstname);
+    $lastname = mysqli_real_escape_string($conn, $lastname);
+    $email = mysqli_real_escape_string($conn, $email);
+    $password = mysqli_real_escape_string($conn, $password);
+    $address = mysqli_real_escape_string($conn, $address);
 
         try {
 

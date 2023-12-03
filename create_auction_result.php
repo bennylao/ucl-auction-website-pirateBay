@@ -30,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn = connect_to_database();
         require_once "includes/create_auction_model.inc.php";
         require_once "includes/create_auction_contr.inc.php";
-        //require_once getcwd()."/login_result.php";
 
         // ERROR HANDLERS
         $errors = [];

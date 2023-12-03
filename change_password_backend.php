@@ -3,12 +3,11 @@ require_once "config_database.php";
 require_once("utilities.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-    $currentPw = $_POST['currentPw'];
-    $newPw = $_POST['newPw'];
-    $confirmPw = $_POST['confirmPw'];
+    $conn = connect_to_database();
+    $currentPw = mysqli_real_escape_string($conn, $_POST['currentPw']);
+    $newPw = mysqli_real_escape_string($conn, $_POST['newPw']);
+    $confirmPw = mysqli_real_escape_string($conn, $_POST['confirmPw']);
 }
-
-$conn = connect_to_database();
 
 if (mysqli_connect_errno()) {
     exit('Failed to connect to MySQL: ' . mysqli_connect_error());

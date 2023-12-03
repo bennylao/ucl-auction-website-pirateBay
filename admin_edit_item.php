@@ -15,20 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 ?>
 
+<!--page for admin to edit item(auction) details-->
+
 <div class="container">
 
-  <!-- Create auction form -->
   <div style="max-width: 800px; margin: 10px auto">
     <h2 class="my-3">Edit auction</h2>
     <div class="card">
       <div class="card-body">
-        <!-- Note: This form does not do any dynamic / client-side /
-        JavaScript-based validation of data. It only performs checking after
-        the form has been submitted, and only allows users to try once. You
-        can make this fancier using JavaScript to alert users of invalid data
-        before they try to send it, but that kind of functionality should be
-        extremely low-priority / only done after all database functions are
-        complete. -->
         <form method="post" action="manage_item_backend.php" enctype="multipart/form-data">
           <div class="form-group row">
             <label for="itemTitle" class="col-sm-2 col-form-label text-right">Title of auction</label>

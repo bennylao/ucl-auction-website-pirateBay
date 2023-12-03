@@ -4,6 +4,7 @@ require_once("utilities.php");
 require_once ("config_database.php");
 ?>
 
+<!--page for all user to change their password-->
 <div class="container">
     <div style="max-width: 800px; margin: 10px auto">
         <h2 class="my-3">Change password</h2>

@@ -97,7 +97,7 @@ $conn = connect_to_database() or die('Error connecting to MySQL server.' . mysql
               </div>
               <input type="text" id="search_keyword" name="search_keyword" class="form-control border-left-0"
                      title="search for anything you want"
-                     placeholder="Search for anything" <?php if (isset($_GET['search_keyword'])) echo "value=" . $_GET['search_keyword']; ?>>
+                     placeholder="Search for anything" <?php if (isset($_GET['search_keyword'])) echo "value='" . "$_GET[search_keyword]"."'"; ?>>
             </div>
 
           </div>
@@ -211,7 +211,8 @@ $conn = connect_to_database() or die('Error connecting to MySQL server.' . mysql
       if (!isset($_GET['search_keyword']) or empty($_GET['search_keyword'])) {
           $keyword = "%";
       } else {
-          $keyword = "%" . $_GET['search_keyword'] . "%";
+          $escapedString = mysqli_real_escape_string($conn, $_GET['search_keyword']);
+          $keyword = "%$escapedString%";
       }
 
       // Only do filtering if category is selected and the category is not "all"

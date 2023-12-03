@@ -12,6 +12,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $inputPassword = isset($_POST["password"]) ? $_POST["password"] : null;
 
     $conn = connect_to_database();
+    $email = mysqli_real_escape_string($conn, $email);
+    $inputPassword = mysqli_real_escape_string($conn, $inputPassword);
+
     if (mysqli_connect_errno()) {
         exit('Failed to connect to MySQL: ' . mysqli_connect_error());
     }

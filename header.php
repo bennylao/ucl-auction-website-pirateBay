@@ -287,7 +287,7 @@ ORDER BY i.endDateTime DESC, bidPrice DESC;";
                 if ($sellerId != $currentUserId && $bidderRead != 1) { // Inform the bidder
                     echo "<div id='notification_$itemId' class='alert_red'>
                   <span class='closebtn' onclick='markAsRead(" . $itemId . ", " . $currentUserId . ", \"bidder\")'>&times;</span>
-                  Sorry you didn't win $itemTitle.
+                  No one won item $itemTitle as the highest bid was below reserve price.
               </div>";
                 }
             } else if ($sellerId != $ownerId) { // The item sold

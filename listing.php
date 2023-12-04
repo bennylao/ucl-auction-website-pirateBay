@@ -15,7 +15,7 @@ $item_id = $_GET['item_id'];
 $connection = connect_to_database() or die('Error connecting to MySQL server.' . mysqli_connect_error());
 
 // SQL to fetch data
-$query = "SELECT i.itemId, i.itemTitle, i.description, i.sellerId, i.startingPrice, 
+$query = "SELECT i.itemId, i.itemTitle, i.description, i.sellerId, i.ownerId, i.startingPrice, 
        i.endDateTime, MAX(b.bidPrice), COUNT(b.itemId), i.reservedPrice, c.category, con.condDescript, i.brand
     FROM items i
         INNER JOIN categories c ON i.category = c.cateId
@@ -31,6 +31,7 @@ if ($result->num_rows > 0) {
         $title = $row["itemTitle"];
         $description = $row["description"];
         $seller_id = $row["sellerId"];
+        $owner_id = $row['ownerId'];
         $starting_price = $row["startingPrice"];
         $current_price = ($row["MAX(b.bidPrice)"] !== null) ? $row["MAX(b.bidPrice)"] : 0;
         $num_bids = $row["COUNT(b.itemId)"];
@@ -257,7 +258,11 @@ mysqli_close($connection);
           endif;
           ?>
           <?php
-          if (($current_price < $reserve_price || $current_price < $starting_price || $current_price === 0) && $now > $end_time) {
+          if ($owner_id != $seller_id && $now > $end_time && $seller_id == $currentUserId) {
+              echo("<h5>*** Congratulations ***</h5>
+              <p>Your item was sold</p>");
+          }
+          elseif (($current_price < $reserve_price || $current_price < $starting_price || $current_price === 0) && $now > $end_time) {
               echo("Bidding price lower than reserve price, bidding failed.");
           }
           ?>

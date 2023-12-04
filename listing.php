@@ -260,10 +260,10 @@ mysqli_close($connection);
           <?php
           if ($owner_id != $seller_id && $now > $end_time && $seller_id == $currentUserId) {
               echo("<h5>*** Congratulations ***</h5>
-              <p>Your item was sold</p>");
+              <p>Your item was sold to user with Id $owner_id</p>");
           }
           elseif (($current_price < $reserve_price || $current_price < $starting_price || $current_price === 0) && $now > $end_time) {
-              echo("Bidding price lower than reserve price, bidding failed.");
+              echo("Bidding price lower than reserve price, auction failed.");
           }
           ?>
 
